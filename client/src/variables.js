@@ -108,3 +108,37 @@ const co2EmissionsByCountry = {
 //   co2EmissionsByCountry.destatis_data.verkehr.fossil.emissions +
 //     co2EmissionsByCountry.destatis_data.verkehr.bio.emissions
 // );
+
+export const shares = {
+  country: "Germany",
+  year: 2018,
+  total: [858000],
+  slices: [
+    {
+      name: "total",
+      emission: 7209000,
+      percentage: 100,
+      percentageOfTotal: 100,
+    },
+    {
+      name: "energy",
+      emission: 7209000,
+      percentage: 84,
+      percentageOfTotal: 84,
+    },
+    {
+      name: "industry",
+      emission: 64000,
+      percentage: 8,
+      percentageOfTotal: 8,
+    },
+    {
+      name: "agriculture",
+      emission: 63000,
+      percentage: 7,
+      percentageOfTotal: 7,
+    },
+    { name: "waste", emission: 9000, percentage: 1, percentageOfTotal: 1 },
+    { name: "other", emission: 0, percentage: 0, percentageOfTotal: 0 },
+  ],
+};

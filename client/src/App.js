@@ -1,43 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { startShares } from "./variables.js";
+import { startShares, shares } from "./variables.js";
 
 function App() {
-  const shares = {
-    country: "Germany",
-    year: 2018,
-    total: [858000],
-    slices: [
-      {
-        name: "total",
-        emission: 7209000,
-        percentage: 100,
-        percentageOfTotal: 100,
-      },
-      {
-        name: "energy",
-        emission: 7209000,
-        percentage: 84,
-        percentageOfTotal: 84,
-      },
-      {
-        name: "industry",
-        emission: 64000,
-        percentage: 8,
-        percentageOfTotal: 8,
-      },
-      {
-        name: "agriculture",
-        emission: 63000,
-        percentage: 7,
-        percentageOfTotal: 7,
-      },
-      { name: "waste", emission: 9000, percentage: 1, percentageOfTotal: 1 },
-      { name: "other", emission: 0, percentage: 0, percentageOfTotal: 0 },
-    ],
-  };
-
   const [serverMessage, setServerMessage] = useState("");
   const [carbonApiStatus, setCarbonApiStatus] = useState("");
   const [testResponse, setTestResponse] = useState({});
