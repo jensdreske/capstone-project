@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { startShares } from "./variables.js";
+
 function App() {
   const shares = {
     country: "Germany",
@@ -41,6 +43,7 @@ function App() {
   const [testResponse, setTestResponse] = useState({});
   const [emissionStart, setEmissionStart] = useState(shares);
   const [emissionHistory, setEmissionHistory] = useState([]);
+  const [emissionView, setEmissionView] = useState(startShares);
 
   useEffect(() => {
     fetch("http://localhost:4000/")
@@ -121,7 +124,7 @@ function App() {
     return newstr.reduce((acc, curr) => acc + " " + curr, " ");
   }
 
-  function Shares({ shares }) {
+  function SharesUnfcc({ shares }) {
     console.log(shares);
     return (
       <>
@@ -170,6 +173,42 @@ function App() {
     );
   }
 
+  function Shares({ shares }) {
+    shares.slices.forEach((slice) => {
+      slice.percentage = (slice.emission / shares.emission) * 100;
+    });
+    return (
+      <>
+        <SharesBox>
+          <p>{shares.country}</p>
+          <p>{shares.year}</p>
+          <p>{shares.total} kt CO2</p>
+        </SharesBox>
+        {shares.slices.map((slice, index) => {
+          return (
+            <SharesSlice
+              style={{
+                height: `${slice.percentage}%`,
+                width: `${slice.percentage}%`,
+              }}
+            >
+              <SliceText>
+                <p>{slice.name}</p>
+              </SliceText>
+              <TooltipBox>
+                <Tooltip className="tooltipText">
+                  <p>{slice.name}</p>
+                  <p>{roundPlaces(slice.percentage, 2)}%</p>
+                  <p>{slice.emission} kt CO2</p>
+                </Tooltip>
+              </TooltipBox>
+            </SharesSlice>
+          );
+        })}
+      </>
+    );
+  }
+
   function getBack() {
     getEmissions(emissionHistory[1]);
     console.log(emissionHistory[0]);
@@ -185,9 +224,15 @@ function App() {
       <div onClick={() => getBack()} style={{ cursor: "pointer" }}>
         BACK
       </div>
+
       <SharesCake>
-        <Shares shares={emissionStart} />
+        <Shares shares={emissionView} />
       </SharesCake>
+
+      <SharesCake>
+        <SharesUnfcc shares={emissionStart} />
+      </SharesCake>
+
       <div>Server says: {serverMessage} </div>
 
       <div onClick={() => testServerRequest()} style={{ cursor: "pointer" }}>
@@ -220,11 +265,13 @@ const SharesCake = styled.article`
 const SharesBox = styled.section`
   border: 1px solid #daa;
   background-color: #eee8e3;
-  display: flex;
-  /* flex-direction: column-reverse; */
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap; */
   position: absolute;
   cursor: zoom-out;
+  width: 100%;
+  height: 100%;
 `;
 
 const SharesSlice = styled.section`

@@ -1,3 +1,55 @@
+export const startShares = {
+  // quelle UBA 2020_thg_crf_plus_1a_details_ci
+  // entspricht UNFCC
+  country: "Germany",
+  year: 2018,
+  total: 858000,
+
+  name: "sum",
+  emission: 858000,
+
+  slices: [
+    {
+      name: "manufactoring_industries",
+      emission: 130100,
+    },
+    {
+      name: "transport",
+      emission: 163600,
+    },
+    {
+      name: "energy_industries",
+      emission: 295200,
+    },
+    {
+      name: "combustion heating and similar",
+      emission: 122800,
+    },
+    {
+      name: "industrial processes",
+      emission: 64800,
+    },
+    {
+      name: "agriculture",
+      emission: 63600,
+    },
+    {
+      name: "other",
+      emission: 18200,
+      slices: [
+        {
+          name: "fugitive emissions from fuels",
+          emission: 8500,
+        },
+        {
+          name: "waste & waste water",
+          emission: 9700,
+        },
+      ],
+    },
+  ],
+};
+
 const player = {
   individualCo2Emissions: 0,
   averageCo2Emissions: 12.193,
@@ -52,7 +104,7 @@ const co2EmissionsByCountry = {
   },
 };
 
-console.log(
-  co2EmissionsByCountry.destatis_data.verkehr.fossil.emissions +
-    co2EmissionsByCountry.destatis_data.verkehr.bio.emissions
-);
+// console.log(
+//   co2EmissionsByCountry.destatis_data.verkehr.fossil.emissions +
+//     co2EmissionsByCountry.destatis_data.verkehr.bio.emissions
+// );
