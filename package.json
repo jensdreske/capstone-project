@@ -23,5 +23,8 @@
   "homepage": "https://github.com/jensdreske/capstone-project#readme",
   "devDependencies": {
     "concurrently": "^6.2.0"
+  },
+  "dependencies": {
+    "react-router-dom": "^5.2.0"
   }
 }

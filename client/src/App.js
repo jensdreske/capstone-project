@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
+import { Switch, Route, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { startShares, shares } from "./variables.js";
+
+import Shares from "./components/Shares";
+import { roundPlaces } from "./lib/roundPlaces.js";
+
+import { startShares, shares, player } from "./variables.js";
+import { SharesUnfcc } from "./components/Shares.js";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
   const [carbonApiStatus, setCarbonApiStatus] = useState("");
   const [testResponse, setTestResponse] = useState({});
-  const [emissionStart, setEmissionStart] = useState(shares);
-  const [emissionHistory, setEmissionHistory] = useState([]);
   const [emissionView, setEmissionView] = useState(startShares);
+  const [emissionsUncff, setemissionsUncff] = useState(shares);
+  const [emissionHistory, setEmissionHistory] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:4000/")
@@ -72,106 +78,11 @@ function App() {
             };
           }
         }
-        setEmissionStart(shares);
+        setemissionsUncff(shares);
         const history = emissionHistory.slice(0, 12);
         setEmissionHistory([unfccId, ...history]);
         console.log(shares);
       });
-  }
-
-  function roundPlaces(float, places) {
-    const power = Math.pow(10, places);
-    return Math.round(float * power) / power;
-  }
-
-  function parseUncffName(str) {
-    const newstr = str.split(" - ")[0].split(" ").slice(1);
-    return newstr.reduce((acc, curr) => acc + " " + curr, " ");
-  }
-
-  function SharesUnfcc({ shares }) {
-    console.log(shares);
-    return (
-      <>
-        {shares.slices.map((slice, index) => {
-          if (index === 0) {
-            return (
-              <SharesBox
-                onClick={() => getBack()}
-                style={{ width: slice.percentage + "%", height: "100%" }}
-              >
-                {Math.round(slice.percentageOfTotal)}% {slice.name} (id{" "}
-                {slice.id})
-              </SharesBox>
-            );
-          }
-          if (slice.percentageOfTotal > 0.1 && index > 0) {
-            return (
-              <SharesSlice
-                onClick={() => getEmissions(slice.id)}
-                key={slice.id}
-                style={{
-                  height: slice.percentageOfTotal + "%",
-                  width: slice.percentage + "%",
-                }}
-              >
-                <SliceText>
-                  <p>
-                    {roundPlaces(slice.percentageOfTotal, 2)}% {slice.name}
-                  </p>
-                  <p>
-                    {roundPlaces(slice.percentage, 2)}% of share (id {slice.id})
-                  </p>
-                </SliceText>
-                <TooltipBox>
-                  <Tooltip className="tooltipText">
-                    <p>{parseUncffName(slice.name)}</p>
-                    <p>{slice.id}</p>
-                  </Tooltip>
-                </TooltipBox>
-              </SharesSlice>
-            );
-          }
-          return null;
-        })}
-      </>
-    );
-  }
-
-  function Shares({ shares }) {
-    shares.slices.forEach((slice) => {
-      slice.percentage = (slice.emission / shares.emission) * 100;
-    });
-    return (
-      <>
-        <SharesBox>
-          <p>{shares.country}</p>
-          <p>{shares.year}</p>
-          <p>{shares.total} kt CO2</p>
-        </SharesBox>
-        {shares.slices.map((slice, index) => {
-          return (
-            <SharesSlice
-              style={{
-                height: `${slice.percentage}%`,
-                width: `${slice.percentage}%`,
-              }}
-            >
-              <SliceText>
-                <p>{slice.name}</p>
-              </SliceText>
-              <TooltipBox>
-                <Tooltip className="tooltipText">
-                  <p>{slice.name}</p>
-                  <p>{roundPlaces(slice.percentage, 2)}%</p>
-                  <p>{slice.emission} kt CO2</p>
-                </Tooltip>
-              </TooltipBox>
-            </SharesSlice>
-          );
-        })}
-      </>
-    );
   }
 
   function getBack() {
@@ -183,102 +94,55 @@ function App() {
 
   return (
     <>
-      <div onClick={() => getEmissions()} style={{ cursor: "pointer" }}>
-        get German co2 data for 2018 via server
-      </div>
-      <div onClick={() => getBack()} style={{ cursor: "pointer" }}>
-        BACK
-      </div>
+      <header>
+        <p>CO2</p>
+        <p>
+          Score: {String(player.averageCo2Emissions).replace(".", ",")}{" "}
+          {player.unit} CO2 /Jahr
+        </p>
+      </header>
+      <Switch>
+        <Route exact path="/transport">
+          <p>Transportation</p>
+        </Route>
+        <Route exact path="/dev">
+          <SharesUnfcc
+            shares={emissionsUncff}
+            getBack={getBack}
+            getEmissions={getEmissions}
+          />
+          <NavLink exact to="/">
+            back to main
+          </NavLink>
+          <div onClick={() => getEmissions()} style={{ cursor: "pointer" }}>
+            get German co2 data for 2018 via server
+          </div>
+          {/* <div onClick={() => getBack()} style={{ cursor: "pointer" }}>
+            BACK
+          </div> */}
 
-      <SharesCake>
-        <Shares shares={emissionView} />
-      </SharesCake>
+          <div>Server says: {serverMessage} </div>
 
-      <SharesCake>
-        <SharesUnfcc shares={emissionStart} />
-      </SharesCake>
+          <div
+            onClick={() => testServerRequest()}
+            style={{ cursor: "pointer" }}
+          >
+            check CarbonInterface Authorization via Server
+          </div>
+          <div>CarbonInterface API Status: {carbonApiStatus.message}</div>
+          <div onClick={() => getCar()} style={{ cursor: "pointer" }}>
+            get Car
+          </div>
+          <div>{JSON.stringify(testResponse)}</div>
+          {/* <div>{JSON.stringify(emissionsUncff)}</div> */}
+        </Route>
 
-      <div>Server says: {serverMessage} </div>
-
-      <div onClick={() => testServerRequest()} style={{ cursor: "pointer" }}>
-        check CarbonInterface Authorization via Server
-      </div>
-      <div>CarbonInterface API Status: {carbonApiStatus.message}</div>
-      <div onClick={() => getCar()} style={{ cursor: "pointer" }}>
-        get Car
-      </div>
-      <div>{JSON.stringify(testResponse)}</div>
-      {/* <div>{JSON.stringify(emissionStart)}</div> */}
+        <Route path="/">
+          <Shares shares={emissionView} />
+        </Route>
+      </Switch>
     </>
   );
 }
 
-const SharesCake = styled.article`
-  margin: 5vmin;
-  width: 90vmin;
-  height: 90vmin;
-  background: #ddd;
-  display: flex;
-  /* flex-wrap: wrap; */
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: flex-end;
-  /* align-content: space-around; */
-  position: relative;
-`;
-
-const SharesBox = styled.section`
-  border: 1px solid #daa;
-  background-color: #eee8e3;
-  /* display: flex;
-  flex-direction: column-reverse;
-  flex-wrap: wrap; */
-  position: absolute;
-  cursor: zoom-out;
-  width: 100%;
-  height: 100%;
-`;
-
-const SharesSlice = styled.section`
-  border: 1px solid #369;
-  /* margin: 10px; */
-  background-color: #acf5;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  cursor: zoom-in;
-  /* overflow: hidden; */
-  position: relative;
-`;
-
-const SliceText = styled.div`
-  overflow: hidden;
-`;
-
-const Tooltip = styled.div`
-  background-color: hsla(200, 35%, 45%, 0.9);
-  border-radius: 0.25rem;
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 0.5rem;
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  p {
-    margin: 0.25rem;
-  }
-`;
-
-const TooltipBox = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  .tooltipText {
-    opacity: 0;
-    pointer-events: none;
-  }
-  :hover .tooltipText {
-    opacity: 1;
-  }
-`;
 export default App;

@@ -11,26 +11,32 @@ export const startShares = {
   slices: [
     {
       name: "manufactoring_industries",
+      text: "Produzierende Industrie",
       emission: 130100,
     },
     {
       name: "transport",
+      text: "Transport",
       emission: 163600,
     },
     {
       name: "energy_industries",
+      text: "Energie-Industrie",
       emission: 295200,
     },
     {
-      name: "combustion heating and similar",
+      name: "combustion_heating_and_similar",
+      text: "Öl/Gas-Heizung",
       emission: 122800,
     },
     {
-      name: "industrial processes",
+      name: "industrial_processes",
+      text: "Prozess Energie",
       emission: 64800,
     },
     {
       name: "agriculture",
+      text: "Landwirtschaft",
       emission: 63600,
     },
     {
@@ -38,11 +44,13 @@ export const startShares = {
       emission: 18200,
       slices: [
         {
-          name: "fugitive emissions from fuels",
+          name: "fugitive_emissions_from_fuels",
+          text: "flüchtige Emissionen",
           emission: 8500,
         },
         {
-          name: "waste & waste water",
+          name: "waste_and_waste_water",
+          text: "Abfall und Abwasser",
           emission: 9700,
         },
       ],
@@ -50,7 +58,7 @@ export const startShares = {
   ],
 };
 
-const player = {
+export const player = {
   individualCo2Emissions: 0,
   averageCo2Emissions: 12.193,
   unit: "Tonnen",
