@@ -50,6 +50,7 @@ function App() {
   }
 
   function getEmissions(unfccId = 8677) {
+    // will be removed for later
     fetch(`http://localhost:4000/unfcc/getemissions/${unfccId}/13/2018`)
       .then((res) => res.json())
       .then((res) => {
