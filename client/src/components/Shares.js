@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
-import { roundPlaces } from "../lib/roundPlaces.js";
-import { Switch, Route } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
+import { roundPlaces } from "../lib/roundPlaces.js";
 
 export default function Shares({ shares }) {
   shares.slices.forEach((slice) => {
@@ -10,96 +10,38 @@ export default function Shares({ shares }) {
     slice.square = Math.sqrt(slice.percentage * 66);
   });
   return (
-    <Switch>
-      <Route path="/">
-        <SharesCake>
-          <SharesBox>
-            <p>{shares.country}</p>
-            <p>{shares.year}</p>
-            <p>{shares.total} kt CO2</p>
-          </SharesBox>
-          {shares.slices.map((slice, index) => {
-            return (
-              <SharesSlice
-                key={index + slice.name}
-                style={{
-                  height: `${slice.square}%`,
-                  width: `${slice.square}%`,
-                }}
-              >
-                <SliceText>
-                  <p>{slice.text}</p>
-                </SliceText>
-
-                <NavLinkTooltip to={"/" + slice.name}>
-                  <Tooltip className="tooltipText">
-                    <p>{slice.text}</p>
-                    <p>{roundPlaces(slice.percentage, 2)}%</p>
-                    <p>{slice.emission} kt CO2</p>
-                  </Tooltip>
-                </NavLinkTooltip>
-              </SharesSlice>
-            );
-          })}
-        </SharesCake>
-        <NavLink to={"/dev"}>Devs Playground</NavLink>
-      </Route>
-    </Switch>
-  );
-}
-
-function parseUncffName(str) {
-  const newstr = str.split(" - ")[0].split(" ").slice(1);
-  return newstr.reduce((acc, curr) => acc + " " + curr, " ");
-}
-
-export function SharesUnfcc({ shares, getBack, getEmissions }) {
-  console.log(shares);
-  return (
-    <SharesCake>
-      {shares.slices.map((slice, index) => {
-        if (index === 0) {
-          return (
-            <SharesBox
-              key={slice.id}
-              onClick={() => getBack()}
-              style={{ width: slice.percentage + "%", height: "100%" }}
-            >
-              {Math.round(slice.percentageOfTotal)}% {slice.name} (id {slice.id}
-              )
-            </SharesBox>
-          );
-        }
-        if (slice.percentageOfTotal > 0.1 && index > 0) {
+    <>
+      <SharesCake>
+        <SharesBox>
+          <p>{shares.country}</p>
+          <p>{shares.year}</p>
+          <p>{shares.total} kt CO2</p>
+        </SharesBox>
+        {shares.slices.map((slice, index) => {
           return (
             <SharesSlice
-              onClick={() => getEmissions(slice.id)}
-              key={slice.id}
+              key={index + slice.name}
               style={{
-                height: slice.percentageOfTotal + "%",
-                width: slice.percentage + "%",
+                height: `${slice.square}%`,
+                width: `${slice.square}%`,
               }}
             >
               <SliceText>
-                <p>
-                  {roundPlaces(slice.percentageOfTotal, 2)}% {slice.name}
-                </p>
-                <p>
-                  {roundPlaces(slice.percentage, 2)}% of share (id {slice.id})
-                </p>
+                <p>{slice.text}</p>
               </SliceText>
-              <TooltipBox>
+
+              <NavLinkTooltip to={"/" + slice.name}>
                 <Tooltip className="tooltipText">
-                  <p>{parseUncffName(slice.name)}</p>
-                  <p>{slice.id}</p>
+                  <p>{slice.text}</p>
+                  <p>{roundPlaces(slice.percentage, 2)}%</p>
+                  <p>{slice.emission} kt CO2</p>
                 </Tooltip>
-              </TooltipBox>
+              </NavLinkTooltip>
             </SharesSlice>
           );
-        }
-        return null;
-      })}
-    </SharesCake>
+        })}
+      </SharesCake>
+    </>
   );
 }
 
@@ -185,3 +127,5 @@ const TooltipBox = styled.div`
     opacity: 1;
   }
 `;
+
+export { SharesCake, SharesBox, SharesSlice, SliceText, TooltipBox, Tooltip };

@@ -1,6 +1,8 @@
 import { roundPlaces } from "../lib/roundPlaces";
 import { conversions, countryData, player } from "../variables";
 
+import { CarbonApiCheck } from "../components/carbonApiCheck";
+
 export default function Transportation({ player, setPlayer }) {
   function updatePlayer(event) {
     const fieldName = event.target.name;
@@ -26,6 +28,12 @@ export default function Transportation({ player, setPlayer }) {
     return result;
   }
 
+  function carCo2PerYear() {
+    return (
+      (player.transport.car.kmPerYear * player.transport.car.co2Per100km) / 100
+    );
+  }
+
   function carkmPerYearAverage() {
     return countryData.personKm.car / countryData.population;
   }
@@ -36,12 +44,6 @@ export default function Transportation({ player, setPlayer }) {
 
   function carCo2Per100kmAverage() {
     return (countryData.car.consumption / 100) * conversions.gasolineToCO2;
-  }
-
-  function carCo2PerYear() {
-    return (
-      (player.transport.car.kmPerYear * player.transport.car.co2Per100km) / 100
-    );
   }
 
   return (
