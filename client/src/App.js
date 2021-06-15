@@ -5,16 +5,19 @@ import styled from "styled-components";
 import Shares from "./components/Shares";
 import { roundPlaces } from "./lib/roundPlaces.js";
 
-import { startShares, shares, player } from "./variables.js";
+import { countryData, shares, player } from "./variables.js";
 import { SharesUnfcc } from "./components/Shares.js";
+
+import Transportation from "./pages/Transportation";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
   const [carbonApiStatus, setCarbonApiStatus] = useState("");
   const [testResponse, setTestResponse] = useState({});
-  const [emissionView, setEmissionView] = useState(startShares);
+  const [emissionView, setEmissionView] = useState(countryData.emissionsUnfcc);
   const [emissionsUncff, setemissionsUncff] = useState(shares);
   const [emissionHistory, setEmissionHistory] = useState([]);
+  const [playerScore, setPlayerScore] = useState(player);
 
   useEffect(() => {
     fetch("http://localhost:4000/")
@@ -50,7 +53,6 @@ function App() {
   }
 
   function getEmissions(unfccId = 8677) {
-    // will be removed for later
     fetch(`http://localhost:4000/unfcc/getemissions/${unfccId}/13/2018`)
       .then((res) => res.json())
       .then((res) => {
@@ -97,24 +99,17 @@ function App() {
     <>
       <header>
         <p>CO2</p>
+        <p>Score:</p>
+        <p>individual {roundPlaces(playerScore.individualCo2Emissions)}</p>
         <p>
-          Score: {String(player.averageCo2Emissions).replace(".", ",")}{" "}
+          average: {roundPlaces(playerScore.averageCo2Emissions)}
           {player.unit} CO2 /Jahr
         </p>
         <hr />
       </header>
       <Switch>
         <Route exact path="/transport">
-          <p>Transportation</p>
-          <p> choose Car </p>
-          <p>7.5 l/100km</p>
-          <p>fahrleistung pro Jahr</p>
-          <p>10978,4 km</p>
-          <hr />
-          <p>
-            {roundPlaces(player.car.kmPerYear * player.car.co2Per100km)} kg CO2
-            / Jahr
-          </p>
+          <Transportation player={playerScore} setPlayer={setPlayerScore} />
         </Route>
         <Route exact path="/dev">
           <SharesUnfcc
@@ -152,6 +147,12 @@ function App() {
           <Shares shares={emissionView} />
         </Route>
       </Switch>
+      <footer>
+        <hr />
+        <NavLink exact to="/">
+          <p>Overview</p>
+        </NavLink>
+      </footer>
     </>
   );
 }
