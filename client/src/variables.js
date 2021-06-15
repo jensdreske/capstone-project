@@ -63,6 +63,23 @@ export const player = {
   averageCo2Emissions: 12.193,
   unit: "Tonnen",
   origin: "Germany",
+  car: {
+    kmPerYear: 10978.4,
+    consumption: 7.5, // liter
+    carbonPer100km: 5.686, // kg
+    co2Per100km: 20.85, // kg
+  },
+};
+
+const germanAverage = {
+  personenkilometer: 913300000000, //913,3 mrd 2018 Verkehr in Zahlen
+};
+
+export const conversions = {
+  gasolineToCO2: 2.78, // eq kg/l
+  dieselToCo2: 3.17, // eq kg/l
+  electricityToCo2: 0.508, // kg/kWh brd mix 2016
+  carbonToCo2: 44 / 12, // C + O2
 };
 
 const co2EmissionsByCountry = {

@@ -100,10 +100,20 @@ function App() {
           Score: {String(player.averageCo2Emissions).replace(".", ",")}{" "}
           {player.unit} CO2 /Jahr
         </p>
+        <hr />
       </header>
       <Switch>
         <Route exact path="/transport">
           <p>Transportation</p>
+          <p> choose Car </p>
+          <p>7.5 l/100km</p>
+          <p>fahrleistung pro Jahr</p>
+          <p>10978,4 km</p>
+          <hr />
+          <p>
+            {roundPlaces(player.car.kmPerYear * player.car.co2Per100km)} kg CO2
+            / Jahr
+          </p>
         </Route>
         <Route exact path="/dev">
           <SharesUnfcc
