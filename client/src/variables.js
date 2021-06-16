@@ -159,6 +159,8 @@ export const countryData = {
   car: {
     consumption: 7.4,
     source: "Verkehr in Zahlen 2018, Bundesministerium für Verkehr",
+    Otto: { consumption: 7.8, kmPerYear: 10800 },
+    Diesel: { consumption: 7.0, kmPerYear: 19500 },
   },
 };
 
@@ -192,8 +194,12 @@ export const player = {
       co2Per100km: 0,
     },
   },
-};
 
+  goal: {
+    emissions: 400.5,
+    unit: "kg",
+  },
+};
 export const conversions = {
   gasolineToCO2: 2.78, // eq kg/l
   dieselToCo2: 3.17, // eq kg/l

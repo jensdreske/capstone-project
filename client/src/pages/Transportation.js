@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { roundPlaces } from "../lib/roundPlaces";
 import { conversions, countryData, player } from "../variables";
 
 import { CarbonApiCheck } from "../components/carbonApiCheck";
 
 export default function Transportation({ player, setPlayer }) {
+  const [fieldEntry, setFieldEntry] = useState({});
   function updatePlayer(event) {
     const fieldName = event.target.name;
     let fieldValue = event.target.value;
+    setFieldEntry({ ...fieldEntry, [fieldName]: fieldValue });
     fieldValue = Number(fieldValue);
     if (!isNaN(fieldValue)) {
       setPlayer((player) => {
@@ -24,7 +27,7 @@ export default function Transportation({ player, setPlayer }) {
     const result =
       player.averageCo2Emissions +
       (player.averageCo2Emissions + (carCo2PerYear() - carCo2Average())) / 1000;
-    console.log(result);
+    // console.log(result);
     return result;
   }
 
@@ -56,7 +59,7 @@ export default function Transportation({ player, setPlayer }) {
         type="text"
         id="consumption"
         name="consumption"
-        value={`${player.transport.car.consumption}`}
+        value={`${fieldEntry.consumption ?? player.transport.car.consumption}`}
         onChange={updatePlayer}
       ></input>
       <p>fahrleistung pro Jahr</p>

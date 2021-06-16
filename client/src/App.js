@@ -52,9 +52,57 @@ function App() {
         <NavLink exact to="/">
           <p>Overview</p>
         </NavLink>
+        <div>your goal: {player.goal.emissions} kg</div>
+        <div>
+          days to reach goal: {calculateDays()}
+          {/* {playerScore.individualCo2Emissions + goal.emissions / 1000} */}
+        </div>
+        <div>
+          savings per year:{" "}
+          {roundPlaces(
+            playerScore.averageCo2Emissions - playerScore.individualCo2Emissions
+          )}{" "}
+          t
+        </div>
+        <div>
+          compared to ø{" "}
+          {roundPlaces(
+            (playerScore.individualCo2Emissions /
+              playerScore.averageCo2Emissions) *
+              100
+          )}
+          %
+        </div>
+        <div>year we will need co2 neutrality to stay under 1,5° warming:</div>
+        <div>{calculateGameEnd()}</div>
       </footer>
     </>
   );
-}
 
+  function calculateDays() {
+    const days = roundPlaces(
+      (playerScore.goal.emissions /
+        1000 /
+        (playerScore.averageCo2Emissions -
+          playerScore.individualCo2Emissions)) *
+        365,
+      0
+    );
+    return days > 0 ? days : "never";
+  }
+
+  function calculateGameEnd(reductionPerYear = 0) {
+    const linearReduction = 2;
+    const brdToUnfcc = 0.7;
+    const co2BudgetLeft = 3.5;
+    const yearOfExit =
+      2020 +
+      linearReduction *
+        (co2BudgetLeft /
+          (((playerScore.individualCo2Emissions * countryData.population) /
+            1000000000) *
+            brdToUnfcc));
+    return roundPlaces(yearOfExit, 0);
+  }
+}
 export default App;
