@@ -37,37 +37,38 @@ export default function Footer({ playerScore, countryData }) {
     return days > 0 ? days + " days" : "Never!";
   }
 
-  function GameScores({ scrollPosition }) {
-    function ScoreboxGenerator({ icon, h2, p, positionlink }) {
-      return (
-        <Scorebox onClick={() => setScrollPos(positionlink)}>
-          <div className="iconBox">
-            <img src={icon} alt="" />
-          </div>
-          <section>
-            <h2>{h2}</h2>
-            <p>{p}</p>
-          </section>
-        </Scorebox>
-      );
-    }
+  function ScoreboxElement({ icon, h2, p, positionlink }) {
+    return (
+      <Scorebox onClick={() => setScrollPos(positionlink)}>
+        <div className="iconBox">
+          <img src={icon} alt="" />
+        </div>
+        <section>
+          <h2>{h2}</h2>
+          <p>{p}</p>
+        </section>
+      </Scorebox>
+    );
+  }
 
+  function GameScores({ scrollPosition, setScrollPos }) {
     return (
       <ScoreboxWrapper>
-        <div className="scoreBoxes" style={{ top: `${scrollPosition}rem` }}>
-          <ScoreboxGenerator
+        {/* <div className="scoreBoxes" style={{ top: `${scrollPosition}rem` }}> */}
+        <div className={"scoreBoxes " + "score" + scrollPosition}>
+          <ScoreboxElement
             icon={finish}
             h2={calculateDays()}
             p="to reach goal"
-            positionlink={-4}
+            positionlink={1}
           />
-          <ScoreboxGenerator
+          <ScoreboxElement
             icon={target}
             h2={roundPlaces(playerScore.goal.emissions) + " kg"}
             p="your goal"
-            positionlink={-8}
+            positionlink={2}
           />
-          <ScoreboxGenerator
+          <ScoreboxElement
             icon={piggy}
             h2={
               roundPlaces(
@@ -78,9 +79,9 @@ export default function Footer({ playerScore, countryData }) {
               ) + "%"
             }
             p="less CO2"
-            positionlink={-12}
+            positionlink={3}
           />
-          <ScoreboxGenerator
+          <ScoreboxElement
             icon={clock}
             h2={calculateGameEnd()}
             p="Carbon Exit"
@@ -93,8 +94,8 @@ export default function Footer({ playerScore, countryData }) {
 
   return (
     <footer>
-      <GameScores scrollPosition={scrollPos} />
-      <NavLink exact to="/score">
+      <GameScores scrollPosition={scrollPos} setScrollPos={setScrollPos} />
+      {/* <NavLink exact to="/score">
         <p>score details</p>
       </NavLink>
       <div>your goal: {playerScore.goal.emissions} kg</div>
@@ -104,7 +105,7 @@ export default function Footer({ playerScore, countryData }) {
           playerScore.averageCo2Emissions - playerScore.individualCo2Emissions
         )}{" "}
         t
-      </div>
+      </div> */}
     </footer>
   );
 }
@@ -119,16 +120,30 @@ const ScoreboxWrapper = styled.div`
   overflow: hidden;
   .scoreBoxes {
     position: absolute;
-    animation-name: scroll;
+    transition: top 2s;
+    /* animation-name: scroll;
     animation-duration: 2s;
   }
   @keyframes scroll {
     0% {
-      top: 12rem;
+      top: 0rem;
     }
     100% {
-      top: scrollPosition;
+      top: -4rem;
     }
+    */
+  }
+  .score0 {
+    top: 0;
+  }
+  .score1 {
+    top: -4rem;
+  }
+  .score2 {
+    top: -8rem;
+  }
+  .score3 {
+    top: -12rem;
   }
 `;
 

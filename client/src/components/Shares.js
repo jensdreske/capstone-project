@@ -3,6 +3,24 @@ import { NavLink } from "react-router-dom";
 
 import { roundPlaces } from "../lib/roundPlaces.js";
 
+import machine from "../images/machine.png";
+import powerplant from "../images/powerplant.png";
+import car from "../images/car.png";
+import transports from "../images/transport@2x.png";
+import house from "../images/house.png";
+import processes from "../images/chemistry.png";
+import tractor from "../images/tractor.png";
+import waste from "../images/waste.png";
+
+const icons = {
+  machine: machine,
+  powerplant: powerplant,
+  transport: transports,
+  heating: house,
+  processes: processes,
+  farm: tractor,
+  other: waste,
+};
 export default function Shares({ shares }) {
   shares.slices.forEach((slice) => {
     slice.percentage = (slice.emission / shares.emission) * 100;
@@ -12,25 +30,28 @@ export default function Shares({ shares }) {
   return (
     <>
       <SharesCake>
-        <SharesBox>
+        {/* <SharesBox>
           <p>{shares.country}</p>
           <p>{shares.year}</p>
           <p>{shares.total} kt CO2</p>
-        </SharesBox>
+        </SharesBox> */}
         {shares.slices.map((slice, index) => {
+          console.log();
           return (
             <SharesSlice
               key={index + slice.name}
               style={{
                 height: `${slice.square}%`,
                 width: `${slice.square}%`,
+                background: `${slice.style.bgColor}`,
               }}
             >
-              <SliceText>
+              {/* <SliceText>
                 <p>{slice.text}</p>
-              </SliceText>
+              </SliceText> */}
 
               <NavLinkTooltip to={"/" + slice.name}>
+                <img src={icons[slice.style.icon]} />
                 <Tooltip className="tooltipText">
                   <p>{slice.text}</p>
                   <p>{roundPlaces(slice.percentage, 2)}%</p>
@@ -49,39 +70,48 @@ const SharesCake = styled.article`
   margin: 5vmin;
   width: 90vmin;
   height: 90vmin;
-  background: #ddd;
+  /* background: #ddd; */
   display: flex;
   flex-wrap: wrap;
   /* flex-direction: column; */
   justify-content: center;
-  align-content: center;
+  /* align-content: center; */
   align-items: flex-end;
   /* align-content: space-around; */
   position: relative;
 `;
 
 const SharesBox = styled.section`
-  border: 1px solid #daa;
+  /* color: white; */
+  /* border: 1px solid #daa;
   background-color: #eee8e3;
-  /* display: flex;
-  flex-direction: column-reverse;
-  flex-wrap: wrap; */
   position: absolute;
   cursor: zoom-out;
   width: 100%;
-  height: 100%;
+  height: 100%; */
+
+  /* display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap; */
 `;
 
 const SharesSlice = styled.section`
-  border: 1px solid #369;
-  margin: 1px;
-  background-color: #acf5;
+  border: 2px solid black;
+  border-radius: 6px;
+  margin: 4px;
+  background-color: hsl(220, 100%, 85%);
+  font-size: 0.5rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   z-index: 10;
   cursor: zoom-in;
   /* overflow: hidden; */
   position: relative;
+  img {
+    width: 70%;
+  }
 `;
 
 const SliceText = styled.div`
@@ -89,14 +119,15 @@ const SliceText = styled.div`
 `;
 
 const Tooltip = styled.div`
-  background-color: hsla(200, 35%, 45%, 0.9);
+  background-color: #fffd;
   border-radius: 0.25rem;
   color: #fff;
-  font-size: 0.75rem;
-  padding: 0.5rem;
+
+  padding: 0.25em;
   position: absolute;
-  bottom: 100%;
-  right: 0;
+  bottom: 102%;
+
+  min-width: 4rem;
   p {
     margin: 0.25rem;
   }
@@ -106,6 +137,9 @@ const NavLinkTooltip = styled(NavLink)`
   position: absolute;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .tooltipText {
     opacity: 0;
     pointer-events: none;

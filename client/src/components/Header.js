@@ -22,7 +22,7 @@ const LogoBox = styled.section`
   position: relative;
   height: 9rem;
   width: 14rem;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   text-align: left;
   img {
     position: absolute;

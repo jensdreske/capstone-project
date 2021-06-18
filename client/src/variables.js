@@ -1,3 +1,5 @@
+import powerplant from "./images/powerplant.png";
+
 export const shares = {
   country: "Germany",
   year: 2018,
@@ -57,40 +59,69 @@ export const countryData = {
         text: "produzierende Industrie",
         unfccId: 8556,
         emission: 130100,
+        style: {
+          bgColor: "hsl(60, 50%,80%)",
+          icon: "machine",
+        },
       },
       {
         name: "transport",
         text: "Transport",
         unfccId: 8322,
         emission: 163600,
+        style: {
+          bgColor: "hsl(200, 50%,80%)",
+          icon: "transport",
+        },
       },
       {
         name: "energy_industries",
         text: "Energie-Industrie",
         unfccId: 10402,
         emission: 295200,
+        style: {
+          bgColor: "hsl(160, 50%,80%)",
+          icon: "powerplant",
+        },
       },
       {
         name: "combustion_heating_and_similar",
         text: "Öl/Gas-Heizung",
         unfccId: [9823, 10273],
         emission: 122800,
+        style: {
+          bgColor: "hsl(350, 50%,80%)",
+          icon: "heating",
+        },
       },
       {
         name: "industrial_processes",
         text: "Industrielle Prozesse",
         unfccId: 10393,
         emission: 64800,
+        style: {
+          bgColor: "hsl(310, 50%,80%)",
+          icon: "processes",
+        },
       },
       {
         name: "agriculture",
         text: "Landwirtschaft",
         unfccId: 10096,
         emission: 63600,
+        style: {
+          bgColor: "hsl(125, 50%,80%)",
+          icon: "farm",
+        },
       },
       {
         name: "other",
+        text: "Abfall",
         emission: 18200,
+        style: {
+          bgColor: "hsl(200, 50%,80%)",
+          icon: "other",
+        },
         slices: [
           {
             name: "fugitive_emissions_from_fuels",
