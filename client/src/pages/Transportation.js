@@ -1,4 +1,6 @@
 import { useState } from "react";
+import styled from "styled-components/macro";
+
 import { roundPlaces } from "../lib/roundPlaces";
 import { conversions, countryData, player } from "../variables";
 
@@ -6,6 +8,7 @@ import { CarbonApiCheck } from "../components/carbonApiCheck";
 
 export default function Transportation({ player, setPlayer }) {
   const [fieldEntry, setFieldEntry] = useState({});
+
   function updatePlayer(event) {
     const fieldName = event.target.name;
     let fieldValue = event.target.value;
@@ -50,46 +53,112 @@ export default function Transportation({ player, setPlayer }) {
   }
 
   return (
-    <>
-      <p>Transportation</p>
-      <hr />
-      <p> choose Car </p>
-      <p>{roundPlaces(player.transport.car.consumption)} l/100km</p>
-      <input
-        type="text"
-        id="consumption"
-        name="consumption"
-        value={`${fieldEntry.consumption ?? player.transport.car.consumption}`}
-        onChange={updatePlayer}
-      ></input>
-      <p>fahrleistung pro Jahr</p>
-      <p>{roundPlaces(player.transport.car.kmPerYear)} km</p>
-      <input
-        type="text"
-        id="kmPerYear"
-        name="kmPerYear"
-        value={roundPlaces(player.transport.car.kmPerYear)}
-        onChange={updatePlayer}
-      ></input>
-      <hr />
-      <p>
-        car:
-        {roundPlaces(carCo2PerYear())} kg CO2 / Jahr
-      </p>
-      <hr />
-      <hr />
-      <p>Car: {roundPlaces(player.transport.car.kmPerYear)} km/year</p>
-      <p>car average: {roundPlaces(carkmPerYearAverage())}</p>
-      <p>car co2 average: {roundPlaces(carCo2Average())} </p>
-      <p>Bus: {roundPlaces(player.transport.bus.kmPerYear)} km/year</p>
-      <p>Train: {roundPlaces(player.transport.train.kmPerYear)} km/year</p>
-      <p>
-        Flugzeug: {roundPlaces(player.transport.aviation_sum.kmPerYear)} km/year
-      </p>
-      <p>
-        davon Inlands-Flüge:{" "}
-        {roundPlaces(player.transport.aviation_interior.kmPerYear)} km/year
-      </p>
-    </>
+    <Shareform>
+      <h3>Transportation</h3>
+      <TransportationForm>
+        <p>choose your car</p>
+        <p className="fieldDescription">fuel consumption</p>
+        <input
+          type="text"
+          id="consumption"
+          name="consumption"
+          value={`${
+            fieldEntry.consumption ?? player.transport.car.consumption
+          }`}
+          onChange={updatePlayer}
+        ></input>
+        <p className="fieldDescription">distance per year</p>
+        <input
+          type="text"
+          id="kmPerYear"
+          name="kmPerYear"
+          value={roundPlaces(player.transport.car.kmPerYear)}
+          onChange={updatePlayer}
+        ></input>
+        <p className="fieldDescription">CO2 emissions per year</p>
+        <ResultBox>{roundPlaces(carCo2PerYear())}</ResultBox>
+      </TransportationForm>
+
+      <TransportationForm>
+        <p>Public Transportation</p>
+        <p className="fieldDescription">Bus</p>
+        <input
+          type="text"
+          id="BusKmPerYear"
+          name="BusKmPerYear"
+          value={roundPlaces(player.transport.bus.kmPerYear)}
+          onChange={updatePlayer}
+        ></input>
+      </TransportationForm>
+
+      <TransportationForm>
+        <p className="fieldDescription">Train</p>
+        <input
+          type="text"
+          id="TrainKmPerYear"
+          name="TrainKmPerYear"
+          value={roundPlaces(player.transport.train.kmPerYear)}
+          onChange={updatePlayer}
+        ></input>
+      </TransportationForm>
+
+      <TransportationForm>
+        <p className="fieldDescription">Plane</p>
+        <input
+          classname="greyedOut"
+          type="text"
+          id="PlaneKmPerYear"
+          name="PlaneKmPerYear"
+          value={roundPlaces(player.transport.aviation_sum.kmPerYear)}
+          onChange={updatePlayer}
+        ></input>
+      </TransportationForm>
+
+      <TransportationForm>
+        <p className="fieldDescription">domestic flights</p>
+        <input
+          type="text"
+          id="PlaneKmPerYear"
+          name="PlaneKmPerYear"
+          value={roundPlaces(player.transport.aviation_interior.kmPerYear)}
+          onChange={updatePlayer}
+        ></input>
+      </TransportationForm>
+    </Shareform>
   );
 }
+
+const Shareform = styled.article`
+  border: 2px solid black;
+  margin: 1rem;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background-color: hsl(200, 30%, 85%);
+`;
+
+const TransportationForm = styled.section`
+  display: grid;
+  align-items: center;
+  grid-gap: 0.5rem;
+  grid-template-columns: 3fr 1fr;
+  margin: 1rem;
+  text-align: right;
+  .fieldDescription {
+    grid-column-start: 1;
+  }
+  input {
+    grid-column-start: 2;
+    padding: 0.25rem 1rem;
+    width: 8rem;
+    font-size: 1rem;
+    .greyedOut {
+      background-color: red;
+    }
+  }
+`;
+const ResultBox = styled.p`
+  border: 2px solid black;
+  border-radius: 6px;
+  text-align: left;
+  padding: 0.25rem 1rem;
+`;

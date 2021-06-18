@@ -54,7 +54,7 @@ export const countryData = {
     slices: [
       {
         name: "manufactoring_industries",
-        text: "Produzierende Industrie",
+        text: "produzierende Industrie",
         unfccId: 8556,
         emission: 130100,
       },
@@ -78,7 +78,7 @@ export const countryData = {
       },
       {
         name: "industrial_processes",
-        text: "Prozess Energie",
+        text: "Industrielle Prozesse",
         unfccId: 10393,
         emission: 64800,
       },
@@ -194,12 +194,12 @@ export const player = {
       co2Per100km: 0,
     },
   },
-
   goal: {
     emissions: 400.5,
     unit: "kg",
   },
 };
+
 export const conversions = {
   gasolineToCO2: 2.78, // eq kg/l
   dieselToCo2: 3.17, // eq kg/l
