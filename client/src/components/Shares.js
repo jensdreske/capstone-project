@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
@@ -11,12 +12,15 @@ import house from "../images/house.png";
 import processes from "../images/chemistry.png";
 import tractor from "../images/tractor.png";
 import waste from "../images/waste.png";
+import heating from "../images/heating@2x.png";
+
+import info from "../images/info_s@2x.png";
 
 const icons = {
   machine: machine,
   powerplant: powerplant,
   transport: transports,
-  heating: house,
+  heating: heating,
   processes: processes,
   farm: tractor,
   other: waste,
@@ -25,8 +29,10 @@ export default function Shares({ shares }) {
   shares.slices.forEach((slice) => {
     slice.percentage = (slice.emission / shares.emission) * 100;
     // coefficient 100 = sqrt(parent box area) e.g. % of parent's area to cover:
-    slice.square = Math.sqrt(slice.percentage * 66);
+    slice.square = Math.sqrt(slice.percentage * 50);
   });
+  const [infoVisible, setInfoVisible] = useState([]);
+
   return (
     <>
       <SharesCake>
@@ -36,28 +42,42 @@ export default function Shares({ shares }) {
           <p>{shares.total} kt CO2</p>
         </SharesBox> */}
         {shares.slices.map((slice, index) => {
-          console.log();
+          function setInfo(index) {
+            const newSetInfo = [];
+            newSetInfo[index] = !infoVisible[index];
+            setInfoVisible([...newSetInfo]);
+
+            // console.log(newSetInfo);
+          }
           return (
             <SharesSlice
               key={index + slice.name}
               style={{
-                height: `${slice.square}%`,
-                width: `${slice.square}%`,
+                height: `${slice.square}vmin`,
+                width: `${slice.square}vmin`,
                 background: `${slice.style.bgColor}`,
               }}
             >
-              {/* <SliceText>
-                <p>{slice.text}</p>
-              </SliceText> */}
-
               <NavLinkTooltip to={"/" + slice.name}>
                 <img src={icons[slice.style.icon]} />
                 <Tooltip className="tooltipText">
+                  <p>{roundPlaces(slice.percentage, 2)}%</p>
+                  <p>{slice.text}</p>
+                  <p>{slice.emission} kt CO2</p>
+                </Tooltip>
+                <SliceText className={infoVisible[index] ? "show" : "hide"}>
                   <p>{slice.text}</p>
                   <p>{roundPlaces(slice.percentage, 2)}%</p>
                   <p>{slice.emission} kt CO2</p>
-                </Tooltip>
+                </SliceText>
               </NavLinkTooltip>
+
+              <img
+                onClick={() => setInfo(index)}
+                className="infoIcon"
+                src={info}
+                alt="info"
+              />
             </SharesSlice>
           );
         })}
@@ -67,9 +87,10 @@ export default function Shares({ shares }) {
 }
 
 const SharesCake = styled.article`
-  margin: 5vmin;
-  width: 90vmin;
-  height: 90vmin;
+  margin: 8rem 5vmin 6rem;
+  /* margin-bottom: 6rem; */
+  /* width: 90vmin;
+  height: 90vmin; */
   /* background: #ddd; */
   display: flex;
   flex-wrap: wrap;
@@ -110,12 +131,29 @@ const SharesSlice = styled.section`
   /* overflow: hidden; */
   position: relative;
   img {
-    width: 70%;
+    height: 70%;
+  }
+  .infoIcon {
+    height: 1rem;
+    position: absolute;
+    top: -1px;
+    right: -1px;
   }
 `;
 
 const SliceText = styled.div`
-  overflow: hidden;
+  overflow: scroll;
+  background-color: #fffd;
+  padding: 0.5rem;
+  border-radius: 6px;
+  position: absolute;
+  align-self: self-start;
+  min-width: 90%;
+  min-height: 90%;
+  right: 5%;
+  top: 5%;
+
+  white-space: nowrap;
 `;
 
 const Tooltip = styled.div`
@@ -146,6 +184,16 @@ const NavLinkTooltip = styled(NavLink)`
   }
   :hover .tooltipText {
     opacity: 1;
+  }
+  .hide {
+    opacity: 0%;
+    backdrop-filter: blur(0px);
+    transition: opacity 2s, backdrop-filter 2s;
+  }
+  .show {
+    opacity: 90%;
+    backdrop-filter: blur(3px);
+    transition: opacity 0.5s, backdrop-filter 0.5s;
   }
 `;
 

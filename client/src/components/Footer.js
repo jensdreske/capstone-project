@@ -8,6 +8,8 @@ import finish from "../images/finish@2x.png";
 import clock from "../images/clock@2x.png";
 import piggy from "../images/piggybank_co2@2x.png";
 import target from "../images/target@2x.png";
+import chart from "../images/chart.png";
+import list from "../images/list.png";
 
 export default function Footer({ playerScore, countryData }) {
   const [scrollPos, setScrollPos] = useState(0);
@@ -54,8 +56,11 @@ export default function Footer({ playerScore, countryData }) {
   function GameScores({ scrollPosition, setScrollPos }) {
     return (
       <ScoreboxWrapper>
-        {/* <div className="scoreBoxes" style={{ top: `${scrollPosition}rem` }}> */}
-        <div className={"scoreBoxes " + "score" + scrollPosition}>
+        <div
+          className="scoreBoxes"
+          style={{ top: `${scrollPosition * -4}rem` }}
+        >
+          {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
           <ScoreboxElement
             icon={finish}
             h2={calculateDays()}
@@ -93,37 +98,73 @@ export default function Footer({ playerScore, countryData }) {
   }
 
   return (
-    <footer>
+    <FooterWrapper>
+      <NavLink exact to="/">
+        <MenuButton className="standardBox">
+          <img src={chart} alt="mainmenu" />
+        </MenuButton>
+      </NavLink>
+
       <GameScores scrollPosition={scrollPos} setScrollPos={setScrollPos} />
       {/* <NavLink exact to="/score">
         <p>score details</p>
-      </NavLink>
-      <div>your goal: {playerScore.goal.emissions} kg</div>
-      <div>
+        </NavLink>
+        <div>your goal: {playerScore.goal.emissions} kg</div>
+        <div>
         savings per year:{" "}
         {roundPlaces(
-          playerScore.averageCo2Emissions - playerScore.individualCo2Emissions
-        )}{" "}
-        t
-      </div> */}
-    </footer>
+            playerScore.averageCo2Emissions - playerScore.individualCo2Emissions
+            )}{" "}
+            t
+        </div> */}
+      <MenuButton className="standardBox">
+        <img src={list} alt="set goals" />
+      </MenuButton>
+    </FooterWrapper>
   );
 }
 
-const ScoreboxWrapper = styled.div`
+const MenuButton = styled.div`
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 70%;
+  }
+`;
+
+const FooterWrapper = styled.footer`
   display: flex;
   justify-content: center;
   position: fixed;
   bottom: 1rem;
-  width: 100%;
+  width: 100vw;
   height: 4rem;
   overflow: hidden;
+  .standardBox {
+    border: 2px solid black;
+    border-radius: 6px;
+    background-color: white;
+  }
+  z-index: 100;
+`;
+
+const ScoreboxWrapper = styled.div`
+  width: 14rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
   .scoreBoxes {
     position: absolute;
     transition: top 2s;
+
     /* animation-name: scroll;
-    animation-duration: 2s;
+    animation-duration: 2s; */
   }
+  /* 
   @keyframes scroll {
     0% {
       top: 0rem;
@@ -132,8 +173,8 @@ const ScoreboxWrapper = styled.div`
       top: -4rem;
     }
     */
-  }
-  .score0 {
+
+  /* .score0 {
     top: 0;
   }
   .score1 {
@@ -144,7 +185,7 @@ const ScoreboxWrapper = styled.div`
   }
   .score3 {
     top: -12rem;
-  }
+  } */
 `;
 
 const Scorebox = styled.article`
@@ -153,17 +194,17 @@ const Scorebox = styled.article`
   background-color: white;
   border-radius: 6px;
   display: flex;
-  width: 15rem;
+  width: 13rem;
   height: 4rem;
   .iconBox {
     height: 100%;
-    width: 4rem;
+    width: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   img {
-    height: 90%;
+    width: 90%;
   }
   section {
     /* border: 1px solid red; */
@@ -171,6 +212,6 @@ const Scorebox = styled.article`
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
   }
 `;

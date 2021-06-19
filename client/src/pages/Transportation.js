@@ -11,6 +11,7 @@ export default function Transportation({ player, setPlayer }) {
 
   function updatePlayer(event) {
     const fieldName = event.target.name;
+    console.log(fieldName);
     let fieldValue = event.target.value;
     setFieldEntry({ ...fieldEntry, [fieldName]: fieldValue });
     fieldValue = Number(fieldValue);
@@ -83,6 +84,7 @@ export default function Transportation({ player, setPlayer }) {
         <p>Public Transportation</p>
         <p className="fieldDescription">Bus</p>
         <input
+          className="greyedOut"
           type="text"
           id="BusKmPerYear"
           name="BusKmPerYear"
@@ -94,6 +96,7 @@ export default function Transportation({ player, setPlayer }) {
       <TransportationForm>
         <p className="fieldDescription">Train</p>
         <input
+          className="greyedOut"
           type="text"
           id="TrainKmPerYear"
           name="TrainKmPerYear"
@@ -105,7 +108,7 @@ export default function Transportation({ player, setPlayer }) {
       <TransportationForm>
         <p className="fieldDescription">Plane</p>
         <input
-          classname="greyedOut"
+          className="greyedOut"
           type="text"
           id="PlaneKmPerYear"
           name="PlaneKmPerYear"
@@ -117,6 +120,7 @@ export default function Transportation({ player, setPlayer }) {
       <TransportationForm>
         <p className="fieldDescription">domestic flights</p>
         <input
+          className="greyedOut"
           type="text"
           id="PlaneKmPerYear"
           name="PlaneKmPerYear"
@@ -130,10 +134,13 @@ export default function Transportation({ player, setPlayer }) {
 
 const Shareform = styled.article`
   border: 2px solid black;
-  margin: 1rem;
+  margin: 7rem 1rem 6rem;
   border-radius: 6px;
   padding: 0.5rem;
-  background-color: hsl(200, 30%, 85%);
+  background-color: hsla(200, 100%, 94.7%, 0.79);
+  z-index: 50;
+  position: relative;
+  backdrop-filter: blur(3px);
 `;
 
 const TransportationForm = styled.section`
@@ -151,9 +158,9 @@ const TransportationForm = styled.section`
     padding: 0.25rem 1rem;
     width: 8rem;
     font-size: 1rem;
-    .greyedOut {
-      background-color: red;
-    }
+  }
+  .greyedOut {
+    background-color: #fff0;
   }
 `;
 const ResultBox = styled.p`

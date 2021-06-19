@@ -49,12 +49,13 @@ function App() {
 
 const BackgroundBox = styled.div`
   /* background-color: hsl(200, 40%, 90%); */
-  background-image: linear-gradient(hsl(200, 40%, 80%), hsl(80, 20%, 80%));
-  height: 100%;
+  background-image: linear-gradient(hsl(200, 50%, 60%), hsl(80, 25%, 66%));
+  height: 120vh;
   width: 100%;
-  position: fixed;
+  position: absolute;
   z-index: -10;
   top: 0;
+  bottom: 0;
 `;
 
 export default App;

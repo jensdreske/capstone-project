@@ -209,20 +209,20 @@ export const player = {
     },
     train: {
       kmPerYear: countryData.personKm.train / countryData.population,
-      co2Per100km: 0,
+      co2Per100km: 10,
     },
     bus: {
       kmPerYear: countryData.personKm.bus / countryData.population,
-      co2Per100km: 0,
+      co2Per100km: 5,
     },
     aviation_sum: {
       kmPerYear: countryData.personKm.aviation_sum / countryData.population,
-      co2Per100km: 0,
+      co2Per100km: 30,
     },
     aviation_interior: {
       kmPerYear:
         countryData.personKm.aviation_interior / countryData.population,
-      co2Per100km: 0,
+      co2Per100km: 30,
     },
   },
   goal: {
