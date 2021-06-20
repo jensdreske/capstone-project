@@ -39,6 +39,15 @@ export default function Footer({ playerScore, countryData }) {
     return days;
   }
 
+  function daysToYears(days) {
+    if (days < 0) return "Never";
+    const years = roundPlaces(days / 365);
+    const daysLeft = days % 365;
+    let timeString = years > 1 ? years + " years " : days + " days";
+
+    return timeString;
+  }
+
   function ScoreboxElement({ icon, h2, p, positionlink }) {
     return (
       <Scorebox onClick={() => setScrollPos(positionlink)}>
@@ -71,7 +80,8 @@ export default function Footer({ playerScore, countryData }) {
           {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
           <ScoreboxElement
             icon={finish}
-            h2={calculateDays() > 0 ? calculateDays() + " days" : "Never!"}
+            // h2={calculateDays() > 0 ? calculateDays() + " days" : "Never!"}
+            h2={daysToYears(calculateDays())}
             p="time to reach goal"
             positionlink={1}
           />

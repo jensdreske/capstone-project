@@ -223,7 +223,7 @@ export const countryData = {
 };
 
 export const player = {
-  individualCo2Emissions: 12.1935,
+  individualCo2Emissions: 12.19321,
   averageCo2Emissions: (countryData.emissions * 1000) / countryData.population,
   unit: "Tonnen",
   origin: "Germany",
