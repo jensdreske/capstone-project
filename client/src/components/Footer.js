@@ -43,9 +43,9 @@ export default function Footer({ playerScore, countryData }) {
     if (days < 0) return "Never";
     const years = roundPlaces(days / 365);
     const daysLeft = days % 365;
-    let timeString = years > 1 ? years + " years " : days + " days";
-
-    return timeString;
+    if (years > 1000) return "Never";
+    if (years > 1) return years + " years ";
+    return days + " days";
   }
 
   function ScoreboxElement({ icon, h2, p, positionlink }) {
@@ -80,7 +80,6 @@ export default function Footer({ playerScore, countryData }) {
           {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
           <ScoreboxElement
             icon={finish}
-            // h2={calculateDays() > 0 ? calculateDays() + " days" : "Never!"}
             h2={daysToYears(calculateDays())}
             p="time to reach goal"
             positionlink={1}
@@ -94,7 +93,6 @@ export default function Footer({ playerScore, countryData }) {
           <ScoreboxElement
             icon={piggy}
             h2={`${Math.abs(calculateSavings())}% `}
-            // h2={calculateSavings()}
             p={`${calculateSavings() >= -0.01 ? `less` : `more`} CO2 / Year`}
             positionlink={3}
           />
@@ -121,14 +119,8 @@ export default function Footer({ playerScore, countryData }) {
       {/* <NavLink exact to="/score">
         <p>score details</p>
         </NavLink>
-        <div>your goal: {playerScore.goal.emissions} kg</div>
-        <div>
-        savings per year:{" "}
-        {roundPlaces(
-            playerScore.averageCo2Emissions - playerScore.individualCo2Emissions
-            )}{" "}
-            t
-        </div> */}
+
+*/}
       <MenuButton className="standardBox">
         <img src={list} alt="set goals" />
       </MenuButton>
@@ -220,7 +212,6 @@ const Scorebox = styled.article`
     width: 90%;
   }
   section {
-    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     justify-content: center;

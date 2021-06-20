@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
 
-import Shares from "./components/Shares";
+import MainGameView from "./pages/MainGameView";
+import Transportation from "./pages/Transportation";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { roundPlaces } from "./lib/roundPlaces.js";
 
 import { countryData, shares, player } from "./variables.js";
 import { SharesUnfcc } from "./components/SharesUnfcc.js";
-
-import Transportation from "./pages/Transportation";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -21,10 +20,14 @@ function App() {
   const [countryDataState, setCountryDataState] = useState(countryData);
 
   useEffect(() => {
-    fetch("http://localhost:4000/")
+    fetch("http://localhost:4000/health")
       .then((res) => res.json())
       .then((response) => setServerMessage(response));
   }, []);
+
+  useEffect(() => {
+    console.log(serverMessage);
+  }, [serverMessage]);
 
   return (
     <>
@@ -37,9 +40,8 @@ function App() {
         <Route path="/unfcc">
           <SharesUnfcc shares={shares} />
         </Route>
-
         <Route path="/">
-          <Shares shares={countryEmissions} />
+          <MainGameView countryEmissions={countryEmissions} />
         </Route>
       </Switch>
       <Footer playerScore={playerScore} countryData={countryDataState} />

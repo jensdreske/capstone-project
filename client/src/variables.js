@@ -1,5 +1,3 @@
-import powerplant from "./images/powerplant.png";
-
 export const shares = {
   country: "Germany",
   year: 2018,
@@ -139,26 +137,26 @@ export const countryData = {
       },
     ],
   },
-  unfcc_data: {
-    emissions: 831437,
-    unfccId: 8677,
-    energy: {
-      emissions: 720284,
-      unfccId: 8819,
-      fuel_combustion: {
-        emissions: 711758,
-        unfccId: 9089,
-        energy_industries: { emissions: 295192, unfccId: 10402 },
-        manufactoring: { emissions: 130124, unfccId: 8556 },
-        transport: {
-          emissions: 163620,
-          unfccId: 8322,
-          road: { emissions: 157707, unfccId: 9607 },
-        },
-        residential: { emissions: 83694, unfccId: 9823 },
-      },
-    },
-  },
+  // unfcc_data: {
+  //   emissions: 831437,
+  //   unfccId: 8677,
+  //   energy: {
+  //     emissions: 720284,
+  //     unfccId: 8819,
+  //     fuel_combustion: {
+  //       emissions: 711758,
+  //       unfccId: 9089,
+  //       energy_industries: { emissions: 295192, unfccId: 10402 },
+  //       manufactoring: { emissions: 130124, unfccId: 8556 },
+  //       transport: {
+  //         emissions: 163620,
+  //         unfccId: 8322,
+  //         road: { emissions: 157707, unfccId: 9607 },
+  //       },
+  //       residential: { emissions: 83694, unfccId: 9823 },
+  //     },
+  //   },
+  // },
   destatis_data: {
     strassenverkehr: {
       emissions: 165625,
@@ -170,7 +168,7 @@ export const countryData = {
         produktion: 51979,
         source: "statistisches Bundesamt, anthropogene luftemissionen, Tab 2.5",
       },
-      bio: {
+      biologisch: {
         emissions: 8058,
         private_haushalte: 5194,
         produktion: 2864,

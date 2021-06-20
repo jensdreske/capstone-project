@@ -14,7 +14,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.get("/", (req, res) => res.json("Server is up and running!"));
+server.get("/health", (req, res) => res.json("Server is up and running!"));
 
 function parseCarbonInterfaceRequest(method, path, data = null) {
   const carbonInterfaceHeaders = {
@@ -86,10 +86,6 @@ server.get("/unfcc/getemissions/:id/:countryId/:year", (req, res) => {
         gasId: 10467,
 
         categoryId: id,
-        // categoryId: 9089, //fuel sectoral
-        // categoryId: 10402, //fuel sectoral
-
-        // categoryId: 10464,
       },
     })
     .then((response) => res.json(response.data))

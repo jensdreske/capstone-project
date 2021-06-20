@@ -7,20 +7,20 @@ import { player } from "../variables";
 
 import { CarbonApiCheck } from "../components/carbonApiCheck";
 
-const playerTransport = JSON.parse(JSON.stringify(player.transport));
+const playerTransport = JSON.stringify(player.transport);
 // const playerInit = Object.assign({}, player.transport);
 
 export default function Transportation({ player, setPlayer }) {
   const [fieldEntry, setFieldEntry] = useState({
     car: {},
-    train: {},
     bus: {},
+    train: {},
     aviation_exterior: {},
     aviation_interior: {},
   });
 
   useEffect(() => {
-    recalculateIndividual();
+    recalculateIndividualScore();
   }, [fieldEntry]);
 
   function resetForm() {
@@ -34,19 +34,17 @@ export default function Transportation({ player, setPlayer }) {
 
     setPlayer({
       ...player,
-      transport: { ...JSON.parse(JSON.stringify(playerTransport)) },
+      transport: { ...JSON.parse(playerTransport) },
     });
   }
 
   function updatePlayer(event, category) {
     const fieldName = event.target.name;
-    // console.log(fieldName);
     let fieldValue = event.target.value;
     setFieldEntry((fieldEntry) => {
       fieldEntry[category][fieldName] = fieldValue;
       return fieldEntry;
     });
-    // setFieldEntry({ ...fieldEntry, [fieldName]: fieldValue });
     fieldValue = Number(fieldValue);
     if (!isNaN(fieldValue)) {
       setPlayer((player) => {
@@ -60,22 +58,20 @@ export default function Transportation({ player, setPlayer }) {
             player.transport.car.utilization = Math.max(1, fieldValue);
           }
         }
-
         player.individualCo2Emissions = recalculateScore();
         return { ...player };
       });
     }
   }
 
-  function recalculateIndividual() {
-    const fresh = recalculateScore();
-    setPlayer({ ...player, individualCo2Emissions: fresh });
+  function recalculateIndividualScore() {
+    setPlayer({ ...player, individualCo2Emissions: recalculateScore() });
   }
 
   function recalculateScore() {
     const difference =
       co2PerYear("car") -
-      carCo2PerYearAverage() +
+      co2PerYearAverage("car") +
       (co2PerYear("bus") - co2PerYearAverage("bus")) +
       (co2PerYear("train") - co2PerYearAverage("train")) +
       (co2PerYear("aviation_exterior") -
@@ -102,28 +98,29 @@ export default function Transportation({ player, setPlayer }) {
     }
   }
 
-  function kmPerYearAverage(vehicle) {
-    return countryData.personKm[vehicle] / countryData.population;
-  }
-
   function co2PerYearAverage(vehicle) {
+    if (vehicle === "car")
+      return (
+        (kmPerYearAverage("car") * co2Per100kmAverage("gasoline")) /
+        countryData.transport.car.utilization
+      );
     return (
       (kmPerYearAverage(vehicle) * countryData.transport[vehicle].co2Per100km) /
       100
     );
   }
 
-  function carCo2PerYearAverage() {
-    return (
-      (kmPerYearAverage("car") * carCo2Per100kmAverage()) /
-      countryData.transport.car.utilization
-    );
+  function kmPerYearAverage(vehicle) {
+    return countryData.personKm[vehicle] / countryData.population;
   }
 
-  function carCo2Per100kmAverage() {
-    return (
-      (countryData.transport.car.consumption / 100) * conversions.gasolineToCO2
-    );
+  function co2Per100kmAverage(fuel) {
+    if (fuel === "gasoline") {
+      return (
+        (countryData.transport.car.consumption / 100) *
+        conversions.gasolineToCO2
+      );
+    }
   }
 
   return (
