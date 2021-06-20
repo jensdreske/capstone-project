@@ -11,7 +11,7 @@ import target from "../images/target@2x.png";
 import chart from "../images/chart.png";
 import list from "../images/list.png";
 
-export default function Footer({ playerScore, countryData }) {
+export default function Footer({ playerScore, countryData, isStatic }) {
   const [scrollPos, setScrollPos] = useState(0);
   function calculateGameEnd(reductionPerYear = 0) {
     const linearReduction = 2;
@@ -108,7 +108,7 @@ export default function Footer({ playerScore, countryData }) {
   }
 
   return (
-    <FooterWrapper>
+    <FooterWrapper isStatic={isStatic}>
       <NavLink exact to="/">
         <MenuButton className="standardBox">
           <img src={chart} alt="mainmenu" />
@@ -142,9 +142,9 @@ const MenuButton = styled.div`
 const FooterWrapper = styled.footer`
   display: flex;
   justify-content: center;
-  position: fixed;
+  position: ${(props) => (props.isStatic ? "static" : "fixed")};
   bottom: 1rem;
-  width: 100vw;
+  width: ${(props) => (props.isStatic ? "100%" : "100vw")};
   height: 4rem;
   overflow: hidden;
   .standardBox {
