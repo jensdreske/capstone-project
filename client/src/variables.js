@@ -182,47 +182,72 @@ export const countryData = {
     car: 913300000000, //913,3 mrd 2018 Verkehr in Zahlen
     train: 98200000000,
     bus: 80100000000,
+
     aviation_sum: 70400000000,
     aviation_interior: 10300000000,
+    aviation_exterior: 60100000000, // calculated
+
     source:
       "Verkehrsleistung in Personenkilometern, Verkehr in Zahlen 2018, Bundesministerium für Verkehr",
   },
-  car: {
-    consumption: 7.4,
-    source: "Verkehr in Zahlen 2018, Bundesministerium für Verkehr",
-    Otto: { consumption: 7.8, kmPerYear: 10800 },
-    Diesel: { consumption: 7.0, kmPerYear: 19500 },
+  transport: {
+    car: {
+      consumption: 7.4,
+      source: "Verkehr in Zahlen 2018, Bundesministerium für Verkehr",
+      Otto: { consumption: 7.8, kmPerYear: 10800 },
+      Diesel: { consumption: 7.0, kmPerYear: 19500 },
+      utilization: 1.5,
+    },
+    bus: {
+      co2Per100km: 8, //Lininenbus 80 g/PKM, Fernbus 29g/Pkm
+      utilization: 19, // fernbus 55
+      source: "Umweltbundesamt, Tremod 6.03",
+    },
+    metro: {
+      co2Per100km: 5.8,
+      utilization: 19,
+    },
+    train: {
+      co2Per100km: 3.2, // fern 32g/Pkm, nah 57 g/Pkm
+      utilization: 56, // nah 28
+    },
+    aviation_exterior: {
+      co2Per100km: 23, //nodata
+      utilization: 71, //nodata
+    },
+    aviation_interior: {
+      co2Per100km: 23,
+      utilization: 71,
+    },
   },
 };
 
 export const player = {
-  individualCo2Emissions: 10,
+  individualCo2Emissions: 12.1935,
   averageCo2Emissions: (countryData.emissions * 1000) / countryData.population,
   unit: "Tonnen",
   origin: "Germany",
   transport: {
     car: {
       kmPerYear: countryData.personKm.car / countryData.population,
-      consumption: 7.5, // liter
+      consumption: 7.4, // liter
       carbonPer100km: 5.686, // kg
       co2Per100km: 20.85, // kg
+      utilization: 1.5,
     },
     train: {
       kmPerYear: countryData.personKm.train / countryData.population,
-      co2Per100km: 10,
     },
     bus: {
       kmPerYear: countryData.personKm.bus / countryData.population,
-      co2Per100km: 5,
     },
-    aviation_sum: {
-      kmPerYear: countryData.personKm.aviation_sum / countryData.population,
-      co2Per100km: 30,
+    aviation_exterior: {
+      kmPerYear:
+        countryData.personKm.aviation_exterior / countryData.population,
     },
     aviation_interior: {
       kmPerYear:
         countryData.personKm.aviation_interior / countryData.population,
-      co2Per100km: 30,
     },
   },
   goal: {

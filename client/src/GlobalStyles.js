@@ -31,4 +31,8 @@ h3 {
     margin-bottom: 0.5rem;
 }
 
+.smallText {
+    font-size: 0.75rem;
+}
+
 `;

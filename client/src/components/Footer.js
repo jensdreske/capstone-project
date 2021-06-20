@@ -36,7 +36,7 @@ export default function Footer({ playerScore, countryData }) {
         365,
       0
     );
-    return days > 0 ? days + " days" : "Never!";
+    return days;
   }
 
   function ScoreboxElement({ icon, h2, p, positionlink }) {
@@ -54,6 +54,14 @@ export default function Footer({ playerScore, countryData }) {
   }
 
   function GameScores({ scrollPosition, setScrollPos }) {
+    function calculateSavings() {
+      return roundPlaces(
+        100 -
+          (playerScore.individualCo2Emissions /
+            playerScore.averageCo2Emissions) *
+            100
+      );
+    }
     return (
       <ScoreboxWrapper>
         <div
@@ -63,8 +71,8 @@ export default function Footer({ playerScore, countryData }) {
           {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
           <ScoreboxElement
             icon={finish}
-            h2={calculateDays()}
-            p="to reach goal"
+            h2={calculateDays() > 0 ? calculateDays() + " days" : "Never!"}
+            p="time to reach goal"
             positionlink={1}
           />
           <ScoreboxElement
@@ -75,15 +83,9 @@ export default function Footer({ playerScore, countryData }) {
           />
           <ScoreboxElement
             icon={piggy}
-            h2={
-              roundPlaces(
-                100 -
-                  (playerScore.individualCo2Emissions /
-                    playerScore.averageCo2Emissions) *
-                    100
-              ) + "%"
-            }
-            p="less CO2"
+            h2={`${Math.abs(calculateSavings())}% `}
+            // h2={calculateSavings()}
+            p={`${calculateSavings() >= -0.01 ? `less` : `more`} CO2 / Year`}
             positionlink={3}
           />
           <ScoreboxElement
@@ -157,6 +159,7 @@ const ScoreboxWrapper = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  margin: 0 0.25rem;
   .scoreBoxes {
     position: absolute;
     transition: top 2s;
@@ -194,7 +197,7 @@ const Scorebox = styled.article`
   background-color: white;
   border-radius: 6px;
   display: flex;
-  width: 13rem;
+  width: 14rem;
   height: 4rem;
   .iconBox {
     height: 100%;
