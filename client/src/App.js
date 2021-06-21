@@ -20,7 +20,7 @@ function App() {
   const [countryDataState, setCountryDataState] = useState(countryData);
 
   useEffect(() => {
-    fetch("http://localhost:4000/health")
+    fetch("/health")
       .then((res) => res.json())
       .then((response) => setServerMessage(response));
   }, []);

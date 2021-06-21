@@ -13,6 +13,7 @@ import list from "../images/list.png";
 
 export default function Footer({ playerScore, countryData, isStatic }) {
   const [scrollPos, setScrollPos] = useState(0);
+
   function calculateGameEnd(reductionPerYear = 0) {
     const linearReduction = 2;
     const brdToUnfcc = 0.7;
@@ -62,7 +63,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
     );
   }
 
-  function GameScores({ scrollPosition, setScrollPos }) {
+  function GameScores() {
     function calculateSavings() {
       return roundPlaces(
         100 -
@@ -73,11 +74,10 @@ export default function Footer({ playerScore, countryData, isStatic }) {
     }
     return (
       <ScoreboxWrapper>
-        <div
-          className="scoreBoxes"
+        <ScrollLayer style={{ top: `${scrollPos * -4}rem` }}>
+          {/* className="scoreBoxes"
           style={{ top: `${scrollPosition * -4}rem` }}
-        >
-          {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
+        > */}
           <ScoreboxElement
             icon={finish}
             h2={daysToYears(calculateDays())}
@@ -102,7 +102,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
             p="Carbon Exit"
             positionlink={0}
           />
-        </div>
+        </ScrollLayer>
       </ScoreboxWrapper>
     );
   }
@@ -115,7 +115,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
         </MenuButton>
       </NavLink>
 
-      <GameScores scrollPosition={scrollPos} setScrollPos={setScrollPos} />
+      <GameScores />
       {/* <NavLink exact to="/score">
         <p>score details</p>
         </NavLink>
@@ -155,6 +155,12 @@ const FooterWrapper = styled.footer`
   z-index: 100;
 `;
 
+const ScrollLayer = styled.div`
+  position: absolute;
+  transition: top 2s;
+  top: 0;
+`;
+
 const ScoreboxWrapper = styled.div`
   width: 14rem;
   height: 2rem;
@@ -163,9 +169,6 @@ const ScoreboxWrapper = styled.div`
   position: relative;
   margin: 0 0.25rem;
   .scoreBoxes {
-    position: absolute;
-    transition: top 2s;
-
     /* animation-name: scroll;
     animation-duration: 2s; */
   }
