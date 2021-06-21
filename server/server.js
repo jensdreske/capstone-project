@@ -102,7 +102,6 @@ server.get("/*", (rey, res) =>
 );
 
 const port = process.env.PORT || 4000;
-server.listen(
-  port,
-  () => console.log`server is up and running on port ${port}`
+server.listen(port, () =>
+  console.log(`server is up and running on port ${port}`)
 );
