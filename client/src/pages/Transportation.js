@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 
 import { roundPlaces } from "../lib/roundPlaces";
-import { conversions, countryData } from "../variables";
-import { player } from "../variables";
+import { conversions, countryData } from "../lib/variables";
+import { player } from "../lib/variables";
 
 import { CarbonApiCheck } from "../components/carbonApiCheck";
 

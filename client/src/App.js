@@ -8,7 +8,7 @@ import Transportation from "./pages/Transportation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import { countryData, shares, player } from "./variables.js";
+import { countryData, shares, player } from "./lib/variables.js";
 import { SharesUnfcc } from "./components/SharesUnfcc.js";
 
 function App() {

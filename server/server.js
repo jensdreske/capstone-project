@@ -2,6 +2,10 @@ import express, { response } from "express";
 import cors from "cors";
 import axios from "axios";
 import dotenv from "dotenv";
+import path from "path";
+import dirname from "./lib/pathHelpers.js";
+
+const __dirname = dirname(import.meta.url);
 
 dotenv.config();
 
@@ -92,4 +96,10 @@ server.get("/unfcc/getemissions/:id/:countryId/:year", (req, res) => {
     .catch((error) => console.error(error));
 });
 
-server.listen(4000);
+server.use(express.static(path.join(__dirname, "../client/build")));
+server.get("/*", (rey, res) =>
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"))
+);
+
+const port = process.env.PORT || 4000;
+server.listen(port);
