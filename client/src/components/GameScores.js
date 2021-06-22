@@ -105,33 +105,7 @@ function ScoreboxElement({
 }) {
   const swipe = { start: 0, stop: 0 };
   return (
-    <Scorebox
-      // onClick={() => setScrollPos(positionlink)}
-      onTouchStart={(event) => {
-        // console.log("start" + event.touches[0].clientY);
-        swipe.start = event.touches[0].pageY;
-        setScrollPos(positionlink);
-      }}
-      onTouchMove={(event) => {
-        swipe.move = event.touches[0].pageY;
-        // swipe.moveScaled = (swipe.start - swipe.move) / 16 / 100;
-        // setScrollPos((scrollPos + swipe.moveScaled) % 4);
-        // console.log(swipe.moveScaled);
-      }}
-      onTouchEnd={(event) => {
-        console.log("end" + event.changedTouches[0].pageY);
-        swipe.stop = event.changedTouches[0].pageY;
-        swipe.delta = swipe.start - swipe.stop;
-        console.log(Math.round(swipe.delta / 75));
-        // if (swipe.start > swipe.stop) {
-        //   setScrollPos(scrollPos + 1);
-        // }
-        // if (swipe.start < swipe.stop) {
-        // setScrollPos(scrollPos + Math.round(swipe.delta / 75));
-        // }
-      }}
-      //   onTouchEnd={(event) => console.log(event.changedTouches[0])}
-    >
+    <Scorebox onClick={() => setScrollPos(positionlink)}>
       <div className="iconBox">
         <img src={icon} alt="" />
       </div>
@@ -179,8 +153,6 @@ const ScrollLayer = styled.div`
 const ScoreboxWrapper = styled.div`
   width: 14rem;
   height: 4rem;
-  /* display: flex;
-  justify-content: center; */
   position: relative;
   margin: 0 0.25rem;
   overflow: hidden;
