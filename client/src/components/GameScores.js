@@ -10,8 +10,8 @@ import target from "../images/target@2x.png";
 export default function GameScores({
   playerScore,
   countryData,
-  scrollPos,
-  setScrollPos,
+  scrollPosition,
+  setScrollPosition,
 }) {
   function calculateGameEnd(playerScore, countryData) {
     const co2BudgetLeftInGigaTons = 3.5;
@@ -61,7 +61,7 @@ export default function GameScores({
   }
   return (
     <ScoreboxWrapper>
-      <ScrollLayer style={{ top: `${scrollPos * -4}rem` }}>
+      <ScrollLayer style={{ top: `${scrollPosition * -4}rem` }}>
         <ScoreboxElement
           icon={finish}
           h2={daysOrYearsToGo(
@@ -73,32 +73,32 @@ export default function GameScores({
           )}
           p="time to reach goal"
           positionlink={1}
-          scrollPos={scrollPos}
-          setScrollPos={setScrollPos}
+          scrollPosition={scrollPosition}
+          setScrollPosition={setScrollPosition}
         />
         <ScoreboxElement
           icon={target}
           h2={roundPlaces(playerScore.goal.emissions) + " kg"}
           p="your goal"
           positionlink={2}
-          scrollPos={scrollPos}
-          setScrollPos={setScrollPos}
+          scrollPosition={scrollPosition}
+          setScrollPosition={setScrollPosition}
         />
         <ScoreboxElement
           icon={piggy}
           h2={`${Math.abs(calculateSavings())}% `}
           p={`${calculateSavings() >= -0.01 ? `less` : `more`} CO2 / Year`}
           positionlink={3}
-          scrollPos={scrollPos}
-          setScrollPos={setScrollPos}
+          scrollPosition={scrollPosition}
+          setScrollPosition={setScrollPosition}
         />
         <ScoreboxElement
           icon={clock}
           h2={calculateGameEnd(playerScore, countryData)}
           p="Carbon Exit"
           positionlink={0}
-          scrollPos={scrollPos}
-          setScrollPos={setScrollPos}
+          scrollPosition={scrollPosition}
+          setScrollPosition={setScrollPosition}
         />
       </ScrollLayer>
     </ScoreboxWrapper>
@@ -110,12 +110,12 @@ function ScoreboxElement({
   h2,
   p,
   positionlink,
-  scrollPos,
-  setScrollPos,
+  scrollPosition,
+  setScrollPosition,
 }) {
   const swipe = { start: 0, stop: 0 };
   return (
-    <Scorebox onClick={() => setScrollPos(positionlink)}>
+    <Scorebox onClick={() => setScrollPosition(positionlink)}>
       <div className="iconBox">
         <img src={icon} alt="" />
       </div>

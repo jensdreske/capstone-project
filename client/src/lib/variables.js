@@ -1,37 +1,3 @@
-export const shares = {
-  country: "Germany",
-  year: 2018,
-  total: [858000],
-  slices: [
-    {
-      name: "total",
-      emission: 7209000,
-      percentage: 100,
-      percentageOfTotal: 100,
-    },
-    {
-      name: "energy",
-      emission: 7209000,
-      percentage: 84,
-      percentageOfTotal: 84,
-    },
-    {
-      name: "industry",
-      emission: 64000,
-      percentage: 8,
-      percentageOfTotal: 8,
-    },
-    {
-      name: "agriculture",
-      emission: 63000,
-      percentage: 7,
-      percentageOfTotal: 7,
-    },
-    { name: "waste", emission: 9000, percentage: 1, percentageOfTotal: 1 },
-    { name: "other", emission: 0, percentage: 0, percentageOfTotal: 0 },
-  ],
-};
-
 export const countryData = {
   countryName: "Germany",
   year: 2018,
@@ -178,25 +144,34 @@ export const countryData = {
       utilization: 1.5,
     },
     bus: {
-      co2Per100km: 8, //Lininenbus 80 g/PKM, Fernbus 29g/Pkm
+      co2Per100km: 8, // Fernbus 29g/Pkm
       utilization: 19, // fernbus 55
       source: "Umweltbundesamt, Tremod 6.03",
+      unit: "kg/100 PersonKilometer",
     },
     metro: {
       co2Per100km: 5.8,
       utilization: 19,
+      unit: "kg/100 PersonKilometer",
+      source: "Umweltbundesamt, Tremod 6.03",
     },
     train: {
       co2Per100km: 3.2, // fern 32g/Pkm, nah 57 g/Pkm
       utilization: 56, // nah 28
+      unit: "kg/100 PersonKilometer",
+      source: "Umweltbundesamt, Tremod 6.03",
     },
     aviation_exterior: {
-      co2Per100km: 23, //nodata
-      utilization: 71, //nodata
+      co2Per100km: 23,
+      utilization: 71,
+      unit: "kg/100 PersonKilometer",
+      source: "no data yet, see aviation_interior",
     },
     aviation_interior: {
       co2Per100km: 23,
       utilization: 71,
+      unit: "kg/100 PersonKilometer",
+      source: "Umweltbundesamt, Tremod 6.03",
     },
   },
 };
@@ -209,10 +184,16 @@ export const player = {
   transport: {
     car: {
       kmPerYear: countryData.personKm.car / countryData.population,
-      consumption: 7.4, // liter
-      carbonPer100km: 5.686, // kg
-      co2Per100km: 20.85, // kg
+      consumption: 7.4,
+      carbonPer100km: 5.686,
+      co2Per100km: 20.85,
       utilization: 1.5,
+      units: {
+        consumption: "l",
+        carbonPer100km: "kg",
+        co2Per100km: "kg",
+        utilization: "person per car",
+      },
     },
     train: {
       kmPerYear: countryData.personKm.train / countryData.population,
@@ -236,8 +217,14 @@ export const player = {
 };
 
 export const conversions = {
-  gasolineToCO2: 2.78, // eq kg/l
-  dieselToCo2: 3.17, // eq kg/l
-  electricityToCo2: 0.508, // kg/kWh brd mix 2016
-  carbonToCo2: 44 / 12, // C + O2
+  gasolineToCO2: 2.78,
+  dieselToCo2: 3.17,
+  electricityToCo2: 0.508,
+  carbonToCo2: 44 / 12,
+  units: {
+    gasolineToCO2: "kg/l",
+    dieselToCo2: "kg/l",
+    electricityToCo2: "kg/kWh, German Energy Mix 2016",
+    carbonToCo2: "Molar mass ratio",
+  },
 };

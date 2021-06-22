@@ -6,7 +6,7 @@ import list from "../images/list.png";
 import GameScores from "./GameScores";
 
 export default function Footer({ playerScore, countryData, isStatic }) {
-  const [scrollPos, setScrollPos] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   return (
     <FooterWrapper isStatic={isStatic}>
@@ -14,8 +14,8 @@ export default function Footer({ playerScore, countryData, isStatic }) {
         <img src={list} alt="set goals" />
       </MenuButton>
       <GameScores
-        scrollPos={scrollPos}
-        setScrollPos={setScrollPos}
+        scrollPosition={scrollPosition}
+        setScrollPosition={setScrollPosition}
         playerScore={playerScore}
         countryData={countryData}
       />

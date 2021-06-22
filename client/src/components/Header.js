@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components/macro";
 
 import earth from "../images/earth.png";
 import cloud from "../images/cloud_m.png";
@@ -9,10 +10,36 @@ export default function Header() {
   return (
     <HeaderBox>
       <LogoBox>
-        <img className="cloud" src={cloud} alt="cloud" />
-        <img className="earth" src={earth} alt="earth" />
-        <img className="coalculator" src={coalculator} alt="coalculator" />
-        <img className="cloudlet" src={cloudlet} alt="cloudlet" />
+        <NavLink to={"/"}>
+          <img
+            className="cloud"
+            src={cloud}
+            alt="cloud"
+            width="77px"
+            height="77px"
+          />
+          <img
+            className="earth"
+            src={earth}
+            alt="earth"
+            width="82px"
+            height="82px"
+          />
+          <img
+            className="coalculator"
+            src={coalculator}
+            alt="coalculator"
+            width="83px"
+            height="24px"
+          />
+          <img
+            className="cloudlet"
+            src={cloudlet}
+            alt="cloudlet"
+            width="39px"
+            height="39px"
+          />
+        </NavLink>
       </LogoBox>
     </HeaderBox>
   );
@@ -22,7 +49,6 @@ const LogoBox = styled.section`
   position: relative;
   height: 6rem;
   width: 9rem;
-  /* border: 1px solid red; */
   text-align: left;
   img {
     position: absolute;
