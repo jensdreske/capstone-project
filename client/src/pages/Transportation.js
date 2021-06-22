@@ -2,35 +2,28 @@ import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 
 import { roundPlaces } from "../lib/roundPlaces";
-import { conversions, countryData } from "../variables";
-import { player } from "../variables";
+import { conversions, countryData } from "../lib/variables";
+import { player as playerInit } from "../lib/variables";
 
-import { CarbonApiCheck } from "../components/carbonApiCheck";
-
-const playerTransport = JSON.stringify(player.transport);
-// const playerInit = Object.assign({}, player.transport);
+const playerTransport = JSON.stringify(playerInit.transport);
 
 export default function Transportation({ player, setPlayer }) {
-  const [fieldEntry, setFieldEntry] = useState({
+  const fieldEntryInits = {
     car: {},
     bus: {},
     train: {},
     aviation_exterior: {},
     aviation_interior: {},
-  });
+  };
+
+  const [fieldEntry, setFieldEntry] = useState({ ...fieldEntryInits });
 
   useEffect(() => {
     recalculateIndividualScore();
   }, [fieldEntry]);
 
   function resetForm() {
-    setFieldEntry({
-      car: {},
-      train: {},
-      bus: {},
-      aviation_exterior: {},
-      aviation_interior: {},
-    });
+    setFieldEntry({ ...fieldEntryInits });
 
     setPlayer({
       ...player,
@@ -69,7 +62,7 @@ export default function Transportation({ player, setPlayer }) {
   }
 
   function recalculateScore() {
-    const difference =
+    const differenceToAverage =
       co2PerYear("car") -
       co2PerYearAverage("car") +
       (co2PerYear("bus") - co2PerYearAverage("bus")) +
@@ -78,7 +71,7 @@ export default function Transportation({ player, setPlayer }) {
         co2PerYearAverage("aviation_exterior")) +
       (co2PerYear("aviation_interior") -
         co2PerYearAverage("aviation_interior"));
-    return player.averageCo2Emissions + difference / 1000;
+    return player.averageCo2Emissions + differenceToAverage / 1000;
   }
 
   function co2PerYear(vehicle) {
@@ -115,11 +108,17 @@ export default function Transportation({ player, setPlayer }) {
   }
 
   function co2Per100kmAverage(fuel) {
-    if (fuel === "gasoline") {
-      return (
-        (countryData.transport.car.consumption / 100) *
-        conversions.gasolineToCO2
-      );
+    switch (fuel) {
+      case "gasoline":
+        return (
+          (countryData.transport.car.consumption / 100) *
+          conversions.gasolineToCO2
+        );
+      case "diesel":
+        return (
+          (countryData.transport.car.consumption / 100) *
+          conversions.dieselToCO2
+        );
     }
   }
 
@@ -128,8 +127,8 @@ export default function Transportation({ player, setPlayer }) {
       <h3>Transportation</h3>
       <p>choose your car</p>
       <TransportationForm>
-        <p className="fieldDescription">fuel consumption</p>
-        <input
+        <p>fuel consumption</p>
+        <FormInput
           type="text"
           id="consumption"
           name="consumption"
@@ -137,17 +136,17 @@ export default function Transportation({ player, setPlayer }) {
             fieldEntry.car.consumption ?? player.transport.car.consumption
           }`}
           onChange={(event) => updatePlayer(event, "car")}
-        ></input>
-        <p className="fieldDescription">distance per year</p>
-        <input
+        ></FormInput>
+        <p>distance per year</p>
+        <FormInput
           type="text"
           id="kmPerYear"
           name="kmPerYear"
           value={roundPlaces(player.transport.car.kmPerYear)}
           onChange={(event) => updatePlayer(event, "car")}
-        ></input>
+        ></FormInput>
         <p>Person per Car</p>
-        <input
+        <FormInput
           type="text"
           id="utilization"
           name="utilization"
@@ -155,50 +154,50 @@ export default function Transportation({ player, setPlayer }) {
             fieldEntry.car.utilization ?? player.transport.car.utilization
           }`}
           onChange={(event) => updatePlayer(event, "car")}
-        ></input>
-        <p className="fieldDescription">CO2 emissions per year</p>
+        ></FormInput>
+        <p>CO2 emissions per year</p>
         <ResultBox>{roundPlaces(co2PerYear("car"))}</ResultBox>
       </TransportationForm>
 
       <p>Public Transportation</p>
       <p className="smallText">distance per year</p>
       <TransportationForm>
-        <p className="fieldDescription">Bus</p>
-        <input
+        <p>Bus</p>
+        <FormInput
           type="text"
           id="BusKmPerYear"
           name="kmPerYear"
           value={roundPlaces(player.transport.bus.kmPerYear)}
           onChange={(event) => updatePlayer(event, "bus")}
-        ></input>
+        ></FormInput>
 
-        <p className="fieldDescription">Train</p>
-        <input
+        <p>Train</p>
+        <FormInput
           type="text"
           id="TrainKmPerYear"
           name="kmPerYear"
           value={roundPlaces(player.transport.train.kmPerYear)}
           onChange={(event) => updatePlayer(event, "train")}
-        ></input>
+        ></FormInput>
 
-        <p className="fieldDescription">Plane</p>
-        <input
+        <p>Plane</p>
+        <FormInput
           type="text"
           id="PlaneKmPerYear"
           name="kmPerYear"
           value={roundPlaces(player.transport.aviation_exterior.kmPerYear)}
           onChange={(event) => updatePlayer(event, "aviation_exterior")}
-        ></input>
+        ></FormInput>
 
-        <p className="fieldDescription">domestic flights</p>
-        <input
+        <p>domestic flights</p>
+        <FormInput
           type="text"
           id="PlaneKmPerYear"
           name="kmPerYear"
           value={roundPlaces(player.transport.aviation_interior.kmPerYear)}
           onChange={(event) => updatePlayer(event, "aviation_interior")}
-        ></input>
-        <p className="fieldDescription">CO2 emissions per year</p>
+        ></FormInput>
+        <p>CO2 emissions per year</p>
         <ResultBox>
           {roundPlaces(
             ["bus", "train", "aviation_exterior", "aviation_interior"]
@@ -213,45 +212,40 @@ export default function Transportation({ player, setPlayer }) {
 }
 
 const Shareform = styled.article`
+  backdrop-filter: blur(3px);
+  background-color: hsla(200, 100%, 94.7%, 0.79);
+  border-radius: 6px;
   border: 2px solid black;
   margin: 7rem 1rem 6rem;
-  border-radius: 6px;
   padding: 0.5rem;
-  background-color: hsla(200, 100%, 94.7%, 0.79);
-  z-index: 50;
   position: relative;
-  backdrop-filter: blur(3px);
+  z-index: 50;
   button {
-    padding: 0.25rem 1rem;
     background: white;
     border-radius: 6px;
     border: 1.5px solid black;
+    padding: 0.25rem 1rem;
   }
 `;
 
 const TransportationForm = styled.section`
-  display: grid;
   align-items: center;
+  display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 3fr 1fr;
   margin: 1rem;
   text-align: right;
-  .fieldDescription {
-    grid-column-start: 1;
-  }
-  input {
-    grid-column-start: 2;
-    padding: 0.25rem 1rem;
-    width: 8rem;
-    font-size: 1rem;
-  }
-  .greyedOut {
-    background-color: #fff0;
-  }
 `;
-const ResultBox = styled.p`
-  border: 2px solid black;
-  border-radius: 6px;
-  text-align: left;
+
+const FormInput = styled.input`
+  font-size: 1rem;
   padding: 0.25rem 1rem;
+  width: 8rem;
+`;
+
+const ResultBox = styled.p`
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 0.25rem 1rem;
+  text-align: left;
 `;

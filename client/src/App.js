@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Switch, Route } from "react-router-dom";
 import styled from "styled-components/macro";
 
 import MainGameView from "./pages/MainGameView";
@@ -8,14 +8,14 @@ import Transportation from "./pages/Transportation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import { countryData, shares, player } from "./variables.js";
+import { countryData as countryDataInit, player } from "./lib/variables.js";
 
 function App() {
   const [countryEmissions, setCountryEmissions] = useState(
-    countryData.emissionsUnfcc
+    countryDataInit.emissionsUnfcc
   );
   const [playerScore, setPlayerScore] = useState(player);
-  const [countryDataState, setCountryDataState] = useState(countryData);
+  const [countryData, setCountryData] = useState(countryDataInit);
 
   return (
     <>
@@ -30,7 +30,7 @@ function App() {
           <MainGameView countryEmissions={countryEmissions} />
         </Route>
       </Switch>
-      <Footer playerScore={playerScore} countryData={countryDataState} />
+      <Footer playerScore={playerScore} countryData={countryData} />
     </>
   );
 }
