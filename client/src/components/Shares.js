@@ -69,7 +69,7 @@ export default function Shares({ shares }) {
               }}
             >
               <NavLinkSlice to={"/" + slice.name}>
-                <img src={icons[slice.style.icon]} />
+                <img src={icons[slice.style.icon]} alt="to share" />
                 <SliceText show={infoVisible[index]}>
                   <p>{slice.text}</p>
                   <p>{roundPlaces(slice.percentage, 2)}%</p>
@@ -158,17 +158,4 @@ const NavLinkSlice = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const TooltipBox = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  .tooltipText {
-    opacity: 0;
-    pointer-events: none;
-  }
-  :hover .tooltipText {
-    opacity: 1;
-  }
 `;

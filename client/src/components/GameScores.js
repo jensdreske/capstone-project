@@ -113,7 +113,6 @@ function ScoreboxElement({
   scrollPosition,
   setScrollPosition,
 }) {
-  const swipe = { start: 0, stop: 0 };
   return (
     <Scorebox onClick={() => setScrollPosition(positionlink)}>
       <div className="iconBox">
