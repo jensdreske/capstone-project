@@ -9,25 +9,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import { countryData, shares, player } from "./variables.js";
-import { SharesUnfcc } from "./components/SharesUnfcc.js";
 
 function App() {
-  const [serverMessage, setServerMessage] = useState("");
   const [countryEmissions, setCountryEmissions] = useState(
     countryData.emissionsUnfcc
   );
   const [playerScore, setPlayerScore] = useState(player);
   const [countryDataState, setCountryDataState] = useState(countryData);
-
-  useEffect(() => {
-    fetch("http://localhost:4000/health")
-      .then((res) => res.json())
-      .then((response) => setServerMessage(response));
-  }, []);
-
-  useEffect(() => {
-    console.log(serverMessage);
-  }, [serverMessage]);
 
   return (
     <>
@@ -37,9 +25,7 @@ function App() {
         <Route path="/transport">
           <Transportation player={playerScore} setPlayer={setPlayerScore} />
         </Route>
-        <Route path="/unfcc">
-          <SharesUnfcc shares={shares} />
-        </Route>
+
         <Route path="/">
           <MainGameView countryEmissions={countryEmissions} />
         </Route>
@@ -50,7 +36,6 @@ function App() {
 }
 
 const BackgroundBox = styled.div`
-  /* background-color: hsl(200, 40%, 90%); */
   background-image: linear-gradient(hsl(200, 50%, 60%), hsl(80, 25%, 66%));
   height: 120vh;
   width: 100%;

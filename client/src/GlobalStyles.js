@@ -20,8 +20,10 @@ body {
     text-align: center;
 }
 
-a {text-decoration: none;
-color: var(--darkest)}
+a { 
+    text-decoration: none;
+    color: var(--darkest)
+}
 
 input {
     border: 2px solid black;

@@ -13,37 +13,42 @@ import list from "../images/list.png";
 
 export default function Footer({ playerScore, countryData, isStatic }) {
   const [scrollPos, setScrollPos] = useState(0);
-  function calculateGameEnd(reductionPerYear = 0) {
-    const linearReduction = 2;
-    const brdToUnfcc = 0.7;
-    const co2BudgetLeft = 3.5;
+
+  function calculateGameEnd(playerScore, countryData) {
+    const co2BudgetLeftInGigaTons = 3.5;
+    const co2BudgetCalculationStartYear = 2020;
+    const progressiveLinearReductionFactor = 2;
+    const tonsToGigaTonsFactor = Math.pow(10, 9);
+    const unitedNationsByGermanTotalCo2 =
+      countryData.emissionsUnfcc.emission / countryData.emissions;
     const yearOfExit =
-      2020 +
-      linearReduction *
-        (co2BudgetLeft /
+      co2BudgetCalculationStartYear +
+      progressiveLinearReductionFactor *
+        (co2BudgetLeftInGigaTons /
           (((playerScore.individualCo2Emissions * countryData.population) /
-            1000000000) *
-            brdToUnfcc));
+            tonsToGigaTonsFactor) *
+            unitedNationsByGermanTotalCo2));
     return roundPlaces(yearOfExit, 0);
   }
 
-  function calculateDays() {
-    const days = roundPlaces(
-      (playerScore.goal.emissions /
-        1000 /
-        (playerScore.averageCo2Emissions -
-          playerScore.individualCo2Emissions)) *
-        365,
+  function calculateDaysToReachGoal(
+    goalInKg,
+    averageCo2Emissions,
+    individualCo2Emissions
+  ) {
+    const goalInTons = goalInKg / 1000;
+    const daysPerYear = 365;
+    const daysToReachGoal = roundPlaces(
+      (goalInTons / (averageCo2Emissions - individualCo2Emissions)) *
+        daysPerYear,
       0
     );
-    return days;
+    return daysToReachGoal;
   }
 
-  function daysToYears(days) {
-    if (days < 0) return "Never";
+  function daysOrYearsToGo(days) {
     const years = roundPlaces(days / 365);
-    const daysLeft = days % 365;
-    if (years > 1000) return "Never";
+    if (days < 0 || years >= 1000) return "Never";
     if (years > 1) return years + " years ";
     return days + " days";
   }
@@ -80,7 +85,13 @@ export default function Footer({ playerScore, countryData, isStatic }) {
           {/* <div className={"scoreBoxes " + "score" + scrollPosition} > */}
           <ScoreboxElement
             icon={finish}
-            h2={daysToYears(calculateDays())}
+            h2={daysOrYearsToGo(
+              calculateDaysToReachGoal(
+                playerScore.goal.emissions,
+                playerScore.averageCo2Emissions,
+                playerScore.individualCo2Emissions
+              )
+            )}
             p="time to reach goal"
             positionlink={1}
           />
@@ -98,7 +109,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
           />
           <ScoreboxElement
             icon={clock}
-            h2={calculateGameEnd()}
+            h2={calculateGameEnd(playerScore, countryData)}
             p="Carbon Exit"
             positionlink={0}
           />
@@ -116,11 +127,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
       </NavLink>
 
       <GameScores scrollPosition={scrollPos} setScrollPos={setScrollPos} />
-      {/* <NavLink exact to="/score">
-        <p>score details</p>
-        </NavLink>
 
-*/}
       <MenuButton className="standardBox">
         <img src={list} alt="set goals" />
       </MenuButton>
@@ -165,32 +172,7 @@ const ScoreboxWrapper = styled.div`
   .scoreBoxes {
     position: absolute;
     transition: top 2s;
-
-    /* animation-name: scroll;
-    animation-duration: 2s; */
   }
-  /* 
-  @keyframes scroll {
-    0% {
-      top: 0rem;
-    }
-    100% {
-      top: -4rem;
-    }
-    */
-
-  /* .score0 {
-    top: 0;
-  }
-  .score1 {
-    top: -4rem;
-  }
-  .score2 {
-    top: -8rem;
-  }
-  .score3 {
-    top: -12rem;
-  } */
 `;
 
 const Scorebox = styled.article`
