@@ -23,7 +23,11 @@ function App() {
       <Header />
       <Switch>
         <Route path="/transport">
-          <Transportation player={playerScore} setPlayer={setPlayerScore} />
+          <Transportation
+            player={playerScore}
+            setPlayer={setPlayerScore}
+            countryData={countryData}
+          />
         </Route>
 
         <Route path="/">

@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 
 import { roundPlaces } from "../lib/roundPlaces";
-import { conversions, countryData } from "../lib/variables";
+import { conversions } from "../lib/variables";
 import { player as playerInit } from "../lib/variables";
+
+import {
+  vehicleCo2PerYear,
+  recalculateTransportationScore,
+} from "../lib/transportationScoreCalculations";
 
 const playerTransport = JSON.stringify(playerInit.transport);
 
-export default function Transportation({ player, setPlayer }) {
+export default function Transportation({ player, setPlayer, countryData }) {
   const fieldEntryInits = {
     car: {},
     bus: {},
@@ -51,75 +56,23 @@ export default function Transportation({ player, setPlayer }) {
             player.transport.car.utilization = Math.max(1, fieldValue);
           }
         }
-        player.individualCo2Emissions = recalculateScore();
+        player.individualCo2Emissions = recalculateTransportationScore(
+          player,
+          countryData
+        );
         return { ...player };
       });
     }
   }
 
   function recalculateIndividualScore() {
-    setPlayer({ ...player, individualCo2Emissions: recalculateScore() });
-  }
-
-  function recalculateScore() {
-    const differenceToAverage =
-      co2PerYear("car") -
-      co2PerYearAverage("car") +
-      (co2PerYear("bus") - co2PerYearAverage("bus")) +
-      (co2PerYear("train") - co2PerYearAverage("train")) +
-      (co2PerYear("aviation_exterior") -
-        co2PerYearAverage("aviation_exterior")) +
-      (co2PerYear("aviation_interior") -
-        co2PerYearAverage("aviation_interior"));
-    return player.averageCo2Emissions + differenceToAverage / 1000;
-  }
-
-  function co2PerYear(vehicle) {
-    if (vehicle === "car") {
-      return (
-        (player.transport[vehicle].kmPerYear *
-          ((player.transport[vehicle].consumption / 100) *
-            conversions.gasolineToCO2)) /
-        player.transport[vehicle].utilization
-      );
-    } else {
-      return (
-        (player.transport[vehicle].kmPerYear *
-          countryData.transport[vehicle].co2Per100km) /
-        100
-      );
-    }
-  }
-
-  function co2PerYearAverage(vehicle) {
-    if (vehicle === "car")
-      return (
-        (kmPerYearAverage("car") * co2Per100kmAverage("gasoline")) /
-        countryData.transport.car.utilization
-      );
-    return (
-      (kmPerYearAverage(vehicle) * countryData.transport[vehicle].co2Per100km) /
-      100
-    );
-  }
-
-  function kmPerYearAverage(vehicle) {
-    return countryData.personKm[vehicle] / countryData.population;
-  }
-
-  function co2Per100kmAverage(fuel) {
-    switch (fuel) {
-      case "gasoline":
-        return (
-          (countryData.transport.car.consumption / 100) *
-          conversions.gasolineToCO2
-        );
-      case "diesel":
-        return (
-          (countryData.transport.car.consumption / 100) *
-          conversions.dieselToCO2
-        );
-    }
+    setPlayer({
+      ...player,
+      individualCo2Emissions: recalculateTransportationScore(
+        player,
+        countryData
+      ),
+    });
   }
 
   return (
@@ -156,7 +109,9 @@ export default function Transportation({ player, setPlayer }) {
           onChange={(event) => updatePlayer(event, "car")}
         ></FormInput>
         <p>CO2 emissions per year</p>
-        <ResultBox>{roundPlaces(co2PerYear("car"))}</ResultBox>
+        <ResultBox>
+          {roundPlaces(vehicleCo2PerYear("car", player, countryData))}
+        </ResultBox>
       </TransportationForm>
 
       <p>Public Transportation</p>
@@ -201,7 +156,7 @@ export default function Transportation({ player, setPlayer }) {
         <ResultBox>
           {roundPlaces(
             ["bus", "train", "aviation_exterior", "aviation_interior"]
-              .map((vehicle) => co2PerYear(vehicle))
+              .map((vehicle) => vehicleCo2PerYear(vehicle, player, countryData))
               .reduce((acc, cur) => acc + cur)
           )}
         </ResultBox>

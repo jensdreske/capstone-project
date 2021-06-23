@@ -10,34 +10,34 @@ export default function Header() {
   return (
     <HeaderBox>
       <LogoBox>
-        <NavLink to={"/"}>
+        <NavLink to="/">
           <img
             className="cloud"
             src={cloud}
             alt="cloud"
-            width="77px"
-            height="77px"
+            width="77"
+            height="77"
           />
           <img
             className="earth"
             src={earth}
             alt="earth"
-            width="82px"
-            height="82px"
+            width="82"
+            height="82"
           />
           <img
             className="coalculator"
             src={coalculator}
             alt="coalculator"
-            width="83px"
-            height="24px"
+            width="83"
+            height="24"
           />
           <img
             className="cloudlet"
             src={cloudlet}
             alt="cloudlet"
-            width="39px"
-            height="39px"
+            width="39"
+            height="39"
           />
         </NavLink>
       </LogoBox>

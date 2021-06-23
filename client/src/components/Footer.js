@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components/macro";
 
-import list from "../images/list.png";
+import target from "../images/target@2x.png";
 
 import GameScores from "./GameScores";
 
@@ -11,7 +11,7 @@ export default function Footer({ playerScore, countryData, isStatic }) {
   return (
     <FooterWrapper isStatic={isStatic}>
       <MenuButton className="standardBox">
-        <img src={list} alt="set goals" />
+        <img src={target} alt="set goals" />
       </MenuButton>
       <GameScores
         scrollPosition={scrollPosition}
