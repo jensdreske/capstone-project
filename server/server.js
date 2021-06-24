@@ -2,6 +2,10 @@ import express, { response } from "express";
 import cors from "cors";
 import axios from "axios";
 import dotenv from "dotenv";
+import path from "path";
+import dirname from "./lib/pathHelpers.js";
+
+const __dirname = dirname(import.meta.url);
 
 dotenv.config();
 
@@ -14,7 +18,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-server.get("/", (req, res) => res.json("Server is up and running!"));
+server.get("/health", (req, res) => res.json("Server is up and running!"));
 
 function parseCarbonInterfaceRequest(method, path, data = null) {
   const carbonInterfaceHeaders = {
@@ -86,14 +90,18 @@ server.get("/unfcc/getemissions/:id/:countryId/:year", (req, res) => {
         gasId: 10467,
 
         categoryId: id,
-        // categoryId: 9089, //fuel sectoral
-        // categoryId: 10402, //fuel sectoral
-
-        // categoryId: 10464,
       },
     })
     .then((response) => res.json(response.data))
     .catch((error) => console.error(error));
 });
 
-server.listen(4000);
+server.use(express.static(path.join(__dirname, "../client/build")));
+server.get("/*", (rey, res) =>
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"))
+);
+
+const port = process.env.PORT || 4000;
+server.listen(port, () =>
+  console.log(`server is up and running on port ${port}`)
+);
