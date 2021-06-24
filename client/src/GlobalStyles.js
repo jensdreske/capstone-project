@@ -5,6 +5,9 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
 :root {
     --darkest: #000;
+
+    --borderLine: 2px solid black;
+    --boxRadius: 6px;
 }
 
 * {
@@ -31,11 +34,12 @@ input {
     padding: 0 1rem;
 }
 
+
 h3 {
     margin-bottom: 0.5rem;
 }
 
-.smallText {
+.smalltext {
     font-size: 0.75rem;
 }
 
