@@ -228,3 +228,82 @@ export const conversions = {
     carbonToCo2: "Molar mass ratio",
   },
 };
+
+export const goals = {
+  tourism: {
+    units: "kg CO2 equivalents",
+    source:
+      "Der touristische Klima-Fußabdruck, World Wide Fund for Nature (WWF), 2009",
+    mexico: {
+      emissionsPerPerson: 7218,
+      people: 2,
+      shares: {
+        transportation: 6361,
+        accommodation: 487,
+        catering: 205,
+        activities: 165,
+      },
+      location: "Mexico",
+      region: "North America",
+      duration: "2 weeks",
+      people: "2 people",
+    },
+    mallorca: {
+      emissionsPerPerson: 1221,
+      people: 2,
+      shares: {
+        transportation: 925,
+        accommodation: 148,
+        catering: 91,
+        activities: 58,
+      },
+      location: "Mallorca",
+      region: "Mediterranean Sea",
+      duration: "2 weeks",
+      people: "3 people",
+    },
+
+    cruiseShip: {
+      emissionsPerPerson: 1224,
+      people: 2,
+      shares: {
+        transportation: 685,
+        accommodation: 439,
+        catering: 79,
+        activities: 21,
+      },
+      location: "Ship Cruise",
+      region: "Mediterranean Sea",
+      duration: "1 week",
+      people: "2 people",
+    },
+    balticSea: {
+      emissionsPerPerson: 258,
+      people: 4,
+      shares: {
+        transportation: 80,
+        accommodation: 52,
+        catering: 56,
+        activities: 70,
+      },
+      location: "Baltic Sea",
+      region: "Germany",
+      duration: "2 weeks",
+      people: "4 people",
+    },
+    stayHome: {
+      emissionsPerPerson: 58,
+      people: 4,
+      shares: {
+        transportation: 0,
+        accommodation: 17,
+        catering: 9,
+        activities: 33,
+      },
+      location: "balcony",
+      region: "at home",
+      duration: "2 weeks",
+      people: "4 people",
+    },
+  },
+};

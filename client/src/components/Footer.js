@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
 
-import list from "../images/list.png";
+import target from "../images/target@2x.png";
+import happyEarth from "../images/happy_earth.png";
 
 import GameScores from "./GameScores";
 
@@ -10,15 +12,22 @@ export default function Footer({ playerScore, countryData, isStatic }) {
 
   return (
     <FooterWrapper isStatic={isStatic}>
-      <MenuButton className="standardBox">
-        <img src={list} alt="set goals" />
-      </MenuButton>
+      <NavLink to="/">
+        <MenuButton className="standardBox">
+          <img src={happyEarth} alt="main game view" />
+        </MenuButton>
+      </NavLink>
       <GameScores
         scrollPosition={scrollPosition}
         setScrollPosition={setScrollPosition}
         playerScore={playerScore}
         countryData={countryData}
       />
+      <NavLink to="/goals">
+        <MenuButton className="standardBox">
+          <img src={target} alt="set goals" />
+        </MenuButton>
+      </NavLink>
     </FooterWrapper>
   );
 }
