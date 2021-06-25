@@ -34,12 +34,11 @@ input {
     padding: 0 1rem;
 }
 
-
 h3 {
     margin-bottom: 0.5rem;
 }
 
-.smalltext {
+.smallText {
     font-size: 0.75rem;
 }
 
