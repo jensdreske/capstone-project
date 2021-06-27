@@ -22,9 +22,10 @@ function getCustomGoalById(req, res) {
 function postCustomGoal(req, res) {
   const exampleGoal = new CustomGoal({
     name: req.body.name,
-    co2InKgPerUnit: req.body.co2InKgPerUnit,
     description: req.body.description,
+    co2InKgPerUnit: req.body.co2InKgPerUnit,
     image: req.body.image,
+    userName: req.body.userName,
   });
   exampleGoal
     .save()
