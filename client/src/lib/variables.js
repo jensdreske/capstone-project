@@ -230,6 +230,7 @@ export const conversions = {
 };
 
 export const goals = {
+  customGoals: {},
   tourism: {
     units: "kg CO2 equivalents",
     source:

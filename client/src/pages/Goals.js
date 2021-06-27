@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 
+import CustomGoals from "../components/CustomGoals";
+import AddCustomGoal from "../components/AddCustomGoal";
+
 import yucatan from "../images/travels/mexico-1032966_2.jpeg";
 import cruiseShip from "../images/travels/ferry-boat-123059.jpeg";
 import mallorca from "../images/travels/summer-2519545.jpeg";
@@ -9,7 +12,7 @@ import balticseaImage from "../images/travels/house-4028391.jpeg";
 import checkmark from "../images/checkmark@2x.png";
 import close from "../images/close@2x.png";
 
-import { goals } from "../lib/variables";
+import { goals as initGoals } from "../lib/variables";
 
 const travelImages = {
   mexico: yucatan,
@@ -23,7 +26,7 @@ function GoalTravelItem({
   destination,
   checkedGoals,
   setCheckedGoals,
-  addEmissionsFromGoals,
+  addEmissionsFromTourism,
 }) {
   function toggleDestination(destination) {
     if (!checkedGoals.includes(destination)) {
@@ -49,7 +52,7 @@ function GoalTravelItem({
       <CheckBox
         onClick={() => {
           toggleDestination(destination);
-          addEmissionsFromGoals(destination);
+          addEmissionsFromTourism(destination);
         }}
       >
         {checkedGoals.includes(destination) && (
@@ -68,9 +71,10 @@ export default function Goals({
   checkedGoals,
   setCheckedGoals,
 }) {
+  const [goals, setGoals] = useState(initGoals);
   useEffect(() => updatePlayerGoal(emissionsFromGoals), [checkedGoals]);
 
-  function addEmissionsFromGoals(destination) {
+  function addEmissionsFromTourism(destination) {
     let newList = {};
     if (Object.keys(emissionsFromGoals).includes(destination)) {
       delete emissionsFromGoals[destination];
@@ -99,35 +103,44 @@ export default function Goals({
   return (
     <GoalContainer>
       <h2>Set your Goals!</h2>
-      <h3>Travels</h3>
+      <h3>Travelling</h3>
       <GoalTravelItem
         goals={goals}
         destination="balticSea"
         checkedGoals={checkedGoals}
         setCheckedGoals={setCheckedGoals}
-        addEmissionsFromGoals={addEmissionsFromGoals}
+        addEmissionsFromTourism={addEmissionsFromTourism}
       />
       <GoalTravelItem
         goals={goals}
         destination="mallorca"
         checkedGoals={checkedGoals}
         setCheckedGoals={setCheckedGoals}
-        addEmissionsFromGoals={addEmissionsFromGoals}
+        addEmissionsFromTourism={addEmissionsFromTourism}
       />
       <GoalTravelItem
         goals={goals}
         destination="cruiseShip"
         checkedGoals={checkedGoals}
         setCheckedGoals={setCheckedGoals}
-        addEmissionsFromGoals={addEmissionsFromGoals}
+        addEmissionsFromTourism={addEmissionsFromTourism}
       />
       <GoalTravelItem
         goals={goals}
         destination="mexico"
         checkedGoals={checkedGoals}
         setCheckedGoals={setCheckedGoals}
-        addEmissionsFromGoals={addEmissionsFromGoals}
+        addEmissionsFromTourism={addEmissionsFromTourism}
       />
+      <CustomGoals
+        goals={goals}
+        setGoals={setGoals}
+        checkedGoals={checkedGoals}
+        setCheckedGoals={setCheckedGoals}
+        emissionsFromGoals={emissionsFromGoals}
+        setEmissionsFromGoals={setEmissionsFromGoals}
+      />
+      <AddCustomGoal goals={goals} setGoals={setGoals} />
     </GoalContainer>
   );
 }
@@ -141,19 +154,20 @@ const GoalContainer = styled.div`
   border-radius: var(--boxRadius);
   background: hsla(200, 100%, 90%, 0.5);
   padding: 0.5rem;
+  margin-bottom: 6rem;
 `;
 
 const ListItemBox = styled.section`
-  border: var(--borderLine);
-  border-radius: var(--boxRadius);
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.25rem;
   background: #fffa;
-  max-width: 30rem;
-  width: 100%;
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  display: flex;
+  justify-content: space-between;
   margin: 0.25rem 0;
+  max-width: 30rem;
+  padding: 0.25rem;
+  width: 100%;
 `;
 
 const TravelIcon = styled.img`
