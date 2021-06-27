@@ -3,7 +3,11 @@ import styled from "styled-components/macro";
 
 import checkmark from "../images/checkmark@2x.png";
 
-function toggleCustomGoal(customGoalName, checkedGoals, setCheckedGoals) {
+export function toggleCustomGoal(
+  customGoalName,
+  checkedGoals,
+  setCheckedGoals
+) {
   if (!checkedGoals.includes(customGoalName)) {
     setCheckedGoals([...checkedGoals, customGoalName]);
   } else {
@@ -36,6 +40,29 @@ function addEmissionsFromCustomGoals(
   }
 }
 
+function removeCustomGoal(
+  customGoalKeyToRemove,
+  goals,
+  setGoals,
+  emissionsFromGoals,
+  setEmissionsFromGoals,
+  checkedGoals,
+  setCheckedGoals
+) {
+  console.log(customGoalKeyToRemove);
+  delete goals.customGoals[customGoalKeyToRemove];
+  setGoals({ ...goals });
+
+  toggleCustomGoal(customGoalKeyToRemove, checkedGoals, setCheckedGoals);
+
+  addEmissionsFromCustomGoals(
+    customGoalKeyToRemove,
+    goals,
+    emissionsFromGoals,
+    setEmissionsFromGoals
+  );
+}
+
 export default function CustomItemBox({
   goals,
   setGoals,
@@ -48,7 +75,7 @@ export default function CustomItemBox({
     <>
       {Object.keys(goals.customGoals).map((goalKey) => {
         return (
-          <ListItemBox>
+          <ListItemBox key={goalKey}>
             <CustomGoalTextBox>
               <CustomGoalTitle>
                 {goals.customGoals[goalKey].goalName}
@@ -76,7 +103,21 @@ export default function CustomItemBox({
                   <img src={checkmark} alt="check" heigth="30" width="30" />
                 )}
               </CheckBox>
-              <RemoveButton>remove</RemoveButton>
+              <RemoveButton
+                onClick={() =>
+                  removeCustomGoal(
+                    goalKey,
+                    goals,
+                    setGoals,
+                    emissionsFromGoals,
+                    setEmissionsFromGoals,
+                    checkedGoals,
+                    setCheckedGoals
+                  )
+                }
+              >
+                remove
+              </RemoveButton>
             </ButtonBox>
           </ListItemBox>
         );
@@ -119,7 +160,12 @@ const ButtonBox = styled.div`
 `;
 
 const RemoveButton = styled.button`
-  padding: 0 0.25rem;
+  padding: 0 0.5rem;
+  font-weight: 600;
+  background: #f008;
+  border: var(--borderLine);
+  border-radius: var(--boxRadius);
+  color: #fffd;
 `;
 
 const CheckBox = styled.button`
