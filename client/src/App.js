@@ -9,8 +9,11 @@ import Goals from "./pages/Goals";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import { countryData as countryDataInit, player } from "./lib/variables.js";
-import { goals as initGoals } from "./lib/variables";
+import {
+  countryData as countryDataInit,
+  player,
+  goals as initGoals,
+} from "./lib/variables.js";
 
 function App() {
   const [countryEmissions, setCountryEmissions] = useState(

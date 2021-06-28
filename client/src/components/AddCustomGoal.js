@@ -63,21 +63,6 @@ export default function AddCustomGoal({
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalDescription ? goalToAdd.goalDescription : ""}
         ></MultilineTextInput>
-        {/* <ShareBox>
-          <label htmlFor="shareGoal">
-            share your goal with the user community
-          </label>
-          <ShareCheckBoxStyled>
-            <ShareCheckBox
-              type="checkbox"
-              id="shareGoal"
-              name="shareGoal"
-              onChange={(event) =>
-                updateGoalToAdd(event, goalToAdd, setGoalToAdd)
-              }
-            />
-          </ShareCheckBoxStyled>
-        </ShareBox> */}
         <SubmitCustomGoal type="submit" value="add this goal to the list" />
       </AddCustomGoalForm>
     </>

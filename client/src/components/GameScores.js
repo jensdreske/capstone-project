@@ -93,14 +93,7 @@ export default function GameScores({
   );
 }
 
-function ScoreboxElement({
-  icon,
-  h2,
-  p,
-  positionlink,
-  scrollPosition,
-  setScrollPosition,
-}) {
+function ScoreboxElement({ icon, h2, p, positionlink, setScrollPosition }) {
   return (
     <Scorebox onClick={() => setScrollPosition(positionlink)}>
       <div className="iconBox">

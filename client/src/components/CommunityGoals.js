@@ -5,7 +5,6 @@ import checkmark from "../images/checkmark@2x.png";
 
 function toggleEmissionsFromCommunityGoals(
   goal,
-  goals,
   emissionsFromGoals,
   setEmissionsFromGoals
 ) {
@@ -64,7 +63,7 @@ export default function CommunityGoals({
       {communityGoals.map((goal) => {
         return (
           <ListItemBox key={goal._id}>
-            <CustomGoalTextBox>
+            <section>
               <CustomGoalTitle>{goal.name}</CustomGoalTitle>
               <CustomGoalDescription>
                 {goal.co2InKgPerUnit} kg CO2
@@ -82,7 +81,7 @@ export default function CommunityGoals({
               >
                 remove from Database
               </RemoveButton>
-            </CustomGoalTextBox>
+            </section>
             <ButtonBox>
               <CheckBox
                 onClick={() => {
@@ -121,8 +120,6 @@ const ListItemBox = styled.section`
   text-align: left;
 `;
 
-const CustomGoalTextBox = styled.section``;
-
 const CustomGoalTitle = styled.h3`
   font-weight: 600;
   margin: 0;
@@ -155,6 +152,5 @@ const CheckBox = styled.button`
   width: 2.5rem;
   border: var(--borderLine);
   border-radius: var(--boxRadius);
-
   flex: none;
 `;

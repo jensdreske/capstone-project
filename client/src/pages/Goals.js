@@ -7,7 +7,6 @@ import CustomGoals from "../components/CustomGoals";
 import AddCustomGoal from "../components/AddCustomGoal";
 
 export default function Goals({
-  playerScore,
   setPlayerScore,
   goals,
   setGoals,
