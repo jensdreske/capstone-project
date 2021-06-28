@@ -17,6 +17,8 @@ dotenv.config();
 const connectionString =
   process.env.DB_CONNECTION || "mongodb://localhost:27017/coalculator";
 
+console.log(connectionString, "MongoDb Connection");
+
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
