@@ -24,4 +24,5 @@ export default function CustomGoals({
 const CustomGoalsWrapper = styled.article`
   margin: 2rem 0;
   width: 100%;
+  max-width: 30rem;
 `;

@@ -94,13 +94,14 @@ export default function Goals({
 }
 
 const GoalContainer = styled.div`
-  width: 100%;
+  align-items: center;
+  background: hsla(200, 100%, 90%, 0.5);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: var(--borderLine);
-  border-radius: var(--boxRadius);
-  background: hsla(200, 100%, 90%, 0.5);
-  padding: 0.5rem;
   margin-bottom: 6rem;
+  min-width: 340px;
+  padding: 0.5rem;
+  width: 100%;
 `;
