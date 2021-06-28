@@ -23,6 +23,8 @@ mongoose.connect(connectionString, {
   useFindAndModify: false,
 });
 
+mongoose.set("returnOriginal", false);
+
 const server = express();
 
 server.use(cors());
@@ -35,7 +37,7 @@ server.use(carbonInterfaceRoutes);
 server.use(unitedNationsRoutes);
 
 server.use(express.static(path.join(__dirname, "../client/build")));
-server.get("/*", (rey, res) =>
+server.get("/*", (req, res) =>
   res.sendFile(path.join(__dirname, "../client/build", "index.html"))
 );
 
