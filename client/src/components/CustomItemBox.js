@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styled from "styled-components/macro";
 
 import checkmark from "../images/checkmark@2x.png";
@@ -42,6 +41,24 @@ function removeCustomGoal(
   setGoals({ ...goals });
 }
 
+function postCustomGoalToCommunity(customGoal) {
+  const communityGoal = {
+    name: customGoal.goalName,
+    co2InKgPerUnit: customGoal.goalCo2Emission,
+    description: customGoal.goalDescription,
+  };
+  fetch("/customGoals", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(communityGoal),
+  })
+    .then((result) => result.json())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error.message));
+}
+
 export default function CustomItemBox({
   goals,
   setGoals,
@@ -63,6 +80,18 @@ export default function CustomItemBox({
               <CustomGoalDescription>
                 {goals.customGoals[goalKey].goalDescription}
               </CustomGoalDescription>
+              <UploadButton
+                onClick={() => {
+                  postCustomGoalToCommunity(goals.customGoals[goalKey]);
+                  delete goals.customGoals[goalKey];
+                  setGoals({ ...goals });
+                  setEmissionsFromGoals({
+                    ...emissionsFromGoals,
+                  });
+                }}
+              >
+                add to Community Goals
+              </UploadButton>
             </CustomGoalTextBox>
             <ButtonBox>
               <CheckBox
@@ -137,6 +166,14 @@ const RemoveButton = styled.button`
   padding: 0 0.5rem;
   font-weight: 600;
   background: #f008;
+  border: var(--borderLine);
+  border-radius: var(--boxRadius);
+  color: #fffd;
+`;
+const UploadButton = styled.button`
+  padding: 0 0.5rem;
+  font-weight: 600;
+  background: hsla(150, 65%, 40%, 0.8);
   border: var(--borderLine);
   border-radius: var(--boxRadius);
   color: #fffd;

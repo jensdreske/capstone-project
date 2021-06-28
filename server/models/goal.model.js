@@ -6,6 +6,7 @@ const goalSchema = new mongoose.Schema({
   co2InKgPerUnit: { type: Number, required: false },
   image: String,
   userName: String,
+  verified: Boolean,
 });
 
 const CustomGoal = mongoose.model("CustomGoal", goalSchema);

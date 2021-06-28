@@ -26,6 +26,7 @@ function postCustomGoal(req, res) {
     co2InKgPerUnit: req.body.co2InKgPerUnit,
     image: req.body.image,
     userName: req.body.userName,
+    verified: false,
   });
   exampleGoal
     .save()

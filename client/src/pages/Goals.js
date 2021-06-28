@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 
 import GoalTravelItem from "../components/GoalTravelItem";
+import CommunityGoals from "../components/CommunityGoals";
 import CustomGoals from "../components/CustomGoals";
 import AddCustomGoal from "../components/AddCustomGoal";
 
@@ -12,6 +13,8 @@ export default function Goals({
   setGoals,
   emissionsFromGoals,
   setEmissionsFromGoals,
+  communityGoals,
+  setCommunityGoals,
 }) {
   const [goalToAdd, setGoalToAdd] = useState({});
 
@@ -68,6 +71,12 @@ export default function Goals({
         destination="mexico"
         emissionsFromGoals={emissionsFromGoals}
         addEmissionsFromTourism={addEmissionsFromTourism}
+      />
+      <CommunityGoals
+        communityGoals={communityGoals}
+        setCommunityGoals={setCommunityGoals}
+        emissionsFromGoals={emissionsFromGoals}
+        setEmissionsFromGoals={setEmissionsFromGoals}
       />
       <CustomGoals
         goals={goals}

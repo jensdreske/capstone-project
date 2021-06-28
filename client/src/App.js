@@ -20,6 +20,7 @@ function App() {
   const [countryData, setCountryData] = useState(countryDataInit);
   const [emissionsFromGoals, setEmissionsFromGoals] = useState({});
   const [goals, setGoals] = useState(initGoals);
+  const [communityGoals, setCommunityGoals] = useState([]);
 
   return (
     <>
@@ -42,6 +43,8 @@ function App() {
               setGoals={setGoals}
               emissionsFromGoals={emissionsFromGoals}
               setEmissionsFromGoals={setEmissionsFromGoals}
+              communityGoals={communityGoals}
+              setCommunityGoals={setCommunityGoals}
             />
           </Route>
           <Route path="/">

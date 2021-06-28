@@ -22,24 +22,6 @@ function updateGoalToAdd(event, goalToAdd, setGoalToAdd) {
   setGoalToAdd({ ...goalToAdd, [fieldName]: fieldValue });
 }
 
-function postCustomGoalToCommunity(customGoal) {
-  const communityGoal = {
-    name: customGoal.goalName,
-    co2InKgPerUnit: customGoal.goalCo2Emission,
-    description: customGoal.goalDescription,
-  };
-  fetch("/customGoals", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(communityGoal),
-  })
-    .then((result) => result.json())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error.message));
-}
-
 export default function AddCustomGoal({
   goals,
   setGoals,
@@ -53,7 +35,6 @@ export default function AddCustomGoal({
         onSubmit={(event) => {
           addCustomGoalsToState(event, goalToAdd, goals, setGoals);
           setGoalToAdd({});
-          postCustomGoalToCommunity(goalToAdd);
         }}
       >
         <FieldLabel htmlFor="goalName">Name</FieldLabel>
