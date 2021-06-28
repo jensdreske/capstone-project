@@ -126,28 +126,3 @@ const MultilineTextInput = styled.textarea`
   border: var(--borderLine);
   width: 100%;
 `;
-
-const ShareBox = styled.section`
-  grid-column-end: span 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const ShareCheckBoxStyled = styled.div`
-  height: 2.5rem;
-  width: 2.5rem;
-  border: var(--borderLine);
-  border-radius: var(--boxRadius);
-  margin: 0.5rem;
-  justify-self: end;
-  flex: none;
-`;
-
-const ShareCheckBox = styled.input`
-  position: absolute;
-  opacity: 1;
-
-  justify-self: end;
-  flex: none;
-`;
