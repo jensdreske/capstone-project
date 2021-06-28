@@ -5,8 +5,6 @@ import CustomItemBox from "../components/CustomItemBox";
 export default function CustomGoals({
   goals,
   setGoals,
-  checkedGoals,
-  setCheckedGoals,
   emissionsFromGoals,
   setEmissionsFromGoals,
 }) {
@@ -16,8 +14,6 @@ export default function CustomGoals({
       <CustomItemBox
         goals={goals}
         setGoals={setGoals}
-        setCheckedGoals={setCheckedGoals}
-        checkedGoals={checkedGoals}
         emissionsFromGoals={emissionsFromGoals}
         setEmissionsFromGoals={setEmissionsFromGoals}
       />

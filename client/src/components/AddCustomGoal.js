@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import styled from "styled-components";
 
 function addCustomGoalsToState(event, goalToAdd, goals, setGoals) {
@@ -7,13 +5,15 @@ function addCustomGoalsToState(event, goalToAdd, goals, setGoals) {
 
   const newCustomGoal = { ...goalToAdd };
 
-  setGoals({
-    ...goals,
-    customGoals: {
-      ...goals.customGoals,
-      [newCustomGoal.goalName.replaceAll(" ", "_")]: newCustomGoal,
-    },
-  });
+  if (newCustomGoal.goalName) {
+    setGoals({
+      ...goals,
+      customGoals: {
+        ...goals.customGoals,
+        [newCustomGoal.goalName.replaceAll(" ", "_")]: newCustomGoal,
+      },
+    });
+  }
 }
 
 function updateGoalToAdd(event, goalToAdd, setGoalToAdd) {
@@ -22,15 +22,39 @@ function updateGoalToAdd(event, goalToAdd, setGoalToAdd) {
   setGoalToAdd({ ...goalToAdd, [fieldName]: fieldValue });
 }
 
-export default function AddCustomGoal({ goals, setGoals }) {
-  const [goalToAdd, setGoalToAdd] = useState();
+function postCustomGoalToCommunity(customGoal) {
+  const communityGoal = {
+    name: customGoal.goalName,
+    co2InKgPerUnit: customGoal.goalCo2Emission,
+    description: customGoal.goalDescription,
+  };
+  fetch("/customGoals", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(communityGoal),
+  })
+    .then((result) => result.json())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error.message));
+}
+
+export default function AddCustomGoal({
+  goals,
+  setGoals,
+  goalToAdd,
+  setGoalToAdd,
+}) {
   return (
     <>
       <h3>add a personal goal:</h3>
       <AddCustomGoalForm
-        onSubmit={(event) =>
-          addCustomGoalsToState(event, goalToAdd, goals, setGoals)
-        }
+        onSubmit={(event) => {
+          addCustomGoalsToState(event, goalToAdd, goals, setGoals);
+          setGoalToAdd({});
+          postCustomGoalToCommunity(goalToAdd);
+        }}
       >
         <FieldLabel htmlFor="goalName">Name</FieldLabel>
         <TextInput
@@ -39,6 +63,7 @@ export default function AddCustomGoal({ goals, setGoals }) {
           name="goalName"
           id="goalName"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
+          value={goalToAdd.goalName ? goalToAdd.goalName : ""}
         ></TextInput>
         <Co2Label htmlFor="goalCo2Emission">CO2 Emission in kg</Co2Label>
         <Co2Input
@@ -47,6 +72,7 @@ export default function AddCustomGoal({ goals, setGoals }) {
           name="goalCo2Emission"
           id="goalCo2Emission"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
+          value={goalToAdd.goalCo2Emission ? goalToAdd.goalCo2Emission : ""}
         ></Co2Input>
         <FieldLabel htmlFor="goalDescription">Description</FieldLabel>
         <MultilineTextInput
@@ -54,14 +80,14 @@ export default function AddCustomGoal({ goals, setGoals }) {
           name="goalDescription"
           id="goalDescription"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
+          value={goalToAdd.goalDescription ? goalToAdd.goalDescription : ""}
         ></MultilineTextInput>
-        <ShareBox>
+        {/* <ShareBox>
           <label htmlFor="shareGoal">
             share your goal with the user community
           </label>
           <ShareCheckBoxStyled>
             <ShareCheckBox
-              checked
               type="checkbox"
               id="shareGoal"
               name="shareGoal"
@@ -70,7 +96,7 @@ export default function AddCustomGoal({ goals, setGoals }) {
               }
             />
           </ShareCheckBoxStyled>
-        </ShareBox>
+        </ShareBox> */}
         <SubmitCustomGoal type="submit" value="add this goal to the list" />
       </AddCustomGoalForm>
     </>

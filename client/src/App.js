@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import { countryData as countryDataInit, player } from "./lib/variables.js";
+import { goals as initGoals } from "./lib/variables";
 
 function App() {
   const [countryEmissions, setCountryEmissions] = useState(
@@ -17,8 +18,8 @@ function App() {
   );
   const [playerScore, setPlayerScore] = useState(player);
   const [countryData, setCountryData] = useState(countryDataInit);
-  const [checkedGoals, setCheckedGoals] = useState([]);
   const [emissionsFromGoals, setEmissionsFromGoals] = useState({});
+  const [goals, setGoals] = useState(initGoals);
 
   return (
     <>
@@ -37,8 +38,8 @@ function App() {
             <Goals
               player={playerScore}
               setPlayerScore={setPlayerScore}
-              checkedGoals={checkedGoals}
-              setCheckedGoals={setCheckedGoals}
+              goals={goals}
+              setGoals={setGoals}
               emissionsFromGoals={emissionsFromGoals}
               setEmissionsFromGoals={setEmissionsFromGoals}
             />

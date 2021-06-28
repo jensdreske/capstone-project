@@ -247,11 +247,10 @@ export const goals = {
       location: "Mexico",
       region: "North America",
       duration: "2 weeks",
-      people: "2 people",
     },
     mallorca: {
       emissionsPerPerson: 1221,
-      people: 2,
+      people: 3,
       shares: {
         transportation: 925,
         accommodation: 148,
@@ -261,7 +260,6 @@ export const goals = {
       location: "Mallorca",
       region: "Mediterranean Sea",
       duration: "2 weeks",
-      people: "3 people",
     },
 
     cruiseShip: {
@@ -276,7 +274,6 @@ export const goals = {
       location: "Ship Cruise",
       region: "Mediterranean Sea",
       duration: "1 week",
-      people: "2 people",
     },
     balticSea: {
       emissionsPerPerson: 258,
@@ -290,7 +287,6 @@ export const goals = {
       location: "Baltic Sea",
       region: "Germany",
       duration: "2 weeks",
-      people: "4 people",
     },
     stayHome: {
       emissionsPerPerson: 58,
@@ -304,7 +300,6 @@ export const goals = {
       location: "balcony",
       region: "at home",
       duration: "2 weeks",
-      people: "4 people",
     },
   },
 };

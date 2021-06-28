@@ -3,71 +3,48 @@ import styled from "styled-components/macro";
 
 import checkmark from "../images/checkmark@2x.png";
 
-export function toggleCustomGoal(
-  customGoalName,
-  checkedGoals,
-  setCheckedGoals
-) {
-  if (!checkedGoals.includes(customGoalName)) {
-    setCheckedGoals([...checkedGoals, customGoalName]);
-  } else {
-    const oneGoalLess = checkedGoals.filter((goal) => goal !== customGoalName);
-    setCheckedGoals(oneGoalLess);
-  }
-}
-
-function addEmissionsFromCustomGoals(
+function toggleEmissionsFromCustomGoals(
   customGoal,
   goals,
   emissionsFromGoals,
   setEmissionsFromGoals
 ) {
-  let newList = {};
   if (Object.keys(emissionsFromGoals).includes(customGoal)) {
     delete emissionsFromGoals[customGoal];
-    newList = {
+    setEmissionsFromGoals({
       ...emissionsFromGoals,
-    };
+    });
   } else {
     const co2EmissionValue = parseFloat(
       goals.customGoals[customGoal].goalCo2Emission
     );
-    newList = {
+    setEmissionsFromGoals({
       ...emissionsFromGoals,
       [customGoal]: co2EmissionValue,
-    };
-    setEmissionsFromGoals(newList);
+    });
   }
 }
 
 function removeCustomGoal(
-  customGoalKeyToRemove,
+  customGoal,
   goals,
   setGoals,
   emissionsFromGoals,
-  setEmissionsFromGoals,
-  checkedGoals,
-  setCheckedGoals
+  setEmissionsFromGoals
 ) {
-  console.log(customGoalKeyToRemove);
-  delete goals.customGoals[customGoalKeyToRemove];
+  if (Object.keys(emissionsFromGoals).includes(customGoal)) {
+    delete emissionsFromGoals[customGoal];
+    setEmissionsFromGoals({
+      ...emissionsFromGoals,
+    });
+  }
+  delete goals.customGoals[customGoal];
   setGoals({ ...goals });
-
-  toggleCustomGoal(customGoalKeyToRemove, checkedGoals, setCheckedGoals);
-
-  addEmissionsFromCustomGoals(
-    customGoalKeyToRemove,
-    goals,
-    emissionsFromGoals,
-    setEmissionsFromGoals
-  );
 }
 
 export default function CustomItemBox({
   goals,
   setGoals,
-  checkedGoals,
-  setCheckedGoals,
   emissionsFromGoals,
   setEmissionsFromGoals,
 }) {
@@ -90,8 +67,7 @@ export default function CustomItemBox({
             <ButtonBox>
               <CheckBox
                 onClick={() => {
-                  toggleCustomGoal(goalKey, checkedGoals, setCheckedGoals);
-                  addEmissionsFromCustomGoals(
+                  toggleEmissionsFromCustomGoals(
                     goalKey,
                     goals,
                     emissionsFromGoals,
@@ -99,7 +75,7 @@ export default function CustomItemBox({
                   );
                 }}
               >
-                {checkedGoals.includes(goalKey) && (
+                {Object.keys(emissionsFromGoals).includes(goalKey) && (
                   <img src={checkmark} alt="check" heigth="30" width="30" />
                 )}
               </CheckBox>
@@ -110,9 +86,7 @@ export default function CustomItemBox({
                     goals,
                     setGoals,
                     emissionsFromGoals,
-                    setEmissionsFromGoals,
-                    checkedGoals,
-                    setCheckedGoals
+                    setEmissionsFromGoals
                   )
                 }
               >
