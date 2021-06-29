@@ -24,6 +24,7 @@ function App() {
   const [emissionsFromGoals, setEmissionsFromGoals] = useState({});
   const [goals, setGoals] = useState(initGoals);
   const [communityGoals, setCommunityGoals] = useState([]);
+  const [scoreScrollPosition, setScoreScrollPosition] = useState(2);
 
   return (
     <>
@@ -48,6 +49,7 @@ function App() {
               setEmissionsFromGoals={setEmissionsFromGoals}
               communityGoals={communityGoals}
               setCommunityGoals={setCommunityGoals}
+              setScoreScrollPosition={setScoreScrollPosition}
             />
           </Route>
           <Route path="/">
@@ -55,7 +57,12 @@ function App() {
           </Route>
         </Switch>
       </MainBox>
-      <Footer playerScore={playerScore} countryData={countryData} />
+      <Footer
+        playerScore={playerScore}
+        countryData={countryData}
+        scoreScrollPosition={scoreScrollPosition}
+        setScoreScrollPosition={setScoreScrollPosition}
+      />
     </>
   );
 }
