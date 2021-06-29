@@ -44,7 +44,7 @@ export default function Goals({
   }
 
   return (
-    <GoalContainer>
+    <GoalContainer data-test-id="goal-container">
       <h2>Set your Goals!</h2>
       <h3>Travelling</h3>
       <GoalTravelItem

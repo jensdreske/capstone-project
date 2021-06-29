@@ -62,7 +62,7 @@ export default function CommunityGoals({
 
       {communityGoals.map((goal) => {
         return (
-          <ListItemBox key={goal._id}>
+          <ListItemBox key={goal._id} data-test-id="community-goals">
             <section>
               <CustomGoalTitle>{goal.name}</CustomGoalTitle>
               <CustomGoalDescription>

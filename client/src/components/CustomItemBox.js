@@ -71,7 +71,7 @@ export default function CustomItemBox({
         return (
           <ListItemBox key={goalKey}>
             <CustomGoalTextBox>
-              <CustomGoalTitle>
+              <CustomGoalTitle data-test-id="custom-goal-title">
                 {goals.customGoals[goalKey].goalName}
               </CustomGoalTitle>
               <CustomGoalDescription>
@@ -103,6 +103,7 @@ export default function CustomItemBox({
                     setEmissionsFromGoals
                   );
                 }}
+                data-test-id="custom-goal-checkbox"
               >
                 {Object.keys(emissionsFromGoals).includes(goalKey) && (
                   <img src={checkmark} alt="check" heigth="30" width="30" />
@@ -118,6 +119,7 @@ export default function CustomItemBox({
                     setEmissionsFromGoals
                   )
                 }
+                data-test-id="custom-goal-remove-button"
               >
                 remove
               </RemoveButton>

@@ -43,6 +43,7 @@ export default function AddCustomGoal({
           type="text"
           name="goalName"
           id="goalName"
+          data-test-id="goal-name-field"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalName ? goalToAdd.goalName : ""}
         ></TextInput>
@@ -52,6 +53,7 @@ export default function AddCustomGoal({
           type="text"
           name="goalCo2Emission"
           id="goalCo2Emission"
+          data-test-id="goal-co2-field"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalCo2Emission ? goalToAdd.goalCo2Emission : ""}
         ></Co2Input>
@@ -63,7 +65,11 @@ export default function AddCustomGoal({
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalDescription ? goalToAdd.goalDescription : ""}
         ></MultilineTextInput>
-        <SubmitCustomGoal type="submit" value="add this goal to the list" />
+        <SubmitCustomGoal
+          type="submit"
+          value="add this goal to the list"
+          data-test-id="goal-form-submit"
+        />
       </AddCustomGoalForm>
     </>
   );

@@ -57,7 +57,7 @@ export default function Footer({
         countryData={countryData}
       />
       <NavLink to="/goals" onClick={() => setScoreScrollPosition(1)}>
-        <MenuButton className="standardBox">
+        <MenuButton className="standardBox" data-test-id="goal-button">
           <img src={target} alt="set goals" />
         </MenuButton>
       </NavLink>

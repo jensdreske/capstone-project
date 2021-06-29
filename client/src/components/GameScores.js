@@ -70,6 +70,7 @@ export default function GameScores({
           positionlink={2}
           scoreScrollPosition={scoreScrollPosition}
           setScoreScrollPosition={setScoreScrollPosition}
+          dataId="goal-score"
         />
         <ScoreboxElement
           icon={piggy}
@@ -100,9 +101,13 @@ function ScoreboxElement({
   p,
   positionlink,
   setScoreScrollPosition,
+  dataId,
 }) {
   return (
-    <Scorebox onClick={() => setScoreScrollPosition(positionlink)}>
+    <Scorebox
+      data-test-id={dataId}
+      onClick={() => setScoreScrollPosition(positionlink)}
+    >
       <div className="iconBox">
         <img src={icon} alt="" />
       </div>

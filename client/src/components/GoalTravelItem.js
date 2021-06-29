@@ -33,6 +33,7 @@ export default function GoalTravelItem({
         <p className="smalltext">{goals.tourism[destination].region}</p>
       </TravelText>
       <CheckBox
+        data-test-id="preset-goal-checkbox"
         onClick={() => {
           addEmissionsFromTourism(destination);
         }}
