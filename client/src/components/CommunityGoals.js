@@ -87,7 +87,6 @@ export default function CommunityGoals({
                 onClick={() => {
                   toggleEmissionsFromCommunityGoals(
                     goal,
-                    goals,
                     emissionsFromGoals,
                     setEmissionsFromGoals
                   );
