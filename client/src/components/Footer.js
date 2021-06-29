@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -7,11 +7,41 @@ import happyEarth from "../images/happy_earth.png";
 
 import GameScores from "./GameScores";
 
+import Hint from "../components/Hint";
+
+import { roundPlaces } from "../lib/roundPlaces";
+
 export default function Footer({ playerScore, countryData, isStatic }) {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [hintIndex, setHintIndex] = useState([0, 0]);
+
+  // console.log(window.location.pathname);
+
+  useEffect(() => setRightHint(playerScore, setHintIndex), [playerScore]);
+
+  function setRightHint(playerScore, setHintIndex) {
+    if (playerScore.goal.emissions < 1) {
+      setHintIndex([0, 1]);
+      return;
+    }
+    if (
+      roundPlaces(playerScore.individualCo2Emissions) ===
+      roundPlaces(playerScore.averageCo2Emissions)
+    ) {
+      setHintIndex([1, 1]);
+      return;
+    }
+    setHintIndex([0, 0]);
+
+    // if (window.location.pathname === "/") {
+    //   setHintIndex(2);
+    //   return;
+    // }
+  }
 
   return (
     <FooterWrapper isStatic={isStatic}>
+      <Hint hintIndex={hintIndex} setHintIndex={setHintIndex} />
       <NavLink to="/">
         <MenuButton className="standardBox">
           <img src={happyEarth} alt="main game view" />
