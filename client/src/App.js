@@ -53,7 +53,10 @@ function App() {
             />
           </Route>
           <Route path="/">
-            <MainGameView countryEmissions={countryEmissions} />
+            <MainGameView
+              countryEmissions={countryEmissions}
+              countryData={countryData}
+            />
           </Route>
         </Switch>
       </MainBox>
@@ -82,7 +85,7 @@ const MainBox = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 8rem 0 6rem;
+  margin: 7rem 0 6rem;
 `;
 
 export default App;

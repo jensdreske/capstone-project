@@ -17,7 +17,7 @@ export default function Hint({
           <NavLink to="/goals">
             <HintText>Set yourself a Goal!</HintText>
           </NavLink>
-          <NavLink to="/" onClick={() => setScoreScrollPosition(0)}>
+          <NavLink to="/" onClick={() => setScoreScrollPosition(2)}>
             <HintText>Choose an area and change some habits!</HintText>
           </NavLink>
         </HintScrollBox>

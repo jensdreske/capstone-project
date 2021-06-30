@@ -76,8 +76,9 @@ const LogoBox = styled.section`
 const HeaderBox = styled.header`
   display: grid;
   place-content: center;
-  margin: 1rem;
+  margin: 1rem 1rem;
   position: fixed;
   top: 0;
   width: 66%;
+  z-index: -1;
 `;

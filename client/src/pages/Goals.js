@@ -114,4 +114,6 @@ const GoalContainer = styled.div`
   min-width: 340px;
   padding: 0.5rem;
   width: 100%;
+  backdrop-filter: blur(5px);
+  max-width: 550px;
 `;

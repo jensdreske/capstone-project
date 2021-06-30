@@ -149,7 +149,7 @@ const Scorebox = styled.article`
 
 const ScrollLayer = styled.div`
   position: absolute;
-  transition: top 1s ease-out;
+  transition: top 500ms ease-out;
   top: 0;
 `;
 

@@ -4,9 +4,9 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 :root {
-    --darkest: #000;
+    --darkest: hsl(230,50%,20%);
 
-    --borderLine: 2px solid black;
+    --borderLine: 2px solid var(--darkest);
     --boxRadius: 6px;
 }
 
@@ -15,12 +15,12 @@ export default createGlobalStyle`
     margin:0;
     padding:0;
     line-height: 1.5em;
-    color: var(--darkest);
     font-family: 'Poppins', sans-serif;
 }
 
 body {
     text-align: center;
+    color: var(--darkest);
 }
 
 a { 
