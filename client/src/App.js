@@ -15,6 +15,8 @@ import {
   goals as initGoals,
 } from "./lib/variables.js";
 
+import scaleValue from "./lib/scaleValue";
+
 function App() {
   const [countryEmissions, setCountryEmissions] = useState(
     countryDataInit.emissionsUnfcc
@@ -28,7 +30,7 @@ function App() {
 
   return (
     <>
-      <BackgroundBox />
+      <BackgroundBox playerScore={playerScore} />
       <Header />
       <MainBox>
         <Switch>
@@ -62,6 +64,7 @@ function App() {
       </MainBox>
       <Footer
         playerScore={playerScore}
+        setPlayerScore={setPlayerScore}
         countryData={countryData}
         scoreScrollPosition={scoreScrollPosition}
         setScoreScrollPosition={setScoreScrollPosition}
@@ -71,13 +74,25 @@ function App() {
 }
 
 const BackgroundBox = styled.div`
-  background-image: linear-gradient(hsl(200, 50%, 60%), hsl(80, 25%, 66%));
+  background-image: linear-gradient(
+    hsl(200, 50%, 60%, 0.9),
+    hsl(60, 50%, 50%, 0)
+  );
   height: 100%;
   width: 100%;
   position: fixed;
   z-index: -10;
   top: 0;
   bottom: 0;
+  background-color: hsl(
+    ${(props) =>
+      scaleValue(props.playerScore.savingsInPercent, -20, 20, 0, 180, true)},
+    ${(props) =>
+      scaleValue(props.playerScore.savingsInPercent, -20, 20, 40, 10, true) +
+      "%"},
+    50%
+  );
+  transition: background-color 6s;
 `;
 
 const MainBox = styled.main`

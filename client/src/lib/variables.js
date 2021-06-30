@@ -214,6 +214,7 @@ export const player = {
     emissions: 0,
     unit: "kg",
   },
+  savingsInPercent: 0,
 };
 
 export const conversions = {

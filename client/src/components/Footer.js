@@ -13,6 +13,7 @@ import { roundPlaces } from "../lib/roundPlaces";
 
 export default function Footer({
   playerScore,
+  setPlayerScore,
   countryData,
   isStatic,
   scoreScrollPosition,
@@ -21,6 +22,20 @@ export default function Footer({
   const [hintIndex, setHintIndex] = useState([0, -50, 20]);
 
   useEffect(() => setTheRightHint(playerScore, setHintIndex), [playerScore]);
+
+  useEffect(
+    () => calculateSavings(playerScore),
+    [playerScore.individualCo2Emissions]
+  );
+
+  function calculateSavings(playerScore) {
+    playerScore.savingsInPercent = roundPlaces(
+      100 -
+        (playerScore.individualCo2Emissions / playerScore.averageCo2Emissions) *
+          100
+    );
+    setPlayerScore({ ...playerScore });
+  }
 
   function setTheRightHint(playerScore, setHintIndex) {
     if (playerScore.goal.emissions < 1) {
@@ -55,6 +70,7 @@ export default function Footer({
         setScoreScrollPosition={setScoreScrollPosition}
         playerScore={playerScore}
         countryData={countryData}
+        setPlayerScore={setPlayerScore}
       />
       <NavLink to="/goals" onClick={() => setScoreScrollPosition(1)}>
         <MenuButton className="standardBox" data-test-id="goal-button">

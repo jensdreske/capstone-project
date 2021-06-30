@@ -12,6 +12,7 @@ const temperatureRise = "1.5 degree";
 
 export default function GameScores({
   playerScore,
+  setPlayerScore,
   countryData,
   scoreScrollPosition,
   setScoreScrollPosition,
@@ -39,13 +40,6 @@ export default function GameScores({
     return days + " days";
   }
 
-  function calculateSavings() {
-    return roundPlaces(
-      100 -
-        (playerScore.individualCo2Emissions / playerScore.averageCo2Emissions) *
-          100
-    );
-  }
   return (
     <ScoreboxWrapper>
       <ScrollLayer style={{ top: `${scoreScrollPosition * -4.5}rem` }}>
@@ -74,8 +68,10 @@ export default function GameScores({
         />
         <ScoreboxElement
           icon={piggy}
-          h2={`${Math.abs(calculateSavings())}% `}
-          p={`${calculateSavings() >= -0.01 ? `less` : `more`} CO2 / Year`}
+          h2={`${Math.abs(playerScore.savingsInPercent)}% `}
+          p={`${
+            playerScore.savingsInPercent >= -0.01 ? `less` : `more`
+          } CO2 / Year`}
           positionlink={3}
           scoreScrollPosition={scoreScrollPosition}
           setScoreScrollPosition={setScoreScrollPosition}
