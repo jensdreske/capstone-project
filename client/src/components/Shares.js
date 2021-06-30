@@ -41,11 +41,11 @@ export default function Shares({ countryEmissions, countryData }) {
   countryEmissions.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
       slice.emission,
-      countryEmissions.emission
+      countryData.emissionsUnfcc.emission
     );
     slice.square = translatePercentageToSquareboxXY(
       slice.emission,
-      countryEmissions.emission
+      countryData.emissionsUnfcc.emission
     );
   });
 
@@ -176,4 +176,5 @@ const NavLinkSlice = styled(NavLink)`
 const CountryData = styled.section`
   color: #fffc;
   font-weight: 600;
+  width: 100%;
 `;
