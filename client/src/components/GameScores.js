@@ -21,6 +21,7 @@ export default function GameScores({
     averageCo2Emissions,
     individualCo2Emissions
   ) {
+    if (goalInKg === 0) return -1;
     const goalInTons = goalInKg / 1000;
     const daysPerYear = 365;
     const daysToReachGoal = roundPlaces(
