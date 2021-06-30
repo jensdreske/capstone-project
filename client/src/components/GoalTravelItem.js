@@ -32,11 +32,7 @@ export default function GoalTravelItem({
         <TravelTextTitle>{goals.tourism[destination].location}</TravelTextTitle>
         <p className="smalltext">{goals.tourism[destination].region}</p>
       </TravelText>
-      <CheckBox
-        onClick={() => {
-          addEmissionsFromTourism(destination);
-        }}
-      >
+      <CheckBox onClick={() => addEmissionsFromTourism(destination)}>
         {emissionsFromGoals &&
           Object.keys(emissionsFromGoals).includes(destination) && (
             <img src={checkmark} alt="check" heigth="30" width="30" />

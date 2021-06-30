@@ -58,7 +58,7 @@ export default function CommunityGoals({
 
   return (
     <>
-      {communityGoals.length ? <h3>Community Goals</h3> : null}
+      {communityGoals.length > 0 && <h3>Community Goals</h3>}
 
       {communityGoals.map((goal) => {
         return (

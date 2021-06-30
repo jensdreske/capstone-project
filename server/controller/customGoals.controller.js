@@ -43,10 +43,14 @@ function updateCustomGoal(req, res) {
     updatedGoal,
     (error, doc) => {
       if (error) {
-        res.json({ message: error });
+        res.json({ success: false, message: error });
         return;
       }
-      res.json(doc);
+      res.json({
+        success: true,
+        message: `The custom goal ${doc.name} has been updated.`,
+        data: doc,
+      });
     }
   );
 }
@@ -55,7 +59,7 @@ function deleteCustomGoal(req, res) {
   const { customGoalId } = req.params;
   CustomGoal.findByIdAndDelete({ _id: customGoalId }, (error, doc) =>
     res.json({
-      succes: true,
+      success: true,
       message: `The custom goal ${doc.name} has been deleted.`,
       data: doc,
     })

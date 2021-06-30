@@ -24,17 +24,8 @@ function parseCarbonInterfaceRequest(method, path, data = null) {
 function checkAuthorization(req, res) {
   const options = parseCarbonInterfaceRequest("get", "/auth");
   axios(options)
-    .then(function (response) {
-      console.log(response.data);
-      res.json(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      res.json(error);
-    })
-    .then(function () {
-      // always executed
-    });
+    .then((response) => res.json(response.data))
+    .catch((error) => res.json(error));
 }
 
 function getCarEstimate(req, res) {
@@ -45,14 +36,8 @@ function getCarEstimate(req, res) {
   );
   if (ENABLE_CARBON_REQUESTS) {
     axios(carOptions)
-      .then(function (response) {
-        // console.log(response.data);
-        res.json(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-        res.json(error);
-      });
+      .then((response) => res.json(response.data))
+      .catch((error) => res.json(error));
   } else {
     const errorMessage =
       "CarbonInterfaceAPI Requests are disabled to prevent reaching the monthly limit";

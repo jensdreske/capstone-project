@@ -3,7 +3,6 @@ import axios from "axios";
 function getUnitedNationsCountryData(req, res) {
   const { id, countryId, year } = req.params;
   const yearID = year - 1958;
-  console.log(id);
   const unfccAdress = "https://di.unfccc.int/api/records/detail-by-category";
   axios
     .get(unfccAdress, {
@@ -11,7 +10,6 @@ function getUnitedNationsCountryData(req, res) {
         partyIds: countryId, // 13 Germany
         yearIds: yearID,
         gasId: 10467,
-
         categoryId: id,
       },
     })

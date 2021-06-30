@@ -48,7 +48,7 @@ test("calculate for 1.5°C limit with half the emissions, should give twice the 
   ).toBe(2042);
 });
 
-test("calculate for 1.75°C limit with half the emissions, should give half the time: 2029 ", () => {
+test("calculate for 1.75°C limit with double the emissions, should give half the time: 2029 ", () => {
   expect(
     Math.floor(
       calculateGameEnd(
@@ -60,7 +60,7 @@ test("calculate for 1.75°C limit with half the emissions, should give half the 
   ).toBe(2029);
 });
 
-test("calculate for 1.5°C limit with half the emissions, should give half the time: 2025", () => {
+test("calculate for 1.5°C limit with double the emissions, should give half the time: 2025", () => {
   expect(
     Math.floor(
       calculateGameEnd(

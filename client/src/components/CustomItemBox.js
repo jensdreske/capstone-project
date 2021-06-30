@@ -70,7 +70,7 @@ export default function CustomItemBox({
       {Object.keys(goals.customGoals).map((goalKey) => {
         return (
           <ListItemBox key={goalKey}>
-            <CustomGoalTextBox>
+            <section>
               <CustomGoalTitle>
                 {goals.customGoals[goalKey].goalName}
               </CustomGoalTitle>
@@ -92,7 +92,7 @@ export default function CustomItemBox({
               >
                 add to Community Goals
               </UploadButton>
-            </CustomGoalTextBox>
+            </section>
             <ButtonBox>
               <CheckBox
                 onClick={() => {
@@ -130,21 +130,18 @@ export default function CustomItemBox({
 }
 
 const ListItemBox = styled.section`
-  align-items: center;
+  align-items: flex-start;
   background: #fffa;
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   margin: 0.25rem 0;
   max-width: 30rem;
   padding: 0.5rem;
-  width: 100%;
   text-align: left;
+  width: 100%;
 `;
-
-const CustomGoalTextBox = styled.section``;
 
 const CustomGoalTitle = styled.h3`
   font-weight: 600;
