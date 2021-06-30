@@ -41,7 +41,7 @@ function App() {
           </Route>
           <Route path="/goals">
             <Goals
-              player={playerScore}
+              playerScore={playerScore}
               setPlayerScore={setPlayerScore}
               goals={goals}
               setGoals={setGoals}
@@ -82,7 +82,7 @@ const MainBox = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8rem;
+  margin: 8rem 0 6rem;
 `;
 
 export default App;

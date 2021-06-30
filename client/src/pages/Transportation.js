@@ -171,7 +171,7 @@ const Shareform = styled.article`
   background-color: hsla(200, 100%, 94.7%, 0.79);
   border-radius: 6px;
   border: 2px solid black;
-  margin-bottom: 6rem;
+  margin-bottom: 1rem;
   padding: 0.5rem;
   position: relative;
   z-index: 50;
