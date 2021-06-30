@@ -35,17 +35,17 @@ function translatePercentageToSquareboxXY(slice, cake) {
   return XandY;
 }
 
-export default function Shares({ shares, countryData }) {
+export default function Shares({ countryEmissions, countryData }) {
   const [infoVisible, setInfoVisible] = useState([]);
 
-  shares.slices.forEach((slice) => {
+  countryEmissions.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
       slice.emission,
-      shares.emission
+      countryEmissions.emission
     );
     slice.square = translatePercentageToSquareboxXY(
       slice.emission,
-      shares.emission
+      countryEmissions.emission
     );
   });
 
@@ -58,7 +58,7 @@ export default function Shares({ shares, countryData }) {
   return (
     <>
       <SharesCake>
-        {shares.slices.map((slice, index) => {
+        {countryEmissions.slices.map((slice, index) => {
           return (
             <SharesSlice
               key={index + slice.name}

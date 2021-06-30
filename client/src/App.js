@@ -26,6 +26,35 @@ function App() {
   const [communityGoals, setCommunityGoals] = useState([]);
   const [scoreScrollPosition, setScoreScrollPosition] = useState(2);
 
+  function getUnDataForAllSlices(countryId) {
+    countryData.emissionsUnfcc.slices.forEach((slice, index) => {
+      // if (!isNaN(slice[index].unfccId)) getUnData(slice[index].unfccId);
+      // getUnData(slice[0].unfccId);
+      if (!isNaN(slice.unfccId)) getUnData(slice.unfccId, index, countryId);
+      if (Array.isArray(slice.unfccId)) {
+        slice.emission = 0;
+        slice.unfccId.map((sliceId) =>
+          fetch(`/unfcc/get_share_emissions/${sliceId}/${countryId}`)
+            .then((result) => result.json())
+            .then((result) => (slice.emission += result.emissions))
+        );
+      }
+    });
+  }
+
+  function getUnData(unfccId, sliceIndex, countryId) {
+    // http://localhost:4000/unfcc/get_share_emissions/:id/:countryId
+    fetch(`/unfcc/get_share_emissions/${unfccId}/${countryId}`)
+      .then((result) => result.json())
+      .then((emission) => {
+        countryData.emissionsUnfcc.slices[sliceIndex].emission =
+          emission.emissions;
+        setCountryData({ ...countryData });
+        console.log(emission.emissions);
+      })
+      .catch((error) => console.log(error.message));
+  }
+
   return (
     <>
       <BackgroundBox />
@@ -57,6 +86,9 @@ function App() {
               countryEmissions={countryEmissions}
               countryData={countryData}
             />
+            <button onClick={() => getUnDataForAllSlices(20)}>
+              update UNFCC{countryData.emissionsUnfcc.slices[0].unfccId}
+            </button>
           </Route>
         </Switch>
       </MainBox>
