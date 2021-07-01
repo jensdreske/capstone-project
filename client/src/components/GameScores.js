@@ -3,6 +3,8 @@ import styled from "styled-components/macro";
 import { roundPlaces } from "../lib/roundPlaces.js";
 import { calculateGameEnd } from "../lib/co2BudgetCalculations";
 
+import shortenNumbers from "../lib/shortenNumbers";
+
 import finish from "../images/finish@2x.png";
 import clock from "../images/clock@2x.png";
 import piggy from "../images/piggybank_co2@2x.png";
@@ -12,9 +14,10 @@ const temperatureRise = "1.5 degree";
 
 export default function GameScores({
   playerScore,
+  setPlayerScore,
   countryData,
-  scrollPosition,
-  setScrollPosition,
+  scoreScrollPosition,
+  setScoreScrollPosition,
 }) {
   function calculateDaysToReachGoal(
     goalInKg,
@@ -34,21 +37,14 @@ export default function GameScores({
 
   function daysOrYearsToGo(days) {
     const years = roundPlaces(days / 365);
-    if (days < 0 || years >= 1000) return "Never";
+    if (days <= 0 || years >= 1000) return "Never";
     if (years > 1) return years + " years ";
     return days + " days";
   }
 
-  function calculateSavings() {
-    return roundPlaces(
-      100 -
-        (playerScore.individualCo2Emissions / playerScore.averageCo2Emissions) *
-          100
-    );
-  }
   return (
     <ScoreboxWrapper>
-      <ScrollLayer style={{ top: `${scrollPosition * -4}rem` }}>
+      <ScrollLayer style={{ top: `${scoreScrollPosition * -4.5}rem` }}>
         <ScoreboxElement
           icon={finish}
           h2={daysOrYearsToGo(
@@ -60,24 +56,27 @@ export default function GameScores({
           )}
           p="time to reach goal"
           positionlink={1}
-          scrollPosition={scrollPosition}
-          setScrollPosition={setScrollPosition}
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
         />
         <ScoreboxElement
           icon={target}
           h2={roundPlaces(playerScore.goal.emissions) + " kg"}
           p="your goal"
           positionlink={2}
-          scrollPosition={scrollPosition}
-          setScrollPosition={setScrollPosition}
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
+          dataId="goal-score"
         />
         <ScoreboxElement
           icon={piggy}
-          h2={`${Math.abs(calculateSavings())}% `}
-          p={`${calculateSavings() >= -0.01 ? `less` : `more`} CO2 / Year`}
+          h2={`${shortenNumbers(Math.abs(playerScore.savingsInPercent))}% `}
+          p={`${
+            playerScore.savingsInPercent >= -0.01 ? `less` : `more`
+          } CO2 / Year`}
           positionlink={3}
-          scrollPosition={scrollPosition}
-          setScrollPosition={setScrollPosition}
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
         />
         <ScoreboxElement
           icon={clock}
@@ -86,17 +85,27 @@ export default function GameScores({
           )}
           p="Carbon Exit"
           positionlink={0}
-          scrollPosition={scrollPosition}
-          setScrollPosition={setScrollPosition}
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
         />
       </ScrollLayer>
     </ScoreboxWrapper>
   );
 }
 
-function ScoreboxElement({ icon, h2, p, positionlink, setScrollPosition }) {
+function ScoreboxElement({
+  icon,
+  h2,
+  p,
+  positionlink,
+  setScoreScrollPosition,
+  dataId,
+}) {
   return (
-    <Scorebox onClick={() => setScrollPosition(positionlink)}>
+    <Scorebox
+      data-test-id={dataId}
+      onClick={() => setScoreScrollPosition(positionlink)}
+    >
       <div className="iconBox">
         <img src={icon} alt="" />
       </div>
@@ -116,6 +125,7 @@ const Scorebox = styled.article`
   display: flex;
   width: 14rem;
   height: 4rem;
+  margin-bottom: 0.5rem;
   .iconBox {
     height: 100%;
     width: 3rem;
@@ -137,7 +147,7 @@ const Scorebox = styled.article`
 
 const ScrollLayer = styled.div`
   position: absolute;
-  transition: top 2s;
+  transition: top 500ms ease-out;
   top: 0;
 `;
 

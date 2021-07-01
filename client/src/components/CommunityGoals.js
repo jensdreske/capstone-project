@@ -57,17 +57,17 @@ export default function CommunityGoals({
   }, [emissionsFromGoals]);
 
   return (
-    <>
+    <CustomGoalsWrapper>
       {communityGoals.length > 0 && <h3>Community Goals</h3>}
 
       {communityGoals.map((goal) => {
         return (
-          <ListItemBox key={goal._id}>
+          <ListItemBox key={goal._id} data-test-id="community-goals">
             <section>
               <CustomGoalTitle>{goal.name}</CustomGoalTitle>
-              <CustomGoalDescription>
+              <CustomGoalEmissions>
                 {goal.co2InKgPerUnit} kg CO2
-              </CustomGoalDescription>
+              </CustomGoalEmissions>
               <CustomGoalDescription>{goal.description}</CustomGoalDescription>
               <RemoveButton
                 hidden={goal.verified}
@@ -79,7 +79,7 @@ export default function CommunityGoals({
                   );
                 }}
               >
-                remove from Database
+                remove goal
               </RemoveButton>
             </section>
             <ButtonBox>
@@ -100,13 +100,17 @@ export default function CommunityGoals({
           </ListItemBox>
         );
       })}
-    </>
+    </CustomGoalsWrapper>
   );
 }
 
+const CustomGoalsWrapper = styled.article`
+  margin: 1.5rem 0;
+`;
+
 const ListItemBox = styled.section`
   align-items: center;
-  background: #fffa;
+  background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   display: flex;
@@ -119,13 +123,17 @@ const ListItemBox = styled.section`
   text-align: left;
 `;
 
-const CustomGoalTitle = styled.h3`
-  font-weight: 600;
-  margin: 0;
+const CustomGoalTitle = styled.p`
+  font-weight: 500;
+  font-size: 1.25rem;
+`;
+
+const CustomGoalEmissions = styled.p`
+  font-size: var(--smallText);
 `;
 
 const CustomGoalDescription = styled.p`
-  font-size: 0.8rem;
+  font-size: var(--smallText);
 `;
 
 const ButtonBox = styled.div`
@@ -137,13 +145,14 @@ const ButtonBox = styled.div`
 
 const RemoveButton = styled.button`
   display: ${(props) => (props.hidden ? "none" : "block")};
-  padding: 0 0.5rem;
-  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+  font-weight: 600;
   background: #f008;
   border: var(--borderLine);
   border-radius: var(--boxRadius);
-  color: #fffd;
-  font-size: 0.6rem;
+  color: var(--brightest);
+  font-size: var(--smallText);
+  margin-top: 1rem;
 `;
 
 const CheckBox = styled.button`
@@ -151,5 +160,6 @@ const CheckBox = styled.button`
   width: 2.5rem;
   border: var(--borderLine);
   border-radius: var(--boxRadius);
+  background-color: var(--backgroundBright);
   flex: none;
 `;

@@ -10,6 +10,8 @@ import {
   recalculateTransportationScore,
 } from "../lib/transportationScoreCalculations";
 
+import shortenNumbers from "../lib/shortenNumbers";
+
 const playerTransport = JSON.stringify(playerInit.transport);
 
 export default function Transportation({ player, setPlayer, countryData }) {
@@ -44,7 +46,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
       return fieldEntry;
     });
     fieldValue = Number(fieldValue);
-    if (!isNaN(fieldValue)) {
+    if (isFinite(fieldValue)) {
       setPlayer((player) => {
         player.transport[category][fieldName] = fieldValue;
         if (category === "car") {
@@ -78,109 +80,145 @@ export default function Transportation({ player, setPlayer, countryData }) {
   return (
     <Shareform>
       <h3>Transportation</h3>
-      <p>choose your car</p>
-      <TransportationForm>
-        <p>fuel consumption</p>
-        <FormInput
-          type="text"
-          id="consumption"
-          name="consumption"
-          value={`${
-            fieldEntry.car.consumption ?? player.transport.car.consumption
-          }`}
-          onChange={(event) => updatePlayer(event, "car")}
-        ></FormInput>
-        <p>distance per year</p>
-        <FormInput
-          type="text"
-          id="kmPerYear"
-          name="kmPerYear"
-          value={roundPlaces(player.transport.car.kmPerYear)}
-          onChange={(event) => updatePlayer(event, "car")}
-        ></FormInput>
-        <p>Person per Car</p>
-        <FormInput
-          type="text"
-          id="utilization"
-          name="utilization"
-          value={`${
-            fieldEntry.car.utilization ?? player.transport.car.utilization
-          }`}
-          onChange={(event) => updatePlayer(event, "car")}
-        ></FormInput>
-        <p>CO2 emissions per year</p>
-        <ResultBox>
-          {roundPlaces(vehicleCo2PerYear("car", player, countryData))}
-        </ResultBox>
-      </TransportationForm>
+      <FormContainer>
+        <h4>Private Transport</h4>
+        <p className="smallText">Do you use a car?</p>
+        <TransportationForm>
+          <p>fuel consumption</p>
+          <FormWithUnit>
+            <FormInput
+              type="text"
+              id="consumption"
+              name="consumption"
+              value={`${
+                fieldEntry.car.consumption ?? player.transport.car.consumption
+              }`}
+              onChange={(event) => updatePlayer(event, "car")}
+            ></FormInput>
+            <Unit>l/100km</Unit>
+          </FormWithUnit>
+          <p>distance per year</p>
+          <FormWithUnit>
+            <FormInput
+              type="text"
+              id="kmPerYear"
+              name="kmPerYear"
+              value={roundPlaces(player.transport.car.kmPerYear)}
+              onChange={(event) => updatePlayer(event, "car")}
+            ></FormInput>
+            <Unit>km</Unit>
+          </FormWithUnit>
+          <p>people per car</p>
+          <FormWithUnit>
+            <Unit>ø</Unit>
+            <FormInput
+              type="text"
+              id="utilization"
+              name="utilization"
+              value={`${
+                fieldEntry.car.utilization ?? player.transport.car.utilization
+              }`}
+              onChange={(event) => updatePlayer(event, "car")}
+            ></FormInput>
+          </FormWithUnit>
+          <p>CO2 per year</p>
+          <ResultBox>
+            {shortenNumbers(
+              roundPlaces(vehicleCo2PerYear("car", player, countryData))
+            )}
+            <Unit>kg</Unit>
+          </ResultBox>
+        </TransportationForm>
+      </FormContainer>
+      <FormContainer>
+        <h4>Public Transportation</h4>
+        <p className="smallText">distance per year</p>
+        <TransportationForm>
+          <p>Bus</p>
+          <FormWithUnit>
+            <Unit>km</Unit>
+            <FormInput
+              type="text"
+              id="BusKmPerYear"
+              name="kmPerYear"
+              value={roundPlaces(player.transport.bus.kmPerYear)}
+              onChange={(event) => updatePlayer(event, "bus")}
+            ></FormInput>
+          </FormWithUnit>
+          <p>Train</p>
+          <FormWithUnit>
+            <Unit>km</Unit>
+            <FormInput
+              type="text"
+              id="TrainKmPerYear"
+              name="kmPerYear"
+              value={roundPlaces(player.transport.train.kmPerYear)}
+              onChange={(event) => updatePlayer(event, "train")}
+            ></FormInput>
+          </FormWithUnit>
 
-      <p>Public Transportation</p>
-      <p className="smallText">distance per year</p>
-      <TransportationForm>
-        <p>Bus</p>
-        <FormInput
-          type="text"
-          id="BusKmPerYear"
-          name="kmPerYear"
-          value={roundPlaces(player.transport.bus.kmPerYear)}
-          onChange={(event) => updatePlayer(event, "bus")}
-        ></FormInput>
+          <p>Plane</p>
+          <FormWithUnit>
+            <Unit>km</Unit>
+            <FormInput
+              type="text"
+              id="PlaneKmPerYear"
+              name="kmPerYear"
+              value={roundPlaces(player.transport.aviation_exterior.kmPerYear)}
+              onChange={(event) => updatePlayer(event, "aviation_exterior")}
+            ></FormInput>
+          </FormWithUnit>
 
-        <p>Train</p>
-        <FormInput
-          type="text"
-          id="TrainKmPerYear"
-          name="kmPerYear"
-          value={roundPlaces(player.transport.train.kmPerYear)}
-          onChange={(event) => updatePlayer(event, "train")}
-        ></FormInput>
-
-        <p>Plane</p>
-        <FormInput
-          type="text"
-          id="PlaneKmPerYear"
-          name="kmPerYear"
-          value={roundPlaces(player.transport.aviation_exterior.kmPerYear)}
-          onChange={(event) => updatePlayer(event, "aviation_exterior")}
-        ></FormInput>
-
-        <p>domestic flights</p>
-        <FormInput
-          type="text"
-          id="PlaneKmPerYear"
-          name="kmPerYear"
-          value={roundPlaces(player.transport.aviation_interior.kmPerYear)}
-          onChange={(event) => updatePlayer(event, "aviation_interior")}
-        ></FormInput>
-        <p>CO2 emissions per year</p>
-        <ResultBox>
-          {roundPlaces(
-            ["bus", "train", "aviation_exterior", "aviation_interior"]
-              .map((vehicle) => vehicleCo2PerYear(vehicle, player, countryData))
-              .reduce((acc, cur) => acc + cur)
-          )}
-        </ResultBox>
-      </TransportationForm>
-      <button onClick={() => resetForm()}>reset to German Average</button>
+          <p>domestic flights</p>
+          <FormWithUnit>
+            <Unit>km</Unit>
+            <FormInput
+              type="text"
+              id="PlaneKmPerYear"
+              name="kmPerYear"
+              value={roundPlaces(player.transport.aviation_interior.kmPerYear)}
+              onChange={(event) => updatePlayer(event, "aviation_interior")}
+            ></FormInput>
+          </FormWithUnit>
+          <p>CO2 per year</p>
+          <ResultBox>
+            <Unit>kg</Unit>
+            {shortenNumbers(
+              roundPlaces(
+                ["bus", "train", "aviation_exterior", "aviation_interior"]
+                  .map((vehicle) =>
+                    vehicleCo2PerYear(vehicle, player, countryData)
+                  )
+                  .reduce((acc, cur) => acc + cur)
+              )
+            )}
+          </ResultBox>
+        </TransportationForm>
+      </FormContainer>
+      <ResetButton onClick={() => resetForm()}>
+        reset to German Average
+      </ResetButton>
     </Shareform>
   );
 }
 
 const Shareform = styled.article`
-  backdrop-filter: blur(3px);
-  background-color: hsla(200, 100%, 94.7%, 0.79);
-  border-radius: 6px;
-  border: 2px solid black;
-  margin-bottom: 6rem;
+  backdrop-filter: var(--boxBackdropFilter);
+  background-color: var(--backgroundTransparent);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  margin-bottom: 1rem;
   padding: 0.5rem;
   position: relative;
   z-index: 50;
-  button {
-    background: white;
-    border-radius: 6px;
-    border: 1.5px solid black;
-    padding: 0.25rem 1rem;
-  }
+`;
+
+const FormContainer = styled.article`
+  background-color: var(--backgroundBright);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  margin: 1rem 0;
+  padding: 1rem 0.5rem;
 `;
 
 const TransportationForm = styled.section`
@@ -188,19 +226,54 @@ const TransportationForm = styled.section`
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 3fr 1fr;
-  margin: 1rem;
+  margin-top: 1rem;
   text-align: right;
+`;
+
+const FormWithUnit = styled.div`
+  padding: 3px;
+  width: 8rem;
+  background: var(--backgroundBright);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 
 const FormInput = styled.input`
   font-size: 1rem;
-  padding: 0.25rem 1rem;
-  width: 8rem;
+  max-width: 100%;
+  background: none;
+  border: none;
+  padding: 0.125rem 0.25rem;
+  text-align: right;
+`;
+
+const Unit = styled.div`
+  display: inline;
+  flex: none;
+  margin-left: 0.25rem;
+  position: absolute;
+  left: 0.25rem;
+  color: #0055;
+`;
+
+const ResetButton = styled.button`
+  background-color: hsla(0, 75%, 50%, 0.8);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  color: var(--brightest);
+  font-size: var(--smallText);
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  width: 100%;
 `;
 
 const ResultBox = styled.p`
-  border-radius: 6px;
-  border: 2px solid black;
-  padding: 0.25rem 1rem;
-  text-align: left;
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  padding: 0.25rem 0.5rem;
+  text-align: right;
+  position: relative;
 `;

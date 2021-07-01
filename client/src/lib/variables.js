@@ -211,9 +211,10 @@ export const player = {
     },
   },
   goal: {
-    emissions: 400.5,
+    emissions: 0,
     unit: "kg",
   },
+  savingsInPercent: 0,
 };
 
 export const conversions = {

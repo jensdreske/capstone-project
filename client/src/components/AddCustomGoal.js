@@ -29,8 +29,8 @@ export default function AddCustomGoal({
   setGoalToAdd,
 }) {
   return (
-    <>
-      <h3>add a personal goal:</h3>
+    <AddCustomGoalWrapper>
+      <h4>add a custom goal:</h4>
       <AddCustomGoalForm
         onSubmit={(event) => {
           addCustomGoalsToState(event, goalToAdd, goals, setGoals);
@@ -43,6 +43,7 @@ export default function AddCustomGoal({
           type="text"
           name="goalName"
           id="goalName"
+          data-test-id="goal-name-field"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalName ? goalToAdd.goalName : ""}
         ></TextInput>
@@ -52,6 +53,7 @@ export default function AddCustomGoal({
           type="text"
           name="goalCo2Emission"
           id="goalCo2Emission"
+          data-test-id="goal-co2-field"
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalCo2Emission ? goalToAdd.goalCo2Emission : ""}
         ></Co2Input>
@@ -63,23 +65,33 @@ export default function AddCustomGoal({
           onChange={(event) => updateGoalToAdd(event, goalToAdd, setGoalToAdd)}
           value={goalToAdd.goalDescription ? goalToAdd.goalDescription : ""}
         ></MultilineTextInput>
-        <SubmitCustomGoal type="submit" value="add this goal to the list" />
+        <SubmitCustomGoal
+          type="submit"
+          value="add this goal to the list"
+          data-test-id="goal-form-submit"
+        />
       </AddCustomGoalForm>
-    </>
+    </AddCustomGoalWrapper>
   );
 }
 
 const SubmitCustomGoal = styled.input`
-  background: #fffa;
+  background-color: hsla(150, 65%, 40%, 0.8);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
-  padding: 0.25rem;
+  color: var(--brightest);
+  font-weight: 600;
   grid-column-end: span 2;
+  padding: 0.25rem;
+`;
+
+const AddCustomGoalWrapper = styled.div`
+  margin-top: 1.5rem;
 `;
 
 const AddCustomGoalForm = styled.form`
   align-items: center;
-  background: #fffa;
+  background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   display: grid;
@@ -106,14 +118,14 @@ const Co2Input = styled.input`
   grid-column-start: 2;
   width: 100%;
   padding: 0.5rem;
-  background: #fffa;
+  background: var(--backgroundBright);
 `;
 
 const TextInput = styled.input`
   grid-column-start: 1;
   padding: 0.5rem;
   width: 100%;
-  background: #fffa;
+  background: var(--backgroundBright);
 `;
 
 const MultilineTextInput = styled.textarea`
@@ -121,7 +133,7 @@ const MultilineTextInput = styled.textarea`
   grid-column-end: span 2;
   padding: 0.5rem;
   resize: none;
-  background: #fffa;
+  background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   width: 100%;
