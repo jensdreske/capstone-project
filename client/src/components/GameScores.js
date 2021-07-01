@@ -3,6 +3,8 @@ import styled from "styled-components/macro";
 import { roundPlaces } from "../lib/roundPlaces.js";
 import { calculateGameEnd } from "../lib/co2BudgetCalculations";
 
+import shortenNumbers from "../lib/shortenNumbers";
+
 import finish from "../images/finish@2x.png";
 import clock from "../images/clock@2x.png";
 import piggy from "../images/piggybank_co2@2x.png";
@@ -35,7 +37,7 @@ export default function GameScores({
 
   function daysOrYearsToGo(days) {
     const years = roundPlaces(days / 365);
-    if (days < 0 || years >= 1000) return "Never";
+    if (days <= 0 || years >= 1000) return "Never";
     if (years > 1) return years + " years ";
     return days + " days";
   }
@@ -68,7 +70,7 @@ export default function GameScores({
         />
         <ScoreboxElement
           icon={piggy}
-          h2={`${Math.abs(playerScore.savingsInPercent)}% `}
+          h2={`${shortenNumbers(Math.abs(playerScore.savingsInPercent))}% `}
           p={`${
             playerScore.savingsInPercent >= -0.01 ? `less` : `more`
           } CO2 / Year`}

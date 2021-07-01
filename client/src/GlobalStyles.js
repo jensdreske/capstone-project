@@ -5,9 +5,16 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
 :root {
     --darkest: hsl(230,50%,20%);
+    --brightest: #fffd;
 
     --borderLine: 2px solid var(--darkest);
     --boxRadius: 6px;
+    --boxBackdropFilter: blur(3px);
+
+    --backgroundTransparent: hsla(200, 100%, 90%, 0.5);
+    --backgroundBright: hsla(0, 0%, 100%, 0.5);
+
+    --smallText: 0.75rem;
 }
 
 * {
@@ -35,7 +42,13 @@ input {
 }
 
 h3 {
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight:700;
+    margin-bottom: 0.125rem;
+}
+
+h4 {
+    font-weight:600;
 }
 
 .smallText {

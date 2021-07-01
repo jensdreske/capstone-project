@@ -29,7 +29,7 @@ export default function GoalTravelItem({
         width="75"
       />
       <TravelText>
-        <TravelTextTitle>{goals.tourism[destination].location}</TravelTextTitle>
+        <TravelTitle>{goals.tourism[destination].location}</TravelTitle>
         <p className="smalltext">{goals.tourism[destination].region}</p>
       </TravelText>
       <CheckBox
@@ -49,7 +49,7 @@ export default function GoalTravelItem({
 
 const ListItemBox = styled.section`
   align-items: center;
-  background: #fffa;
+  background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   display: flex;
@@ -70,9 +70,9 @@ const TravelText = styled.section`
   padding-left: 0.5rem;
 `;
 
-const TravelTextTitle = styled.h3`
-  font-weight: 600;
-  margin: 0;
+const TravelTitle = styled.p`
+  font-weight: 500;
+  font-size: 1.25rem;
 `;
 
 const CheckBox = styled.button`
@@ -80,5 +80,6 @@ const CheckBox = styled.button`
   width: 2.5rem;
   border: var(--borderLine);
   border-radius: var(--boxRadius);
+  background-color: var(--backgroundBright);
   margin-right: 0.25rem;
 `;

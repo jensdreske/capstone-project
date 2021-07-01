@@ -70,30 +70,19 @@ export default function CustomItemBox({
       {Object.keys(goals.customGoals).map((goalKey) => {
         return (
           <ListItemBox key={goalKey}>
-            <CustomGoalTextBox>
-              <CustomGoalTitle data-test-id="custom-goal-title">
-                {goals.customGoals[goalKey].goalName}
-              </CustomGoalTitle>
-              <CustomGoalDescription>
-                {goals.customGoals[goalKey].goalCo2Emission} kg CO2
-              </CustomGoalDescription>
-              <CustomGoalDescription>
-                {goals.customGoals[goalKey].goalDescription}
-              </CustomGoalDescription>
-              <UploadButton
-                onClick={() => {
-                  postCustomGoalToCommunity(goals.customGoals[goalKey]);
-                  delete goals.customGoals[goalKey];
-                  setGoals({ ...goals });
-                  setEmissionsFromGoals({
-                    ...emissionsFromGoals,
-                  });
-                }}
-              >
-                add to Community Goals
-              </UploadButton>
-            </CustomGoalTextBox>
-            <ButtonBox>
+            <CustomGoalWrapper>
+              <section>
+                <CustomGoalTitle data-test-id="custom-goal-title">
+                  {goals.customGoals[goalKey].goalName}
+                </CustomGoalTitle>
+                <CustomGoalDescription>
+                  {goals.customGoals[goalKey].goalCo2Emission} kg CO2
+                </CustomGoalDescription>
+                <CustomGoalDescription>
+                  {goals.customGoals[goalKey].goalDescription}
+                </CustomGoalDescription>
+              </section>
+
               <CheckBox
                 onClick={() => {
                   toggleEmissionsFromCustomGoals(
@@ -109,6 +98,8 @@ export default function CustomItemBox({
                   <img src={checkmark} alt="check" heigth="30" width="30" />
                 )}
               </CheckBox>
+            </CustomGoalWrapper>
+            <ButtonBox>
               <RemoveButton
                 onClick={() =>
                   removeCustomGoal(
@@ -121,8 +112,20 @@ export default function CustomItemBox({
                 }
                 data-test-id="custom-goal-remove-button"
               >
-                remove
+                remove goal
               </RemoveButton>
+              <UploadButton
+                onClick={() => {
+                  postCustomGoalToCommunity(goals.customGoals[goalKey]);
+                  delete goals.customGoals[goalKey];
+                  setGoals({ ...goals });
+                  setEmissionsFromGoals({
+                    ...emissionsFromGoals,
+                  });
+                }}
+              >
+                add to Community Goals
+              </UploadButton>
             </ButtonBox>
           </ListItemBox>
         );
@@ -132,60 +135,58 @@ export default function CustomItemBox({
 }
 
 const ListItemBox = styled.section`
-  align-items: center;
-  background: #fffa;
+  background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   margin: 0.25rem 0;
   max-width: 30rem;
   padding: 0.5rem;
-  width: 100%;
   text-align: left;
 `;
 
-const CustomGoalTextBox = styled.section``;
+const CustomGoalWrapper = styled.article`
+  display: flex;
+`;
 
 const CustomGoalTitle = styled.h3`
-  font-weight: 600;
-  margin: 0;
+  font-weight: 500;
 `;
 
 const CustomGoalDescription = styled.p`
-  font-size: 0.8rem;
+  font-size: var(--smallText);
 `;
 
 const ButtonBox = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  justify-content: space-between;
+  margin-top: 1rem;
 `;
 
 const RemoveButton = styled.button`
-  padding: 0 0.5rem;
+  padding: 0.125rem 0.5rem;
+  font-size: var(--smallText);
   font-weight: 600;
   background: #f008;
   border: var(--borderLine);
   border-radius: var(--boxRadius);
-  color: #fffd;
+  color: var(--brightest);
 `;
+
 const UploadButton = styled.button`
-  padding: 0 0.5rem;
-  font-weight: 600;
-  background: hsla(150, 65%, 40%, 0.8);
-  border: var(--borderLine);
+  background-color: hsla(150, 65%, 40%, 0.8);
   border-radius: var(--boxRadius);
-  color: #fffd;
+  border: var(--borderLine);
+  color: var(--brightest);
+  font-size: var(--smallText);
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
 `;
 
 const CheckBox = styled.button`
+  background-color: var(--backgroundBright);
+  border-radius: var(--boxRadius);
+  border: var(--borderLine);
+  flex: none;
   height: 2.5rem;
   width: 2.5rem;
-  border: var(--borderLine);
-  border-radius: var(--boxRadius);
-
-  flex: none;
 `;
