@@ -49,9 +49,9 @@ export default function Goals({
   return (
     <>
       <GoalContainer data-test-id="goal-container">
-        <h3>Set your Goals!</h3>
+        <h2>Set your Goals!</h2>
         <GoalSection>
-          <h4>Travelling</h4>
+          <h3>Travelling</h3>
           <GoalTravelItem
             goals={goals}
             destination="balticSea"
@@ -118,4 +118,7 @@ const GoalContainer = styled.div`
 const GoalSection = styled.div`
   margin: 1rem 0;
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;

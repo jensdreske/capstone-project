@@ -116,7 +116,7 @@ const ListItemBox = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   max-width: 30rem;
   padding: 0.5rem;
   width: 100%;

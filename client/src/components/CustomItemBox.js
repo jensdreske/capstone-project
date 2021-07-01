@@ -147,6 +147,7 @@ const ListItemBox = styled.section`
 
 const CustomGoalWrapper = styled.article`
   display: flex;
+  justify-content: space-between;
 `;
 
 const CustomGoalTitle = styled.h3`

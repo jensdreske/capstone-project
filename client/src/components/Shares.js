@@ -31,7 +31,9 @@ function getSliceByCakePercentage(slice, cake) {
 
 function translatePercentageToSquareboxXY(slice, cake) {
   const percentage = getSliceByCakePercentage(slice, cake);
-  const XandY = Math.sqrt(percentage) * 1.7;
+  const XandY =
+    (Math.sqrt(percentage) * Math.max(window.innerHeight, window.innerWidth)) /
+    24;
   return XandY;
 }
 
@@ -63,8 +65,8 @@ export default function Shares({ shares, countryData }) {
             <SharesSlice
               key={index + slice.name}
               style={{
-                height: `${slice.square}rem`,
-                width: `${slice.square}rem`,
+                height: `${slice.square}px`,
+                width: `${slice.square}px`,
                 background: `${slice.style.bgColor}`,
               }}
             >

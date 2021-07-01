@@ -211,6 +211,11 @@ const Shareform = styled.article`
   padding: 0.5rem;
   position: relative;
   z-index: 50;
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const FormContainer = styled.article`
@@ -219,6 +224,7 @@ const FormContainer = styled.article`
   border: var(--borderLine);
   margin: 1rem 0;
   padding: 1rem 0.5rem;
+  max-width: 30rem;
 `;
 
 const TransportationForm = styled.section`

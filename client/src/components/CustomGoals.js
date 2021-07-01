@@ -10,7 +10,7 @@ export default function CustomGoals({
 }) {
   return (
     <CustomGoalsWrapper>
-      <h4>Custom goals:</h4>
+      {Object.keys(goals.customGoals).length > 0 && <h3>Custom Goals</h3>}
       <CustomItemBox
         goals={goals}
         setGoals={setGoals}
