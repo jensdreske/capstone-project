@@ -61,7 +61,7 @@ export default function GameScores({
         />
         <ScoreboxElement
           icon={target}
-          h2={roundPlaces(playerScore.goal.emissions) + " kg"}
+          h2={shortenNumbers(roundPlaces(playerScore.goal.emissions)) + " kg"}
           p="your goal"
           positionlink={2}
           scoreScrollPosition={scoreScrollPosition}

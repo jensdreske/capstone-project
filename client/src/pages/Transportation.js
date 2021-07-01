@@ -94,6 +94,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
                 fieldEntry.car.consumption ?? player.transport.car.consumption
               }`}
               onChange={(event) => updatePlayer(event, "car")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
             <Unit>l/100km</Unit>
           </FormWithUnit>
@@ -105,6 +106,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
               name="kmPerYear"
               value={roundPlaces(player.transport.car.kmPerYear)}
               onChange={(event) => updatePlayer(event, "car")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
             <Unit>km</Unit>
           </FormWithUnit>
@@ -119,6 +121,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
                 fieldEntry.car.utilization ?? player.transport.car.utilization
               }`}
               onChange={(event) => updatePlayer(event, "car")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
           </FormWithUnit>
           <p>CO2 per year</p>
@@ -143,6 +146,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
               name="kmPerYear"
               value={roundPlaces(player.transport.bus.kmPerYear)}
               onChange={(event) => updatePlayer(event, "bus")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
           </FormWithUnit>
           <p>Train</p>
@@ -154,6 +158,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
               name="kmPerYear"
               value={roundPlaces(player.transport.train.kmPerYear)}
               onChange={(event) => updatePlayer(event, "train")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
           </FormWithUnit>
 
@@ -166,6 +171,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
               name="kmPerYear"
               value={roundPlaces(player.transport.aviation_exterior.kmPerYear)}
               onChange={(event) => updatePlayer(event, "aviation_exterior")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
           </FormWithUnit>
 
@@ -178,6 +184,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
               name="kmPerYear"
               value={roundPlaces(player.transport.aviation_interior.kmPerYear)}
               onChange={(event) => updatePlayer(event, "aviation_interior")}
+              onFocus={(event) => event.target.select()}
             ></FormInput>
           </FormWithUnit>
           <p>CO2 per year</p>
@@ -203,19 +210,19 @@ export default function Transportation({ player, setPlayer, countryData }) {
 }
 
 const Shareform = styled.article`
+  align-items: center;
   backdrop-filter: var(--boxBackdropFilter);
   background-color: var(--backgroundTransparent);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  position: relative;
-  z-index: 50;
-  width: 100%;
-  max-width: 550px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-bottom: 1rem;
+  max-width: 550px;
+  padding: 0.5rem;
+  position: relative;
+  width: 100%;
+  z-index: 50;
 `;
 
 const FormContainer = styled.article`
@@ -263,6 +270,7 @@ const Unit = styled.div`
   left: 0.25rem;
   margin-left: 0.25rem;
   position: absolute;
+  pointer-events: none;
 `;
 
 const ResetButton = styled.button`

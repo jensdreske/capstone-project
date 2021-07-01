@@ -112,7 +112,6 @@ const GoalContainer = styled.div`
   max-width: 550px;
   min-width: 340px;
   padding: 0.5rem;
-  width: 100%;
 `;
 
 const GoalSection = styled.div`

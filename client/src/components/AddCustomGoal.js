@@ -174,4 +174,5 @@ const MultilineTextInput = styled.textarea`
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   width: 100%;
+  font-size: 0.8rem;
 `;

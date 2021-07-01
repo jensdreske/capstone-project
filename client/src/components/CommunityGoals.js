@@ -63,7 +63,7 @@ export default function CommunityGoals({
       {communityGoals.map((goal) => {
         return (
           <ListItemBox key={goal._id} data-test-id="community-goals">
-            <section>
+            <TextBlock>
               <CustomGoalTitle>{goal.name}</CustomGoalTitle>
               <CustomGoalEmissions>
                 {goal.co2InKgPerUnit} kg CO2
@@ -81,7 +81,7 @@ export default function CommunityGoals({
               >
                 remove goal
               </RemoveButton>
-            </section>
+            </TextBlock>
             <ButtonBox>
               <CheckBox
                 onClick={() => {
@@ -106,6 +106,7 @@ export default function CommunityGoals({
 
 const CustomGoalsWrapper = styled.article`
   margin: 1.5rem 0;
+  width: 100%;
 `;
 
 const ListItemBox = styled.section`
@@ -119,8 +120,12 @@ const ListItemBox = styled.section`
   margin: 0.5rem 0;
   max-width: 30rem;
   padding: 0.5rem;
-  width: 100%;
   text-align: left;
+  width: 100%;
+`;
+
+const TextBlock = styled.section`
+  word-break: break-word;
 `;
 
 const CustomGoalTitle = styled.p`

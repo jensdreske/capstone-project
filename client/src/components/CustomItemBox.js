@@ -143,6 +143,7 @@ const ListItemBox = styled.section`
   padding: 0.5rem;
   text-align: left;
   width: 100%;
+  word-break: break-word;
 `;
 
 const CustomGoalWrapper = styled.article`
