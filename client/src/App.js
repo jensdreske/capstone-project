@@ -31,7 +31,7 @@ function App() {
   return (
     <>
       <BackgroundBox playerScore={playerScore} />
-      <Header />
+      <Header setScoreScrollPosition={setScoreScrollPosition} />
       <MainBox>
         <Switch>
           <Route path="/transport">

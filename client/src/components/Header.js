@@ -6,11 +6,11 @@ import cloud from "../images/cloud_m.png";
 import cloudlet from "../images/cloud_s.png";
 import coalculator from "../images/coalculator.png";
 
-export default function Header() {
+export default function Header({ setScoreScrollPosition }) {
   return (
     <HeaderBox>
       <LogoBox>
-        <NavLink to="/">
+        <NavLink to="/" onClick={() => setScoreScrollPosition(2)}>
           <img
             className="cloud"
             src={cloud}
