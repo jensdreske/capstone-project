@@ -41,15 +41,19 @@ function App() {
     countryData.emissionsUnfcc.slices.forEach((slice, index) => {
       if (!isNaN(slice.unfccId)) getUnData(slice.unfccId, index, countryId);
       if (Array.isArray(slice.unfccId)) {
-        slice.emission = 0;
-        slice.unfccId.map((sliceId) =>
-          fetch(`/unfcc/get_share_emissions/${sliceId}/${countryId}`)
-            .then((result) => result.json())
-            .then((result) => {
-              slice.emission += result.emissions;
-              setCountryData({ ...countryData });
-            })
+        const resultArray = slice.unfccId.map((sliceId) =>
+          fetch(`/unfcc/get_share_emissions/${sliceId}/${countryId}`).then(
+            (result) => result.json()
+          )
         );
+        Promise.all(resultArray).then((results) => {
+          const emissionSum = results.reduce(
+            (acc, cur) => acc + cur.emissions,
+            0
+          );
+          slice.emission = emissionSum;
+          setCountryData({ ...countryData });
+        });
       }
     });
   }
