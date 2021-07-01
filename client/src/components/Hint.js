@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
-import { Switch, Route } from "react-router-dom";
 
 import CloudBox from "../images/cloud_box.svg";
 

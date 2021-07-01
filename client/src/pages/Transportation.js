@@ -231,32 +231,32 @@ const TransportationForm = styled.section`
 `;
 
 const FormWithUnit = styled.div`
-  padding: 3px;
-  width: 8rem;
+  align-items: center;
   background: var(--backgroundBright);
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   display: flex;
-  align-items: center;
+  padding: 3px;
   position: relative;
+  width: 8rem;
 `;
 
 const FormInput = styled.input`
-  font-size: 1rem;
-  max-width: 100%;
   background: none;
   border: none;
+  font-size: 1rem;
+  max-width: 100%;
   padding: 0.125rem 0.25rem;
   text-align: right;
 `;
 
 const Unit = styled.div`
+  color: #0055;
   display: inline;
   flex: none;
+  left: 0.25rem;
   margin-left: 0.25rem;
   position: absolute;
-  left: 0.25rem;
-  color: #0055;
 `;
 
 const ResetButton = styled.button`
@@ -270,10 +270,10 @@ const ResetButton = styled.button`
   width: 100%;
 `;
 
-const ResultBox = styled.p`
+const ResultBox = styled.div`
   border-radius: var(--boxRadius);
   border: var(--borderLine);
   padding: 0.25rem 0.5rem;
-  text-align: right;
   position: relative;
+  text-align: right;
 `;
