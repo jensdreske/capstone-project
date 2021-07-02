@@ -107,8 +107,7 @@ const SharesCake = styled.article`
   backdrop-filter: brightness(1.1) blur(5px);
   padding: 0.5rem 0.25rem;
   width: 100%;
-  max-width: 550px;
-  /* height: 60vh; */
+  max-width: 900px;
 `;
 
 const SharesSlice = styled.section`
