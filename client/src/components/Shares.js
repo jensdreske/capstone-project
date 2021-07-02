@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
@@ -29,16 +29,45 @@ function getSliceByCakePercentage(slice, cake) {
   return percentage;
 }
 
-function translatePercentageToSquareboxXY(slice, cake) {
+function translatePercentageToSquareboxXY(slice, cake, screenSize) {
   const percentage = getSliceByCakePercentage(slice, cake);
   const XandY =
-    (Math.sqrt(percentage) * Math.max(window.innerHeight, window.innerWidth)) /
+    (Math.sqrt(percentage) *
+      Math.max(screenSize.windowWidth, screenSize.windowHeight)) /
     24;
   return XandY;
 }
 
 export default function Shares({ shares, countryData }) {
   const [infoVisible, setInfoVisible] = useState([]);
+  const [screenSize, setScreenSize] = useState({
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setScreenSize({
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // const handleResize = (e) => {
+  //   setScreenSize({ windowWidth: window.innerWidth });
+  //  };
+
+  //  componentDidMount() {
+  //   window.addEventListener("resize", this.handleResize);
+  //  }
+
+  //  componentWillUnMount() {
+  //   window.addEventListener("resize", this.handleResize);
+  //  }
 
   shares.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
@@ -47,7 +76,8 @@ export default function Shares({ shares, countryData }) {
     );
     slice.square = translatePercentageToSquareboxXY(
       slice.emission,
-      shares.emission
+      shares.emission,
+      screenSize
     );
   });
 
