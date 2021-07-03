@@ -109,7 +109,7 @@ const GoalContainer = styled.div`
   border: var(--borderLine);
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 6rem;
   max-width: 550px;
   min-width: 340px;
   padding: 0.5rem;
