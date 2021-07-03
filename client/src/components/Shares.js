@@ -92,7 +92,7 @@ export default function Shares({ shares }) {
 }
 
 const SharesCake = styled.article`
-  margin: 8rem 5vmin 6rem;
+  margin: 1rem 5vmin 6rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

@@ -5,6 +5,9 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
 :root {
     --darkest: #000;
+
+    --borderLine: 2px solid black;
+    --boxRadius: 6px;
 }
 
 * {

@@ -1,11 +1,14 @@
 import styled from "styled-components/macro";
 
 import { roundPlaces } from "../lib/roundPlaces.js";
+import { calculateGameEnd } from "../lib/co2BudgetCalculations";
 
 import finish from "../images/finish@2x.png";
 import clock from "../images/clock@2x.png";
 import piggy from "../images/piggybank_co2@2x.png";
 import target from "../images/target@2x.png";
+
+const temperatureRise = "1.5 degree";
 
 export default function GameScores({
   playerScore,
@@ -13,28 +16,12 @@ export default function GameScores({
   scrollPosition,
   setScrollPosition,
 }) {
-  function calculateGameEnd(playerScore, countryData) {
-    const co2BudgetLeftInGigaTons = 3.5;
-    const co2BudgetCalculationStartYear = 2020;
-    const progressiveLinearReductionFactor = 2;
-    const tonsToGigaTonsFactor = Math.pow(10, 9);
-    const unitedNationsByGermanTotalCo2 =
-      countryData.emissionsUnfcc.emission / countryData.emissions;
-    const yearOfExit =
-      co2BudgetCalculationStartYear +
-      progressiveLinearReductionFactor *
-        (co2BudgetLeftInGigaTons /
-          (((playerScore.individualCo2Emissions * countryData.population) /
-            tonsToGigaTonsFactor) *
-            unitedNationsByGermanTotalCo2));
-    return roundPlaces(yearOfExit, 0);
-  }
-
   function calculateDaysToReachGoal(
     goalInKg,
     averageCo2Emissions,
     individualCo2Emissions
   ) {
+    if (goalInKg === 0) return -1;
     const goalInTons = goalInKg / 1000;
     const daysPerYear = 365;
     const daysToReachGoal = roundPlaces(
@@ -94,7 +81,9 @@ export default function GameScores({
         />
         <ScoreboxElement
           icon={clock}
-          h2={calculateGameEnd(playerScore, countryData)}
+          h2={Math.round(
+            calculateGameEnd(playerScore, countryData, temperatureRise)
+          )}
           p="Carbon Exit"
           positionlink={0}
           scrollPosition={scrollPosition}
@@ -105,14 +94,7 @@ export default function GameScores({
   );
 }
 
-function ScoreboxElement({
-  icon,
-  h2,
-  p,
-  positionlink,
-  scrollPosition,
-  setScrollPosition,
-}) {
+function ScoreboxElement({ icon, h2, p, positionlink, setScrollPosition }) {
   return (
     <Scorebox onClick={() => setScrollPosition(positionlink)}>
       <div className="iconBox">
