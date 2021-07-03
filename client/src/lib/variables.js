@@ -124,7 +124,7 @@ export const countryData = {
     },
   },
   personKm: {
-    car: 913300000000, //913,3 mrd 2018 Verkehr in Zahlen
+    car: 913300000000,
     train: 98200000000,
     bus: 80100000000,
 

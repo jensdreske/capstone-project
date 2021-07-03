@@ -100,7 +100,7 @@ const MainBox = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 7rem 0 6rem;
+  margin-top: 8rem;
 `;
 
 export default App;
