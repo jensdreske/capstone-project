@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -16,6 +16,7 @@ import {
 } from "./lib/variables.js";
 
 import scaleValue from "./lib/scaleValue";
+const unitedNationsCountryId = 13; // Germany:13
 
 function App() {
   const [countryEmissions, setCountryEmissions] = useState(
@@ -27,6 +28,47 @@ function App() {
   const [goals, setGoals] = useState(initGoals);
   const [communityGoals, setCommunityGoals] = useState([]);
   const [scoreScrollPosition, setScoreScrollPosition] = useState(2);
+
+  useEffect(() => getUnDataForAllSlices(unitedNationsCountryId), []);
+
+  function getUnDataForAllSlices(countryId) {
+    fetch(`/unfcc/get_share_emissions/10464/${countryId}`)
+      .then((result) => result.json())
+      .then((result) => {
+        countryData.emissionsUnfcc.emission = result.emissions;
+        countryData.countryName = result.country;
+        setCountryData({ ...countryData });
+      });
+    countryData.emissionsUnfcc.slices.forEach((slice, index) => {
+      if (!isNaN(slice.unfccId)) getUnData(slice.unfccId, index, countryId);
+      if (Array.isArray(slice.unfccId)) {
+        const resultArray = slice.unfccId.map((sliceId) =>
+          fetch(`/unfcc/get_share_emissions/${sliceId}/${countryId}`).then(
+            (result) => result.json()
+          )
+        );
+        Promise.all(resultArray).then((results) => {
+          const emissionSum = results.reduce(
+            (acc, cur) => acc + cur.emissions,
+            0
+          );
+          slice.emission = emissionSum;
+          setCountryData({ ...countryData });
+        });
+      }
+    });
+  }
+
+  function getUnData(unfccId, sliceIndex, countryId) {
+    fetch(`/unfcc/get_share_emissions/${unfccId}/${countryId}`)
+      .then((result) => result.json())
+      .then((emission) => {
+        countryData.emissionsUnfcc.slices[sliceIndex].emission =
+          emission.emissions;
+        setCountryData({ ...countryData });
+      })
+      .catch((error) => console.log(error.message));
+  }
 
   return (
     <>
@@ -59,6 +101,16 @@ function App() {
               countryEmissions={countryEmissions}
               countryData={countryData}
             />
+            <FlagButton
+              onClick={() => getUnDataForAllSlices(unitedNationsCountryId)}
+            >
+              <img
+                src="https://flagcdn.com/w20/de.png"
+                width="30"
+                height="20"
+                alt="country flag"
+              />
+            </FlagButton>
           </Route>
         </Switch>
       </MainBox>
@@ -103,4 +155,12 @@ const MainBox = styled.main`
   margin-top: 8rem;
 `;
 
+const FlagButton = styled.button`
+  border: none;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  opacity: 50%;
+`;
 export default App;

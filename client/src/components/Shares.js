@@ -38,7 +38,7 @@ function translatePercentageToSquareboxXY(slice, cake, screenSize) {
   return XandY;
 }
 
-export default function Shares({ shares, countryData }) {
+export default function Shares({ countryEmissions, countryData }) {
   const [infoVisible, setInfoVisible] = useState([]);
   const [screenSize, setScreenSize] = useState({
     windowWidth: undefined,
@@ -57,14 +57,14 @@ export default function Shares({ shares, countryData }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  shares.slices.forEach((slice) => {
+  countryEmissions.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
       slice.emission,
-      shares.emission
+      countryData.emissionsUnfcc.emission
     );
     slice.square = translatePercentageToSquareboxXY(
       slice.emission,
-      shares.emission,
+      countryData.emissionsUnfcc.emission,
       screenSize
     );
   });
@@ -78,7 +78,7 @@ export default function Shares({ shares, countryData }) {
   return (
     <>
       <SharesCake>
-        {shares.slices.map((slice, index) => {
+        {countryEmissions.slices.map((slice, index) => {
           return (
             <SharesSlice
               key={index + slice.name}
@@ -195,4 +195,5 @@ const NavLinkSlice = styled(NavLink)`
 const CountryData = styled.section`
   color: #fffc;
   font-weight: 600;
+  width: 100%;
 `;
