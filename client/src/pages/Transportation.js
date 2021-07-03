@@ -25,6 +25,7 @@ export default function Transportation({ player, setPlayer, countryData }) {
 
   const [fieldEntry, setFieldEntry] = useState({ ...fieldEntryInits });
 
+  useEffect(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), []);
   useEffect(() => {
     recalculateIndividualScore();
   }, [fieldEntry]);

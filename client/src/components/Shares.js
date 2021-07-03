@@ -41,8 +41,8 @@ function translatePercentageToSquareboxXY(slice, cake, screenSize) {
 export default function Shares({ shares, countryData }) {
   const [infoVisible, setInfoVisible] = useState([]);
   const [screenSize, setScreenSize] = useState({
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight,
+    windowWidth: undefined,
+    windowHeight: undefined,
   });
 
   useEffect(() => {
@@ -56,18 +56,6 @@ export default function Shares({ shares, countryData }) {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // const handleResize = (e) => {
-  //   setScreenSize({ windowWidth: window.innerWidth });
-  //  };
-
-  //  componentDidMount() {
-  //   window.addEventListener("resize", this.handleResize);
-  //  }
-
-  //  componentWillUnMount() {
-  //   window.addEventListener("resize", this.handleResize);
-  //  }
 
   shares.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
@@ -137,7 +125,7 @@ const SharesCake = styled.article`
   backdrop-filter: brightness(1.1) blur(5px);
   padding: 0.5rem 0.25rem;
   width: 100%;
-  max-width: 900px;
+  max-width: 100vmin;
 `;
 
 const SharesSlice = styled.section`

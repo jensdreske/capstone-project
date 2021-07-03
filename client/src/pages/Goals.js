@@ -21,6 +21,7 @@ export default function Goals({
   const [goalToAdd, setGoalToAdd] = useState({});
 
   useEffect(() => updatePlayerGoal(emissionsFromGoals), [emissionsFromGoals]);
+  useEffect(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), []);
 
   function addEmissionsFromTourism(destination) {
     if (Object.keys(emissionsFromGoals).includes(destination)) {
