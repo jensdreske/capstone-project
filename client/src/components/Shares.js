@@ -159,7 +159,6 @@ const SliceText = styled.div`
   min-height: 90%;
   width: 90%;
   min-width: 110px;
-  overflow: scroll;
   padding: 0.5rem;
   position: absolute;
   right: 5%;
