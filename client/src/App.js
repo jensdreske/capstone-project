@@ -101,16 +101,6 @@ function App() {
               countryEmissions={countryEmissions}
               countryData={countryData}
             />
-            <FlagButton
-              onClick={() => getUnDataForAllSlices(unitedNationsCountryId)}
-            >
-              <img
-                src="https://flagcdn.com/w20/de.png"
-                width="30"
-                height="20"
-                alt="country flag"
-              />
-            </FlagButton>
           </Route>
         </Switch>
       </MainBox>
@@ -155,12 +145,4 @@ const MainBox = styled.main`
   margin-top: 8rem;
 `;
 
-const FlagButton = styled.button`
-  border: none;
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  opacity: 50%;
-`;
 export default App;
