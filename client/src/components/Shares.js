@@ -165,8 +165,6 @@ const SliceText = styled.div`
   top: 5%;
   font-weight: 600;
   border: 2px solid #fffa;
-  /* color: hsl(230, 15%, 30%); */
-  /* white-space: nowrap; */
 
   ${(props) =>
     props.show

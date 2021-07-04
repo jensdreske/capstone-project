@@ -27,7 +27,6 @@ function getUnitedNationsDetailData(req, res) {
         partyIds: countryId, // 13 Germany
         yearIds: yearID,
         gasId: 10467,
-
         categoryId: id,
       },
     })

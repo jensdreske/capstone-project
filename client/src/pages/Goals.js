@@ -6,8 +6,6 @@ import CommunityGoals from "../components/CommunityGoals";
 import CustomGoals from "../components/CustomGoals";
 import AddCustomGoal from "../components/AddCustomGoal";
 
-import ResultBox from "../components/ResultBox";
-
 export default function Goals({
   playerScore,
   setPlayerScore,
