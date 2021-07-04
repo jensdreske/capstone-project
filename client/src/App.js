@@ -25,11 +25,27 @@ function App() {
   const [playerScore, setPlayerScore] = useState(player);
   const [countryData, setCountryData] = useState(countryDataInit);
   const [emissionsFromGoals, setEmissionsFromGoals] = useState({});
-  const [goals, setGoals] = useState(initGoals);
+  const [goals, setGoals] = useState(
+    loadFromLocalStorage("Goals") || initGoals
+  );
   const [communityGoals, setCommunityGoals] = useState([]);
   const [scoreScrollPosition, setScoreScrollPosition] = useState(2);
 
   useEffect(() => getUnDataForAllSlices(unitedNationsCountryId), []);
+  useEffect(() => saveToLocalStorage(goals, "Goals"), [goals]);
+
+  function saveToLocalStorage(objectToStore, localKey) {
+    localStorage.setItem(localKey, JSON.stringify(objectToStore));
+  }
+
+  function loadFromLocalStorage(localKey) {
+    try {
+      const objectFromLocal = JSON.parse(localStorage.getItem(localKey));
+      return objectFromLocal;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   function getUnDataForAllSlices(countryId) {
     fetch(`/unfcc/get_share_emissions/10464/${countryId}`)
