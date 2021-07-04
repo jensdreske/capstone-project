@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
 import { roundPlaces } from "../lib/roundPlaces.js";
 
-import machine from "../images/machine.png";
-import powerplant from "../images/powerplant.png";
+import machine from "../images/machine@2x.png";
+import powerplant from "../images/powerplant@2x.png";
 import transports from "../images/transport@2x.png";
-import processes from "../images/chemistry.png";
-import tractor from "../images/tractor.png";
+import processes from "../images/chemistry@2x.png";
+import tractor from "../images/tractor@2x.png";
 import waste from "../images/waste.png";
 import heating from "../images/heating@2x.png";
 
@@ -29,14 +29,33 @@ function getSliceByCakePercentage(slice, cake) {
   return percentage;
 }
 
-function translatePercentageToSquareboxXY(slice, cake) {
+function translatePercentageToSquareboxXY(slice, cake, screenSize) {
   const percentage = getSliceByCakePercentage(slice, cake);
-  const XandY = Math.sqrt(percentage * 100);
+  const XandY =
+    (Math.sqrt(percentage) *
+      Math.max(screenSize.windowWidth, screenSize.windowHeight)) /
+    24;
   return XandY;
 }
 
-export default function Shares({ shares }) {
+export default function Shares({ shares, countryData }) {
   const [infoVisible, setInfoVisible] = useState([]);
+  const [screenSize, setScreenSize] = useState({
+    windowWidth: undefined,
+    windowHeight: undefined,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setScreenSize({
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   shares.slices.forEach((slice) => {
     slice.percentage = getSliceByCakePercentage(
@@ -45,7 +64,8 @@ export default function Shares({ shares }) {
     );
     slice.square = translatePercentageToSquareboxXY(
       slice.emission,
-      shares.emission
+      shares.emission,
+      screenSize
     );
   });
 
@@ -63,8 +83,8 @@ export default function Shares({ shares }) {
             <SharesSlice
               key={index + slice.name}
               style={{
-                height: `${slice.square * 0.8}vmin`,
-                width: `${slice.square * 0.8}vmin`,
+                height: `${slice.square}px`,
+                width: `${slice.square}px`,
                 background: `${slice.style.bgColor}`,
               }}
             >
@@ -73,7 +93,7 @@ export default function Shares({ shares }) {
                 <SliceText show={infoVisible[index]}>
                   <p>{slice.text}</p>
                   <p>{roundPlaces(slice.percentage, 2)}%</p>
-                  <p>{slice.emission} kt CO2</p>
+                  <p>{roundPlaces(slice.emission / 1000)} Mt CO2</p>
                 </SliceText>
               </NavLinkSlice>
 
@@ -86,26 +106,34 @@ export default function Shares({ shares }) {
             </SharesSlice>
           );
         })}
+        <CountryData>
+          <p>{countryData.countryName}:</p>
+          <p> {roundPlaces(countryData.emissions / 1000)} Mt CO2</p>
+        </CountryData>
       </SharesCake>
     </>
   );
 }
 
 const SharesCake = styled.article`
-  margin: 1rem 5vmin 6rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
-  position: relative;
+  border-radius: 2.5rem;
+  border: 4px solid #fff8;
+  backdrop-filter: brightness(1.1) blur(5px);
+  padding: 0.5rem 0.25rem;
+  width: 100%;
+  max-width: 100vmin;
 `;
 
 const SharesSlice = styled.section`
-  border: 2px solid black;
-  border-radius: 6px;
+  border: var(--borderLine);
+  border-radius: var(--boxRadius);
   margin: 4px;
   background-color: hsl(220, 100%, 85%);
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,29 +154,33 @@ const SharesSlice = styled.section`
 
 const SliceText = styled.div`
   align-self: self-start;
-  background-color: #fffd;
+  background-color: hsl(190, 30%, 90%, 0.7);
   border-radius: 6px;
   min-height: 90%;
-  min-width: 90%;
+  width: 90%;
+  min-width: 110px;
   overflow: scroll;
   padding: 0.5rem;
   position: absolute;
   right: 5%;
   top: 5%;
-  white-space: nowrap;
+  font-weight: 600;
+  border: 2px solid #fffa;
+  /* color: hsl(230, 15%, 30%); */
+  /* white-space: nowrap; */
 
   ${(props) =>
     props.show
       ? {
           opacity: "90%",
-          backdropFilter: "blur(3px)",
-          transition: "opacity 0.5s, backdrop-filter 0.5s",
+          backdropFilter: "blur(5px)",
+          transition: "opacity 0.5s ease-out, backdrop-filter 0.5s",
         }
       : {
           opacity: "0%",
           backdropFilter: "blur(0px)",
           transition: "opacity 2s, backdrop-filter 2s",
-        }};
+        }}
 `;
 
 const NavLinkSlice = styled(NavLink)`
@@ -158,4 +190,9 @@ const NavLinkSlice = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CountryData = styled.section`
+  color: #fffc;
+  font-weight: 600;
 `;

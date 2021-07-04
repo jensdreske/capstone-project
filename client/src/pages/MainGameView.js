@@ -1,5 +1,5 @@
 import Shares from "../components/Shares";
 
-export default function MainGameView({ countryEmissions }) {
-  return <Shares shares={countryEmissions} />;
+export default function MainGameView({ countryEmissions, countryData }) {
+  return <Shares shares={countryEmissions} countryData={countryData} />;
 }

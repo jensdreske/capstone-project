@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -7,24 +7,73 @@ import happyEarth from "../images/happy_earth.png";
 
 import GameScores from "./GameScores";
 
-export default function Footer({ playerScore, countryData, isStatic }) {
-  const [scrollPosition, setScrollPosition] = useState(0);
+import Hint from "../components/Hint";
+
+import { roundPlaces } from "../lib/roundPlaces";
+
+export default function Footer({
+  playerScore,
+  setPlayerScore,
+  countryData,
+  isStatic,
+  scoreScrollPosition,
+  setScoreScrollPosition,
+}) {
+  const [hintIndex, setHintIndex] = useState([0, -50, 20]);
+
+  useEffect(() => setTheRightHint(playerScore, setHintIndex), [playerScore]);
+
+  useEffect(
+    () => calculateSavings(playerScore),
+    [playerScore.individualCo2Emissions]
+  );
+
+  function calculateSavings(playerScore) {
+    playerScore.savingsInPercent = roundPlaces(
+      100 -
+        (playerScore.individualCo2Emissions / playerScore.averageCo2Emissions) *
+          100
+    );
+    setPlayerScore({ ...playerScore });
+  }
+
+  function setTheRightHint(playerScore, setHintIndex) {
+    if (playerScore.goal.emissions < 1) {
+      setHintIndex([0, 9, 8]);
+      return;
+    }
+    if (
+      roundPlaces(playerScore.individualCo2Emissions) ===
+      roundPlaces(playerScore.averageCo2Emissions)
+    ) {
+      setHintIndex([1, 50, 10]);
+      return;
+    }
+    setHintIndex([0, 30, -20]);
+  }
 
   return (
     <FooterWrapper isStatic={isStatic}>
-      <NavLink to="/">
+      <Hint
+        hintIndex={hintIndex}
+        setHintIndex={setHintIndex}
+        scoreScrollPosition={scoreScrollPosition}
+        setScoreScrollPosition={setScoreScrollPosition}
+      />
+      <NavLink to="/" onClick={() => setScoreScrollPosition(0)}>
         <MenuButton className="standardBox">
           <img src={happyEarth} alt="main game view" />
         </MenuButton>
       </NavLink>
       <GameScores
-        scrollPosition={scrollPosition}
-        setScrollPosition={setScrollPosition}
+        scoreScrollPosition={scoreScrollPosition}
+        setScoreScrollPosition={setScoreScrollPosition}
         playerScore={playerScore}
         countryData={countryData}
+        setPlayerScore={setPlayerScore}
       />
-      <NavLink to="/goals">
-        <MenuButton className="standardBox">
+      <NavLink to="/goals" onClick={() => setScoreScrollPosition(1)}>
+        <MenuButton className="standardBox" data-test-id="goal-button">
           <img src={target} alt="set goals" />
         </MenuButton>
       </NavLink>

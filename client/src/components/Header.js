@@ -6,11 +6,11 @@ import cloud from "../images/cloud_m.png";
 import cloudlet from "../images/cloud_s.png";
 import coalculator from "../images/coalculator.png";
 
-export default function Header() {
+export default function Header({ setScoreScrollPosition }) {
   return (
     <HeaderBox>
       <LogoBox>
-        <NavLink to="/">
+        <NavLink to="/" onClick={() => setScoreScrollPosition(2)}>
           <img
             className="cloud"
             src={cloud}
@@ -76,8 +76,9 @@ const LogoBox = styled.section`
 const HeaderBox = styled.header`
   display: grid;
   place-content: center;
-  margin: 1rem;
+  margin: 1rem 1rem;
   position: fixed;
   top: 0;
   width: 66%;
+  z-index: -1;
 `;
