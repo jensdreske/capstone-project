@@ -19,7 +19,7 @@ export default function Footer({
   scoreScrollPosition,
   setScoreScrollPosition,
 }) {
-  const [hintIndex, setHintIndex] = useState([0, -50, 20]);
+  const [hintIndex, setHintIndex] = useState([0, -50, -200]);
 
   useEffect(() => setTheRightHint(playerScore, setHintIndex), [playerScore]);
 
@@ -39,59 +39,49 @@ export default function Footer({
 
   function setTheRightHint(playerScore, setHintIndex) {
     if (playerScore.goal.emissions < 1) {
-      setHintIndex([0, 9, 8]);
+      setHintIndex([0, -5, 75]);
       return;
     }
     if (
       roundPlaces(playerScore.individualCo2Emissions) ===
       roundPlaces(playerScore.averageCo2Emissions)
     ) {
-      setHintIndex([1, 50, 10]);
+      setHintIndex([1, 57, 65]);
       return;
     }
-    setHintIndex([0, 30, -20]);
+    setHintIndex([0, 30, -200]);
   }
 
   return (
     <FooterWrapper isStatic={isStatic}>
-      <Hint
-        hintIndex={hintIndex}
-        setHintIndex={setHintIndex}
-        scoreScrollPosition={scoreScrollPosition}
-        setScoreScrollPosition={setScoreScrollPosition}
-      />
-      <NavLink to="/" onClick={() => setScoreScrollPosition(0)}>
-        <MenuButton className="standardBox">
-          <img src={happyEarth} alt="main game view" />
-        </MenuButton>
-      </NavLink>
-      <GameScores
-        scoreScrollPosition={scoreScrollPosition}
-        setScoreScrollPosition={setScoreScrollPosition}
-        playerScore={playerScore}
-        countryData={countryData}
-        setPlayerScore={setPlayerScore}
-      />
-      <NavLink to="/goals" onClick={() => setScoreScrollPosition(1)}>
-        <MenuButton className="standardBox" data-test-id="goal-button">
-          <img src={target} alt="set goals" />
-        </MenuButton>
-      </NavLink>
+      <ButtonContainer>
+        <Hint
+          hintIndex={hintIndex}
+          setHintIndex={setHintIndex}
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
+        />
+        <NavLink to="/" onClick={() => setScoreScrollPosition(0)}>
+          <MenuButton>
+            <img src={happyEarth} alt="main game view" />
+          </MenuButton>
+        </NavLink>
+        <GameScores
+          scoreScrollPosition={scoreScrollPosition}
+          setScoreScrollPosition={setScoreScrollPosition}
+          playerScore={playerScore}
+          countryData={countryData}
+          setPlayerScore={setPlayerScore}
+        />
+        <NavLink to="/goals" onClick={() => setScoreScrollPosition(1)}>
+          <MenuButton data-test-id="goal-button">
+            <img src={target} alt="set goals" />
+          </MenuButton>
+        </NavLink>
+      </ButtonContainer>
     </FooterWrapper>
   );
 }
-
-const MenuButton = styled.div`
-  width: 4rem;
-  height: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    height: 70%;
-  }
-`;
-
 const FooterWrapper = styled.footer`
   display: flex;
   justify-content: center;
@@ -99,11 +89,24 @@ const FooterWrapper = styled.footer`
   bottom: 1rem;
   width: ${(props) => (props.isStatic ? "100%" : "100vw")};
   height: 4rem;
-
-  .standardBox {
-    border: 2px solid black;
-    border-radius: 6px;
-    background-color: white;
-  }
   z-index: 100;
+`;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+`;
+
+const MenuButton = styled.div`
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 6px;
+  background-color: white;
+  img {
+    height: 70%;
+  }
 `;
