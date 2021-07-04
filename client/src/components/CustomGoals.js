@@ -10,7 +10,7 @@ export default function CustomGoals({
 }) {
   return (
     <CustomGoalsWrapper>
-      <h3>Custom goals:</h3>
+      {Object.keys(goals.customGoals).length > 0 && <h3>Custom Goals</h3>}
       <CustomItemBox
         goals={goals}
         setGoals={setGoals}
@@ -22,7 +22,7 @@ export default function CustomGoals({
 }
 
 const CustomGoalsWrapper = styled.article`
-  margin: 2rem 0;
   width: 100%;
+  margin: 1.5rem 0;
   max-width: 30rem;
 `;
