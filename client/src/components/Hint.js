@@ -26,7 +26,7 @@ export default function Hint({
 }
 
 const HintBalloon = styled.section`
-  position: fixed;
+  position: absolute;
   bottom: ${(props) => props.hintIndex[2] + "%"};
   right: ${(props) => props.hintIndex[1] + "%"};
   width: 11rem;
@@ -36,7 +36,7 @@ const HintBalloon = styled.section`
   background-size: contain;
   background-position: center;
   height: 6rem;
-  transition: right 2s ease-out, bottom 2s ease-in-out;
+  transition: right 2s ease-in-out, bottom 2s ease-in-out;
   display: grid;
   place-items: center;
 `;
@@ -59,7 +59,6 @@ const HintText = styled.section`
   height: 3rem;
   display: grid;
   place-items: center;
-  /* background: #fffd; */
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1rem;

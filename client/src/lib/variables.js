@@ -82,6 +82,7 @@ export const countryData = {
         name: "other",
         text: "Abfall",
         emission: 18200,
+        unfccId: [9374, 10159],
         style: {
           bgColor: "hsl(200, 50%,80%)",
           icon: "other",
